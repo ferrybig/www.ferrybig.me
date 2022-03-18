@@ -1,0 +1,4 @@
+*.module.css.d.ts
+/dist
+/tmp
+/node_modules

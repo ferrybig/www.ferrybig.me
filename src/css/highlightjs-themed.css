@@ -1,0 +1,15 @@
+.hljs{color:var(--hljs-color);background:var(--hljs-background-color)}
+.hljs-doctag,.hljs-keyword,.hljs-meta .hljs-keyword,.hljs-template-tag,.hljs-template-variable,.hljs-type,.hljs-variable.language_{color:var(--hljs-0-color)}
+.hljs-title,.hljs-title.class_,.hljs-title.class_.inherited__,.hljs-title.function_{color:var(--hljs-1-color)}
+.hljs-attr,.hljs-attribute,.hljs-literal,.hljs-meta,.hljs-number,.hljs-operator,.hljs-selector-attr,.hljs-selector-class,.hljs-selector-id,.hljs-variable{color:var(--hljs-2-color)}
+.hljs-meta .hljs-string,.hljs-regexp,.hljs-string{color:var(--hljs-3-color)}
+.hljs-built_in,.hljs-symbol{color:var(--hljs-4-color)}
+.hljs-code,.hljs-comment,.hljs-formula{color:var(--hljs-5-color)}
+.hljs-name,.hljs-quote,.hljs-selector-pseudo,.hljs-selector-tag{color:var(--hljs-6-color)}
+.hljs-subst{color:var(--hljs-7-color)}
+.hljs-section{color:var(--hljs-8-color);font-weight:700}
+.hljs-bullet{color:var(--hljs-9-color)}
+.hljs-emphasis{color:var(--hljs-10-color);font-style:italic}
+.hljs-strong{color:var(--hljs-11-color);font-weight:700}
+.hljs-addition{color:var(--hljs-12-color);background-color:var(--hljs-12-background-color)}
+.hljs-deletion{color:var(--hljs-13-color);background-color:var(--hljs-13-background-color)}

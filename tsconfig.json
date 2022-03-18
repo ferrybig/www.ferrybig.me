@@ -1,0 +1,10 @@
+{
+	"target": "esnext",
+    "module": "commonjs",
+	"compilerOptions": {
+		"strict": true,
+		"jsx": "react-jsx",
+		"jsxImportSource": "../jsx",
+		"esModuleInterop": true
+	}
+}
