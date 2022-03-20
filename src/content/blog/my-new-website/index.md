@@ -1,5 +1,5 @@
     {
-        "date": "2020-03-15",
+        "date": "2022-03-15",
         "tags": ["blog", "portfolio", "skills"],
         "extraTags": ["webpack-loader", "jsx"]
     }

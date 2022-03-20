@@ -1,4 +1,5 @@
 import Nav from "../components/Nav";
+import PageWrapper from "../components/PageWrapper";
 import RootWrapper from "../components/RootWrapper";
 import PageBase from "../PageBase";
 
@@ -8,9 +9,8 @@ interface Props {
 
 export default function Home({ ...rootprops }: Props) {
 	return (
-		<RootWrapper {...rootprops} title="Fernando's Development area">
-			<Nav/>
+		<PageWrapper {...rootprops} title="Fernando's Development area">
 			test
-		</RootWrapper>
+		</PageWrapper>
 	);
 }

@@ -11,6 +11,7 @@ export default interface PageBase {
 	publicPath: string,
 	site: string | null,
 	urls: SitemapEntry[];
+	js: string[],
 }
 export type PartialBase = Omit<PageBase, 'canonical'>;
 export function writeLinkToAsset(base: PageBase, resource: string) {

@@ -1,13 +1,13 @@
 import { HTMLAttributes, ReactNode } from "react";
-import { RouteDefinition } from "./route";
+import { RouteDefinition } from "../minirouter/route";
 
-export default function PlainLink<R>({ route, props, ...rest }: {
+export default function Link<R>({ route, props, ...rest }: {
 	route: RouteDefinition<any, R>;
 	props: R;
 } & HTMLAttributes<HTMLAnchorElement>): JSX.Element | null {
 	const path = route.toPath(props);
 	return (
-		<a href={path} {...rest}/>
+		<a data-instant href={path} {...rest}/>
 	);
 }
 

@@ -7,6 +7,7 @@ import css from './build-utils/capture-css';
 
 // Load any pages after this point
 import './css'
+import js from './embedded-js';
 import content from './content';
 import * as routes from './pages';
 import PageBase, { PartialBase, SitemapEntry } from './PageBase';
@@ -26,10 +27,10 @@ function writeWebFile(partialBase: PartialBase, file: string, data: string | Buf
 	if (version) {
 		const hash = md5(data).substring(0, 20);
 		const dot = f.lastIndexOf('.');
-		const newName = `${hash}${dot ? f.substring(dot) : ''}`;
+		const newName = `static/${hash}${dot ? f.substring(dot) : ''}`;
 		partialBase.assets[f] = newName;
 
-		writeFile(`dist/${newName}`, data);
+		writeFile(`dist/static/${newName}`, data);
 	} else {
 		partialBase.assets[f] = f;
 		writeFile(`dist/${f}`, data);
@@ -64,23 +65,24 @@ export default function render(assets: Record<string, string>) {
 		publicPath: '/',
 		site: 'https://www.ferrybig.me/',
 		urls: [],
+		js,
 	}
 	writeWebFile(partialBase, "bundle.css", sm.generate(), true);
 	const pages: {
 		[K in keyof typeof routes]: ((partialBase: PartialBase) => [string, string, JSX.Element | null])[];
 	} = {
-		blog: content.map(md => base => renderRoute(base, routes.blog, { blog: md, slug: md.slug})),
+		blog: content.map(content => base => renderRoute(base, routes.blog, { content, slug: content.slug})),
 		home: [base => renderRoute(base, routes.home, {})],
-		tag: [base => renderRoute(base, routes.tag, { tag: 'tag'})],
+		tag: [...new Set(content.flatMap(md => [...md.tags, ...md.extraTags])).keys()].map(tag => base => renderRoute(base, routes.tag, { tag })),
 		sitemap: [base => renderRoute(base, routes.sitemap, {})],
 	}
 	for (const factory of Object.values(pages).flatMap(a => a)) {
 		const [file, loc, jsx] = factory(partialBase);
-		const html = `<!DOCTYPE html>\n${renderElement(jsx)}`;
+		const html = renderElement(jsx);
 		writeWebFile(partialBase, file, html, false);
-		partialBase.urls.push({ loc, file, renderedBy: (jsx?.type instanceof Function ? jsx.type.name : jsx?.type) ?? 'unknown'});
+		partialBase.urls.push({ loc, file, renderedBy: (jsx?.type instanceof Function ? `<${jsx.type.name}>` : jsx?.type) ?? 'unknown'});
 	}
 	
-	const html = `<?xml version="1.0" encoding="utf-8"?>\n${renderElement(Sitemap({ partialBase }))}`;
+	const html = renderElement(Sitemap({ partialBase }));
 	writeWebFile(partialBase, '/sitemap.xml', html, false);
 }

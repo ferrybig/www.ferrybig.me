@@ -20,13 +20,23 @@ function main(watchMode = false) {
 				assetModuleFilename: 'static/[hash][ext][query]',
 			},
 			target: 'node', // use require() & use NodeJs CommonJS style
-			externals: [nodeExternals({ allowlist: ['highlight.js/styles/github.css']})], // in order to ignore all modules in node_modules folder
+			externals: [nodeExternals()], // in order to ignore all modules in node_modules folder
 			externalsPresets: {
 				node: true // in order to ignore built-in modules like path, fs, etc. 
 			},
 			node: false,
 			mode: 'development',
 			devtool: 'cheap-source-map',
+			plugins: [
+			],
+			resolve: {
+				extensions: [
+					'.tsx',
+					'.ts',
+					'.js'
+				],
+				mainFiles: ['index', 'index.md'],
+			},
 			module: {
 				rules: [
 					{
@@ -52,6 +62,11 @@ function main(watchMode = false) {
 						test: /\.ts(x)?$/,
 						loader: 'ts-loader',
 						exclude: /node_modules/
+					},
+					{
+						test: /\.content.js?$/,
+						exclude: /node_modules/,
+						type: 'asset/resource'
 					},
 					{
 						test: /\.(png|jpg|jpeg|gif|svg|ttf|woff|woff2)$/i,
@@ -129,19 +144,6 @@ function main(watchMode = false) {
 					},
 				]
 			},
-			resolve: {
-				extensions: [
-					'.tsx',
-					'.ts',
-					'.js'
-				],
-				mainFiles: ['index', 'index.md'],
-			},
-			plugins: [
-				new webpack.WatchIgnorePlugin({
-					paths: [/css\.d\.ts$/]
-				}),
-			]
 		});
 		function reject(e) {
 			compiler.close((closeErr) => {

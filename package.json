@@ -1,12 +1,10 @@
 {
-  "dependencies": {
-  },
   "devDependencies": {
-    "@types/md5": "^2.3.2",
-    "@types/react": "^17.0.39",
     "@babel/core": "^7.17.5",
     "@babel/preset-env": "^7.16.11",
     "@teamsupercell/typings-for-css-modules-loader": "^2.5.1",
+    "@types/md5": "^2.3.2",
+    "@types/react": "^17.0.39",
     "babel-loader": "^8.2.3",
     "browser-sync": "^2.27.8",
     "css-loader": "^6.7.1",
