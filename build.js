@@ -77,6 +77,13 @@ function main(watchMode = false) {
 												"type": "string",
 												"format": "date"
 											},
+											"endDate": {
+												"type": ["string", "null"],
+												"format": "date",
+											},
+											"parent": {
+												"type": "string"
+											},
 											"tags": {
 												"type": "array",
 												"items": {
@@ -127,7 +134,8 @@ function main(watchMode = false) {
 					'.tsx',
 					'.ts',
 					'.js'
-				]
+				],
+				mainFiles: ['index', 'index.md'],
 			},
 			plugins: [
 				new webpack.WatchIgnorePlugin({
@@ -173,6 +181,7 @@ function main(watchMode = false) {
 						},
 						open: false,
 						online: false,
+						startPath: '/sitemap',
 					});
 				} else {
 					console.log('-----------------------------------------------------------');
@@ -217,7 +226,6 @@ function main(watchMode = false) {
 			.then(() => {
 				if (watchMode) {
 					watching = compiler.watch({
-						// Example [watchOptions](/configuration/watch/#watchoptions)
 						aggregateTimeout: 300,
 						poll: undefined
 					}, onResult);

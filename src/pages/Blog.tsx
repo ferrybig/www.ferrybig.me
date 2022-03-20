@@ -2,12 +2,21 @@ import Nav from "../components/Nav";
 import RootWrapper from "../components/RootWrapper";
 import PageBase from "../PageBase";
 
-interface Props {
-	base: PageBase,
-	blog: { default: string },
+export interface BlogDefinition {
+	default: string;
+	date: string
+	endDate?: string | null
+	slug: string
+	tags: string[]
+	extraTags: string[]
 }
 
-export default function Home({ blog, ...rootprops }: Props) {
+interface Props {
+	base: PageBase,
+	blog: BlogDefinition,
+}
+
+export default function Blog({ blog, ...rootprops }: Props) {
 	return (
 		<RootWrapper {...rootprops} title="Fernando's Blog area">
 			<Nav/>
