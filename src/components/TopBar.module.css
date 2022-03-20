@@ -1,0 +1,41 @@
+.root {
+	background: var(--background-primary-color);
+	display: flex;
+}
+.root > div {
+	max-width: 1700px;
+	margin: 0 auto;
+	display: grid;
+	align-items: center;
+	height: 200px;
+	flex: 1;
+	border-left: 2px solid var(--text-primary-color);
+	border-right: 2px solid var(--text-primary-color);
+	grid-template-columns: auto 32px 1fr 100px;
+	grid-template-rows: auto;
+	grid-template-areas:
+		"logo _ jobTitle themeSwitcher"
+		"logo _ nav nav";
+	position: relative;
+}
+.root > div::before {
+	content: '';
+	position: absolute;
+	bottom: 40px;
+	left: 0;
+	right: 0;
+	height: 2px;
+	background: var(--text-primary-color);
+}
+.logo {
+	grid-area: logo;
+}
+.jobTitle {
+	grid-area: jobTitle;
+}
+.nav {
+	grid-area: nav;
+}
+.themeSwitcher {
+	grid-area: themeSwitcher;
+}

@@ -1,30 +1,20 @@
-import { JSXNode } from "../build-utils/jsx-to-html";
-import { RouteDefinition } from "../minirouter/route";
-import Link from "./Link";
+import classNames from 'classnames';
 import * as routes from '../pages'
+import LiLink from "./LiLink";
+import classes from "./Nav.module.css"
 
-interface NavLinkProps<R> {
-	children: JSXNode,
-	route: RouteDefinition<any, R>;
-	props: R;
+interface Props {
+	className: string,
 }
 
-function NavLink<R>({children, route, props}: NavLinkProps<R>) {
+export default function Nav({ className }: Props) {
 	return (
-		<li>
-			<Link route={route} props={props}>
-				{children}
-			</Link>
-		</li>
-	)
-}
-
-
-export default function Nav() {
-	return (
-		<nav>
+		<nav className={classNames(classes.root, className)}>
 			<ul>
-				<NavLink children={"Home"} route={routes.home} props={{}}/>
+				<LiLink linkClassName={classes.link} children={"Blog"} route={routes.home} props={{}}/>
+				<LiLink linkClassName={classes.link} children={"Tech-Demo"} route={routes.home} props={{}}/>
+				<LiLink linkClassName={classes.link} children={"Electronics"} route={routes.home} props={{}}/>
+				<LiLink linkClassName={classes.link} children={"Carriers"} route={routes.home} props={{}}/>
 			</ul>
 		</nav>
 	);

@@ -61,16 +61,16 @@ function main(watchMode = false) {
 					{
 						test: /\.ts(x)?$/,
 						loader: 'ts-loader',
-						exclude: /node_modules/
+						exclude: /node_modules/,
 					},
 					{
 						test: /\.content.js?$/,
 						exclude: /node_modules/,
-						type: 'asset/resource'
+						type: 'asset/resource',
 					},
 					{
 						test: /\.(png|jpg|jpeg|gif|svg|ttf|woff|woff2)$/i,
-						type: 'asset'
+						type: 'asset',
 					},
 					{
 						test: /\.md$/,

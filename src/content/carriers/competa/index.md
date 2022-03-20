@@ -18,7 +18,7 @@ done coaching of other developers and interns there.
 
 ## Projects
 
-* An old version of the website (replaced by a more modern )
+* An old version of the website (replaced by a more modern website at the moment)
 * Trainee program
 * Training program for other developers
 

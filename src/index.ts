@@ -30,7 +30,7 @@ function writeWebFile(partialBase: PartialBase, file: string, data: string | Buf
 		const newName = `static/${hash}${dot ? f.substring(dot) : ''}`;
 		partialBase.assets[f] = newName;
 
-		writeFile(`dist/static/${newName}`, data);
+		writeFile(`dist/${newName}`, data);
 	} else {
 		partialBase.assets[f] = f;
 		writeFile(`dist/${f}`, data);
@@ -46,10 +46,10 @@ function renderRoute<P, I>(
 	const publicPath = partialBase.publicPath?.endsWith('/') ? partialBase.publicPath.substring(0, partialBase.publicPath.length - 1) : partialBase.publicPath;
 
 	const base: PageBase = {
-		canonical: partialBase.site ? `${partialBase.site}${publicPath}${path}` : null,
+		canonical: site ? `${site}${publicPath}${path}` : null,
 		...partialBase,
 	}
-	const file = path.endsWith('/') ? `${path}index.html` : `${path}.html`;
+	const file = path.endsWith('.xml') ? `${path}` : path.endsWith('/') ? `${path}index.html` : `${path}.html`;
 	return [file, path, route.tryRender(path)?.({ base, ...props} as unknown as P) ?? null];
 }
 
@@ -74,7 +74,10 @@ export default function render(assets: Record<string, string>) {
 		blog: content.map(content => base => renderRoute(base, routes.blog, { content, slug: content.slug})),
 		home: [base => renderRoute(base, routes.home, {})],
 		tag: [...new Set(content.flatMap(md => [...md.tags, ...md.extraTags])).keys()].map(tag => base => renderRoute(base, routes.tag, { tag })),
+		byYear: [base => renderRoute(base, routes.byYear, {year: '2020' })],
+		byMonth: [base => renderRoute(base, routes.byMonth, { year: '2020', month: '01' })],
 		sitemap: [base => renderRoute(base, routes.sitemap, {})],
+		sitemapXML: [base => renderRoute(base, routes.sitemapXML, {})],
 	}
 	for (const factory of Object.values(pages).flatMap(a => a)) {
 		const [file, loc, jsx] = factory(partialBase);
@@ -82,7 +85,4 @@ export default function render(assets: Record<string, string>) {
 		writeWebFile(partialBase, file, html, false);
 		partialBase.urls.push({ loc, file, renderedBy: (jsx?.type instanceof Function ? `<${jsx.type.name}>` : jsx?.type) ?? 'unknown'});
 	}
-	
-	const html = renderElement(Sitemap({ partialBase }));
-	writeWebFile(partialBase, '/sitemap.xml', html, false);
 }

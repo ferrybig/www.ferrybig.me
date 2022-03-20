@@ -1,0 +1,41 @@
+.root {
+	display: flex;
+	flex-direction: column;
+	font-size: 36px;
+	margin: 0;
+}
+.root br {
+	display: none;
+}
+.titleFirst {
+	color: var(--text-primary-color);
+}
+.titleSecond {
+	color: var(--text-secondary-color);
+	text-decoration: underline;
+	cursor: pointer;
+}
+.titleThird {
+	color: var(--text-tertiary-color);
+}
+.roleClicker[data-active]::after {
+	content: '';
+	display: inline-block;
+	height: 0.7em;
+	width: 1px;
+	animation: blink 0.5s 9 alternate-reverse;
+}
+@keyframes blink {
+	0% {
+		background: var(--text-color);
+	}
+	40% {
+		background: var(--text-color);
+	}
+	60% {
+		background: transparent;
+	}
+	100% {
+		background: transparent;
+	}
+}

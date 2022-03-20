@@ -1,5 +1,4 @@
-import Nav from "../components/Nav";
-import RootWrapper from "../components/RootWrapper";
+import PageWrapper from "../components/PageWrapper";
 import PageBase, { SitemapEntry } from "../PageBase";
 
 interface Props {
@@ -12,8 +11,7 @@ export default function Home({ base }: Props) {
 		(grouped[entry.renderedBy] ??= []).push(entry);
 	}
 	return (
-		<RootWrapper base={base} title="Fernando's Development area">
-			<Nav/>
+		<PageWrapper base={base} title="Fernando's Development area">
 			<ul>
 				{Object.entries(grouped).map(([key, entries]) => (
 					<li>
@@ -30,7 +28,6 @@ export default function Home({ base }: Props) {
 					</li>
 				))}
 			</ul>
-			
-		</RootWrapper>
+		</PageWrapper>
 	);
 }

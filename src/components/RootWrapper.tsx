@@ -1,7 +1,8 @@
 import { ReactNode } from "react"
 import PageBase, {writeLinkToAsset} from "../PageBase";
 import Doctype from "./Doctype";
-import classes from './RootWrapper.module.css';
+import themeClasses from '../theme.module.css';
+import './RootWrapper.module.css';
 
 interface Props {
 	children: ReactNode;
@@ -18,7 +19,7 @@ export default function RootWrapper({
 }: Props) {
 	return (
 		<Doctype type="html">
-			<html className={classes.html} data-theme-white={classes.themeWhite} data-theme-dark={classes.themeDark} lang={lang}>
+			<html data-theme-light={themeClasses.themeLight} data-theme-dark={themeClasses.themeDark} lang={lang}>
 				<head>
 					<title>{title}</title>
 					<link href={writeLinkToAsset(base, 'bundle.css')} rel="preload" as="style"/>

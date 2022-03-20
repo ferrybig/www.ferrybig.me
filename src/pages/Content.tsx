@@ -1,7 +1,15 @@
-import Nav from "../components/Nav";
-import RootWrapper from "../components/RootWrapper";
+import { byYear, byMonth, blog } from ".";
+import Breadcrumb from "../components/Breadcrumb";
+import PageWrapper from "../components/PageWrapper";
 import PageBase from "../PageBase";
 import ContentDefinition from "../types/ContentDefinition";
+
+var monthNames = [
+	"January", "February", "March",
+	"April", "May", "June",
+	"July", "August", "September",
+	"October", "November", "December"
+];
 
 interface Props {
 	base: PageBase,
@@ -10,10 +18,21 @@ interface Props {
 
 export default function Content({ content, base }: Props) {
 	return (
-		<RootWrapper base={base} title={content.title}>
-			<Nav/>
+		<PageWrapper base={base} title={content.title}>
+			<Breadcrumb links={[
+				[content.date.substring(0, 4), byYear.toPath({
+					year: content.date.substring(0, 4)
+				})],
+				[monthNames[Number.parseInt(content.date.substring(5, 7), 10) - 1], byMonth.toPath({
+					year: content.date.substring(0, 4),
+					month: content.date.substring(5, 7),
+				})],
+				[content.title, blog.toPath({
+					slug: content.slug
+				})]
+			]}/>
 			<pre>{JSON.stringify(content, null, 4)}</pre>
 			<div dangerouslySetInnerHTML={{__html: content.default}}/>
-		</RootWrapper>
+		</PageWrapper>
 	);
 }

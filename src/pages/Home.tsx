@@ -7,9 +7,9 @@ interface Props {
 	base: PageBase,
 }
 
-export default function Home({ ...rootprops }: Props) {
+export default function Home({ ...rootProps }: Props) {
 	return (
-		<PageWrapper {...rootprops} title="Fernando's Development area">
+		<PageWrapper {...rootProps} title="Fernando's Development area">
 			test
 		</PageWrapper>
 	);
