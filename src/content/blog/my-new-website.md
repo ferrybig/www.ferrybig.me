@@ -25,7 +25,7 @@ We can also embed image into the markdown files, as shown below:
 
 ![An photo of a standard television test screen](test.jpg "An HD television test sreen")
 
-Code blocks are highlighted:
+Code blocks are highlighted: (And it works with dark/light mode without any javascript that is reran)
 
 ```typescript
 export function createElement(type: string | ((props?: any) => JSX.Element), props?: any, children?: any): JSX.Element {

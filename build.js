@@ -2,8 +2,8 @@
 const webpack = require('webpack');
 const path = require('path');
 const fs = require('fs-extra');
-var nodeExternals = require('webpack-node-externals');
-var browserSync = require('browser-sync');
+const nodeExternals = require('webpack-node-externals');
+const browserSync = require('browser-sync');
 const md5 = require('md5');
 const hljs = require('highlight.js');
 
@@ -20,7 +20,7 @@ function main(watchMode = false) {
 				assetModuleFilename: 'static/[hash][ext][query]',
 			},
 			target: 'node', // use require() & use NodeJs CommonJS style
-			externals: [nodeExternals({ allowlist: ['highlight.js/styles/github.css']})], // in order to ignore all modules in node_modules folder
+			externals: [nodeExternals()], // in order to ignore all modules in node_modules folder
 			externalsPresets: {
 				node: true // in order to ignore built-in modules like path, fs, etc. 
 			},
