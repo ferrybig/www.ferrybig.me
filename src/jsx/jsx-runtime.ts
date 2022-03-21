@@ -1,4 +1,6 @@
- export function createElement(type: string | ((props?: any) => JSX.Element), props?: any, children?: any): JSX.Element {
+export const RAW_TAG_MARKER = "!RAW";
+
+export function createElement(type: string | ((props?: any) => JSX.Element), props?: any, children?: any): JSX.Element {
 	return {
 		type,
 		props: {

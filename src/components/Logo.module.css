@@ -1,0 +1,8 @@
+.root {
+	border: 2px solid var(--text-primary-color);
+	margin-left: 8px;
+	position: relative;
+}
+.root img {
+	display: block;
+}

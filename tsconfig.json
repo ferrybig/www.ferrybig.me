@@ -1,10 +1,14 @@
 {
 	"target": "esnext",
-    "module": "commonjs",
+    "module": "ESNext",
 	"compilerOptions": {
 		"strict": true,
 		"jsx": "react-jsx",
 		"jsxImportSource": "../jsx",
-		"esModuleInterop": true
+		"esModuleInterop": true,
+		"noImplicitAny": true,
+		"noImplicitReturns": true,
+		"strictNullChecks": true,
+		"downlevelIteration": true
 	}
 }

@@ -27,6 +27,16 @@ function main(watchMode = false) {
 			node: false,
 			mode: 'development',
 			devtool: 'cheap-source-map',
+			plugins: [
+			],
+			resolve: {
+				extensions: [
+					'.tsx',
+					'.ts',
+					'.js'
+				],
+				mainFiles: ['index', 'index.md'],
+			},
 			module: {
 				rules: [
 					{
@@ -51,11 +61,16 @@ function main(watchMode = false) {
 					{
 						test: /\.ts(x)?$/,
 						loader: 'ts-loader',
-						exclude: /node_modules/
+						exclude: /node_modules/,
+					},
+					{
+						test: /\.content.js?$/,
+						exclude: /node_modules/,
+						type: 'asset/resource',
 					},
 					{
 						test: /\.(png|jpg|jpeg|gif|svg|ttf|woff|woff2)$/i,
-						type: 'asset'
+						type: 'asset',
 					},
 					{
 						test: /\.md$/,
@@ -76,6 +91,13 @@ function main(watchMode = false) {
 											"date": {
 												"type": "string",
 												"format": "date"
+											},
+											"endDate": {
+												"type": ["string", "null"],
+												"format": "date",
+											},
+											"parent": {
+												"type": "string"
 											},
 											"tags": {
 												"type": "array",
@@ -122,18 +144,6 @@ function main(watchMode = false) {
 					},
 				]
 			},
-			resolve: {
-				extensions: [
-					'.tsx',
-					'.ts',
-					'.js'
-				]
-			},
-			plugins: [
-				new webpack.WatchIgnorePlugin({
-					paths: [/css\.d\.ts$/]
-				}),
-			]
 		});
 		function reject(e) {
 			compiler.close((closeErr) => {
@@ -173,6 +183,7 @@ function main(watchMode = false) {
 						},
 						open: false,
 						online: false,
+						startPath: '/sitemap',
 					});
 				} else {
 					console.log('-----------------------------------------------------------');
@@ -217,7 +228,6 @@ function main(watchMode = false) {
 			.then(() => {
 				if (watchMode) {
 					watching = compiler.watch({
-						// Example [watchOptions](/configuration/watch/#watchoptions)
 						aggregateTimeout: 300,
 						poll: undefined
 					}, onResult);
