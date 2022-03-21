@@ -42,10 +42,10 @@
 
 	let roleChangerActive = false;
 	let roleChangerInterval = null;
-	function changeRole(element) {
+	function changeRole(element, restore) {
 		if (!element) return;
 		roleChangerActive = true;
-		element.dataset.active = true;
+		delete element.dataset.active;
 
 		const roles = [
 			["A ", "full-stack", " developer!"],
@@ -88,9 +88,12 @@
 			["An ", "OpenSource", " creator!"],
 			["An ", "OpenSource", " builder!"],
 		]
-		const newRole = roles[Math.floor(Math.random() * roles.length)];
+		const newRole = restore ? [] : roles[Math.floor(Math.random() * roles.length)];
 		
 		for (let i = 0; i < element.childNodes.length; i++) {
+			if (restore) {
+				newRole.push(element.childNodes[i].innerText);
+			}
 			element.childNodes[i].innerHTML = i === 0 ? '&nbsp;' : '';
 		}
 		if (roleChangerInterval !== null) {
@@ -106,6 +109,10 @@
 			if (arrayIndex >= newRole.length) {
 				clearInterval(roleChangerInterval);
 				roleChangerInterval = null;
+				element.dataset.active = true;
+				if (restore) {
+					roleChangerActive = false;
+				}
 				return;
 			}
 			element.childNodes[arrayIndex].innerText = newRole[arrayIndex].substring(0, charIndex + 1);
@@ -120,7 +127,7 @@
 			changeRole(element);
 		});
 		if (roleChangerActive) {
-			changeRole(body.querySelector("#role-clicker"));
+			changeRole(document.body.querySelector("#role-clicker"), true);
 		}
 	}
 

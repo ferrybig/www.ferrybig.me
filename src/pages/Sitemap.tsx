@@ -19,7 +19,7 @@ export default function Home({ base }: Props) {
 						<ul>
 							{entries.map(e => (
 								<li>
-									<a href={e.loc}>
+									<a href={e.loc} data-instant>
 										{e.file}
 									</a>
 								</li>

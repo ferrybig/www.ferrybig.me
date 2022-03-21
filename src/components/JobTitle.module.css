@@ -22,7 +22,7 @@
 	content: '';
 	display: inline-block;
 	height: 0.7em;
-	width: 1px;
+	width: 2px;
 	animation: blink 0.5s 9 alternate-reverse;
 }
 @keyframes blink {

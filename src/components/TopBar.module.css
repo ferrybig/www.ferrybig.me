@@ -1,6 +1,8 @@
 .root {
 	background: var(--background-primary-color);
 	display: flex;
+	padding: 0 16px;
+	border-bottom: 2px solid var(--text-primary-color);
 }
 .root > div {
 	max-width: 1700px;
@@ -15,7 +17,7 @@
 	grid-template-rows: auto;
 	grid-template-areas:
 		"logo _ jobTitle themeSwitcher"
-		"logo _ nav nav";
+		"logo icon nav nav";
 	position: relative;
 }
 .root > div::before {
@@ -26,6 +28,23 @@
 	right: 0;
 	height: 2px;
 	background: var(--text-primary-color);
+}
+.root > div::after {
+	content: '';
+	position: static;
+	grid-area: icon;
+	height: 18px;
+	width: 18px;
+	background: var(--text-primary-color);
+	align-self: end;
+	margin-bottom: 32px;
+	justify-self: end;
+	-webkit-mask-position: center center;
+	mask-position: center center;
+	-webkit-mask-repeat: no-repeat;
+	mask-repeat: no-repeat;
+    -webkit-mask-image: url(../icons/diode.svg);
+	mask-image: url(../icons/diode.svg);
 }
 .logo {
 	grid-area: logo;

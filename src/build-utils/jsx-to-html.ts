@@ -4,6 +4,7 @@ import assertNever from "./assert-never";
 const translateMap: Partial<Record<string, string>> = {
 	className: 'class',
 	htmlFor: 'for',
+	dateTime: 'datetime',
 }
 const selfClosing: Partial<Record<string, true>> = {
 	link: true,

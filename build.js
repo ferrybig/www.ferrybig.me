@@ -76,6 +76,9 @@ function main(watchMode = false) {
 						test: /\.md$/,
 						use: [
 							{
+								loader: path.resolve('./git-annotate-loader.cjs'),
+							},
+							{
 								loader: 'json-tagged-file-loader',
 								options: {
 									destructure: true,
@@ -83,7 +86,7 @@ function main(watchMode = false) {
 									inputEsModule: false,
 									outputEsModule: true,
 									extras: {
-										title: 'detect-title-html',
+										thumbnail: 'require'
 									},
 									schema: {
 										type: 'object',
@@ -97,6 +100,9 @@ function main(watchMode = false) {
 												"format": "date",
 											},
 											"parent": {
+												"type": "string"
+											},
+											"thumbnail": {
 												"type": "string"
 											},
 											"tags": {

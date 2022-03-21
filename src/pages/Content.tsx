@@ -32,7 +32,17 @@ export default function Content({ content, base }: Props) {
 				})]
 			]}/>
 			<pre>{JSON.stringify(content, null, 4)}</pre>
-			<div dangerouslySetInnerHTML={{__html: content.default}}/>
+			<article>
+				<h1 dangerouslySetInnerHTML={{__html: content.titleHTML}}/>
+				<dl>
+					<dt>Created</dt><dd><time dateTime={content.date}>{content.date}</time></dd>
+					{content.endDate && <dt>Ended</dt>}
+					{content.endDate && <dd><time dateTime={content.endDate}>{content.endDate}</time></dd>}
+					<dt>Published</dt><dd><time dateTime={content.created}>{content.created}</time></dd>
+					<dt>Updated</dt><dd><time dateTime={content.updated}>{content.updated}</time></dd>
+				</dl>
+				<div dangerouslySetInnerHTML={{__html: content.body}}/>
+			</article>
 		</PageWrapper>
 	);
 }

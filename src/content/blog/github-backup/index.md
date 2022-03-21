@@ -1,8 +1,8 @@
-    {
-        "date": "2017-08-02",
-        "tags": ["blog", "backup", "github"],
-        "extraTags": []
-    }
+---
+date: "2017-08-02"
+tags: ["blog", "backup", "github"]
+extraTags: []
+---
 
 # Making a backup of your GitHub repositories
 
