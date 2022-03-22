@@ -1,8 +1,8 @@
 import { ComponentProps } from '../jsx/jsx-runtime';
 import StyleWrapper from './StyleWrapper';
-import RootWrapper from "./RootWrapper";
-import TopBar from "./TopBar";
-import PageFooter from "./PageFooter";
+import RootWrapper from './RootWrapper';
+import TopBar from './TopBar';
+import PageFooter from './PageFooter';
 import classes from './PageWrapper.module.css';
 
 interface Props extends ComponentProps<typeof RootWrapper> {

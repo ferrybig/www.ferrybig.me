@@ -8,10 +8,10 @@ const nodeExternals = require('webpack-node-externals');
 const browserSync = require('browser-sync');
 const md5 = require('md5');
 const hljs = require('highlight.js');
-const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
-const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-const ImageMinimizerPlugin = require("image-minimizer-webpack-plugin");
-const { extendDefaultPlugins } = require("svgo");
+const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const ImageMinimizerPlugin = require('image-minimizer-webpack-plugin');
+const { extendDefaultPlugins } = require('svgo');
 
 function main(watchMode = false) {
 	return new Promise((doResolve, doReject) => {
@@ -22,7 +22,7 @@ function main(watchMode = false) {
 				path: path.resolve(__dirname, 'tmp'),
 				filename: 'bundle.js',
 				libraryTarget: 'umd',
-				publicPath: "/",
+				publicPath: '/',
 				assetModuleFilename: 'static/[contenthash][ext][query]',
 			},
 			target: 'node', // use require() & use NodeJs CommonJS style
@@ -39,7 +39,7 @@ function main(watchMode = false) {
 					new CssMinimizerPlugin({
 						minimizerOptions: {
 							preset: [
-								"default",
+								'default',
 								{
 									discardComments: { removeAll: true },
 								},
@@ -53,12 +53,12 @@ function main(watchMode = false) {
 								// Lossless optimization with custom option
 								// Feel free to experiment with options for better result for you
 								plugins: [
-									["gifsicle", { interlaced: true }],
-									["jpegtran", { progressive: true }],
-									["optipng", { optimizationLevel: 5 }],
+									['gifsicle', { interlaced: true }],
+									['jpegtran', { progressive: true }],
+									['optipng', { optimizationLevel: 5 }],
 									// Svgo configuration here https://github.com/svg/svgo#configuration
 									[
-										"svgo",
+										'svgo',
 										{},
 									],
 								],
@@ -69,9 +69,9 @@ function main(watchMode = false) {
 				splitChunks: {
 					cacheGroups: {
 						styles: {
-							name: "styles",
-							type: "css/mini-extract",
-							chunks: "all",
+							name: 'styles',
+							type: 'css/mini-extract',
+							chunks: 'all',
 							enforce: true,
 						},
 					},
@@ -79,7 +79,7 @@ function main(watchMode = false) {
 			},
 			plugins: [
 				new MiniCssExtractPlugin({
-					filename: "static/[contenthash].css",
+					filename: 'static/[contenthash].css',
 				}),
 			],
 			resolve: {
@@ -149,49 +149,49 @@ function main(watchMode = false) {
 									schema: {
 										type: 'object',
 										properties: {
-											"date": {
-												"type": "string",
-												"format": "date"
+											'date': {
+												'type': 'string',
+												'format': 'date'
 											},
-											"endDate": {
-												"type": ["string", "null"],
-												"format": "date",
+											'endDate': {
+												'type': ['string', 'null'],
+												'format': 'date',
 											},
-											"parent": {
-												"type": "string"
+											'parent': {
+												'type': 'string'
 											},
-											"thumbnail": {
-												"type": "string"
+											'thumbnail': {
+												'type': 'string'
 											},
-											"tags": {
-												"type": "array",
-												"items": {
-													"type": "string"
+											'tags': {
+												'type': 'array',
+												'items': {
+													'type': 'string'
 												},
-												"minItems": 1,
-												"uniqueItems": true
+												'minItems': 1,
+												'uniqueItems': true
 											},
-											"extraTags": {
-												"type": "array",
-												"items": {
-													"type": "string"
+											'extraTags': {
+												'type': 'array',
+												'items': {
+													'type': 'string'
 												},
-												"uniqueItems": true
+												'uniqueItems': true
 											},
 										},
-										required: ["date", "tags", "extraTags"],
+										required: ['date', 'tags', 'extraTags'],
 										additionalProperties: false,
 									},
 									loaders: [
 										{
-											loader: "html-loader",
+											loader: 'html-loader',
 											options: {
 												minimize: true,
 												esModule: false,
 											},
 										},
 										{
-											loader: "markdown-loader",
+											loader: 'markdown-loader',
 											options: {
 												highlight: function (code, lang) {
 													const language = hljs.getLanguage(lang) ? lang : 'plaintext';
@@ -242,7 +242,7 @@ function main(watchMode = false) {
 						server: {
 							baseDir: 'dist',
 							serveStaticOptions: {
-								extensions: ["html"],
+								extensions: ['html'],
 							},
 						},
 						open: false,
@@ -254,11 +254,11 @@ function main(watchMode = false) {
 				}
 			}
 			// Print watch/build result here...
-			console.log(stats.toString(stats.hasErrors() ? 'errors-only' : "errors-warnings"));
+			console.log(stats.toString(stats.hasErrors() ? 'errors-only' : 'errors-warnings'));
 			try {
 				if (stats.hasErrors()) {
 					const error = stats.toString('errors-only');
-					if (!watching) return reject("Errors during compiling! " + error);
+					if (!watching) return reject('Errors during compiling! ' + error);
 					bs?.notify(error);
 					return;
 				}
@@ -276,8 +276,8 @@ function main(watchMode = false) {
 						console.log(`dist/${asset.name}:\t ${asset.size}\t bytes emitted (from: ${asset.info.sourceFilename})${asset.isOverSizeLimit ? ' OVERSIZED' : ''}`);
 					}
 				}
-				delete require.cache[require.resolve("./tmp/bundle.js")];
-				require("./tmp/bundle.js").default(newAssets);
+				delete require.cache[require.resolve('./tmp/bundle.js')];
+				require('./tmp/bundle.js').default(newAssets);
 				console.log('Done!');
 				bs?.reload();
 				if (!watching) return resolve();

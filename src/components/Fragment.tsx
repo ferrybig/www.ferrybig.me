@@ -1,4 +1,4 @@
-import { createElement, JSXNode, RAW_TAG_MARKER } from "../jsx/jsx-runtime";
+import { createElement, JSXNode, RAW_TAG_MARKER } from '../jsx/jsx-runtime';
 
 interface Props {
 	children: JSXNode;

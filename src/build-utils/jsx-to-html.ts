@@ -1,5 +1,5 @@
-import { JSXNode, RAW_TAG_MARKER } from "../jsx/jsx-runtime";
-import assertNever from "./assert-never";
+import { JSXNode, RAW_TAG_MARKER } from '../jsx/jsx-runtime';
+import assertNever from './assert-never';
 
 const translateMap: Partial<Record<string, string>> = {
 	className: 'class',
@@ -18,31 +18,31 @@ const selfClosing: Partial<Record<string, true>> = {
 export function escape(input: any): string {
 	const type = typeof input;
 	switch(type) {
-		case 'bigint':
-		case 'boolean':
-		case 'undefined':
-		case 'number':
-			return `${input}`;
-		case 'object':
-		case 'symbol':
-			return escape(JSON.stringify(input));
-		case 'function':
-			return escape(`${input}`);
-		case 'string':
-			return input
-			.replace(/&/g, "&amp;")
-			.replace(/</g, "&lt;")
-			.replace(/>/g, "&gt;");
-		default:
-			assertNever(type);
+	case 'bigint':
+	case 'boolean':
+	case 'undefined':
+	case 'number':
+		return `${input}`;
+	case 'object':
+	case 'symbol':
+		return escape(JSON.stringify(input));
+	case 'function':
+		return escape(`${input}`);
+	case 'string':
+		return input
+			.replace(/&/g, '&amp;')
+			.replace(/</g, '&lt;')
+			.replace(/>/g, '&gt;');
+	default:
+		assertNever(type);
 	}
 }
 
 export function escapeArgument([key, value]: [string, any]): string {
 	if (value === true) return ` ${escape(translateMap[key] ?? key)}`;
-	if (value === false) return ``;
-	if (value === undefined) return ``;
-    return ` ${escape(translateMap[key] ?? key)}="${escape(value)}"`;
+	if (value === false) return '';
+	if (value === undefined) return '';
+	return ` ${escape(translateMap[key] ?? key)}="${escape(value)}"`;
 }
 
 export default function renderElement(
@@ -73,7 +73,7 @@ export default function renderElement(
 		return renderElement(newTag, [...renderStack, `${elm.type.name}()`]);
 	}
 	if (typeof elm.type !== 'string' && elm.type !== RAW_TAG_MARKER) {
-		throw new Error("Unknown tag type: " + JSON.stringify({ elm, renderStack}, (_, e) => typeof e === 'function' ? `${e}`.split('\n')[0] : e));
+		throw new Error('Unknown tag type: ' + JSON.stringify({ elm, renderStack}, (_, e) => typeof e === 'function' ? `${e}`.split('\n')[0] : e));
 	}
 	let output = '';
 	const { children, dangerouslySetInnerHTML, ...props } = elm.props ?? {};
@@ -81,8 +81,8 @@ export default function renderElement(
 	if (!selfClosing[elm.type]) {
 		output +=
 			dangerouslySetInnerHTML && '__html' in dangerouslySetInnerHTML ? dangerouslySetInnerHTML.__html :
-			children ? renderElement(children) :
-			'';
+				children ? renderElement(children) :
+					'';
 		output += elm.type === RAW_TAG_MARKER ? elm.props.end : `</${escape(elm.type)}>`;
 	}
 	return output;

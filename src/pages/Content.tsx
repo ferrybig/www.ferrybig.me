@@ -1,16 +1,16 @@
-import { DateTime } from "luxon";
-import { byYear, byMonth, blog } from ".";
-import Breadcrumb from "../components/Breadcrumb";
-import Markdown from "../components/Markdown";
-import PageWrapper from "../components/PageWrapper";
-import PageBase from "../PageBase";
-import ContentDefinition from "../types/ContentDefinition";
+import { DateTime } from 'luxon';
+import { byYear, byMonth, blog } from '.';
+import Breadcrumb from '../components/Breadcrumb';
+import Markdown from '../components/Markdown';
+import PageWrapper from '../components/PageWrapper';
+import PageBase from '../PageBase';
+import ContentDefinition from '../types/ContentDefinition';
 
 const monthNames = [
-	"January", "February", "March",
-	"April", "May", "June",
-	"July", "August", "September",
-	"October", "November", "December"
+	'January', 'February', 'March',
+	'April', 'May', 'June',
+	'July', 'August', 'September',
+	'October', 'November', 'December'
 ];
 
 interface Props {

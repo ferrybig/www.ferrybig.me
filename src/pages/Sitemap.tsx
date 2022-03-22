@@ -1,5 +1,5 @@
-import PageWrapper from "../components/PageWrapper";
-import PageBase, { SitemapEntry } from "../PageBase";
+import PageWrapper from '../components/PageWrapper';
+import PageBase, { SitemapEntry } from '../PageBase';
 
 interface Props {
 	base: PageBase,

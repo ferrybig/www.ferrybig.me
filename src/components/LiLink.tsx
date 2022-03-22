@@ -1,6 +1,6 @@
-import { JSXNode } from "../jsx/jsx-runtime";
-import { RouteDefinition } from "../minirouter/route";
-import Link from "./Link";
+import { JSXNode } from '../jsx/jsx-runtime';
+import { RouteDefinition } from '../minirouter/route';
+import Link from './Link';
 
 interface LiLinkProps<R> {
 	children: JSXNode,

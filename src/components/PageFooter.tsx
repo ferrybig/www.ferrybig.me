@@ -1,4 +1,4 @@
-import StyleWrapper from "./StyleWrapper";
+import StyleWrapper from './StyleWrapper';
 import classes from './PageFooter.module.css';
 
 

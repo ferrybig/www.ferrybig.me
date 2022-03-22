@@ -49,7 +49,7 @@ function renderRoute<P, I>(
 }
 
 export default function render(assets: Record<string, string>) {
-	console.log("Rendering...");
+	console.log('Rendering...');
 
 	const partialBase: PartialBase = {
 		assets,

@@ -1,4 +1,4 @@
-export const RAW_TAG_MARKER = "!RAW" as const;
+export const RAW_TAG_MARKER = '!RAW' as const;
 
 export type JSXSimpleNode = JSX.Element | null | boolean | undefined | string | number;
 export type JSXNode = JSXSimpleNode | JSXNode[];

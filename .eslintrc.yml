@@ -23,6 +23,16 @@ rules:
             - .tsx
     react/jsx-key:
         - off
+    quotes:
+        - warn
+        - single
+    indent:
+        - warn
+        - tab
+    react/forbid-component-props:
+        - error
+        - forbid:
+            - key
 env:
     browser: true
 settings:

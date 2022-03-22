@@ -5,11 +5,11 @@ import carriers from './carriers';
 function decodeEntities(encodedString: string) {
 	const translate_re = /&(nbsp|amp|quot|lt|gt);/g;
 	const translate: Partial<Record<string, string>> = {
-		"nbsp":" ",
-		"amp" : "&",
-		"quot": "\"",
-		"lt"  : "<",
-		"gt"  : ">"
+		'nbsp':' ',
+		'amp' : '&',
+		'quot': '"',
+		'lt'  : '<',
+		'gt'  : '>'
 	};
 	return encodedString.replace(translate_re, function(match, entity) {
 		return translate[entity] ?? '';
@@ -24,7 +24,7 @@ function split(body: string, slug: string): { title: string, titleHTML: string, 
 	if (!match) {
 		return { titleHTML: slug, title: slug, body };
 	}
-	return { title: decodeEntities(match[1].replace(/<\/?[^>]+(>|$)/g, "")), titleHTML: match[1], body: body.substring(match[0].length) };
+	return { title: decodeEntities(match[1].replace(/<\/?[^>]+(>|$)/g, '')), titleHTML: match[1], body: body.substring(match[0].length) };
 }
 
 const content: ContentDefinition[] = [...blog, ...carriers].map(({default: body, endDate, hidden, ...rest}) => ({

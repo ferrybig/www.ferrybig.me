@@ -1,7 +1,7 @@
-import Nav from "../components/Nav";
-import PageWrapper from "../components/PageWrapper";
-import RootWrapper from "../components/RootWrapper";
-import PageBase from "../PageBase";
+import Nav from '../components/Nav';
+import PageWrapper from '../components/PageWrapper';
+import RootWrapper from '../components/RootWrapper';
+import PageBase from '../PageBase';
 
 interface Props {
 	base: PageBase,

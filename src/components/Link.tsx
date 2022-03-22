@@ -1,5 +1,5 @@
-import { HTMLAttributes } from "react";
-import { RouteDefinition } from "../minirouter/route";
+import { HTMLAttributes } from 'react';
+import { RouteDefinition } from '../minirouter/route';
 
 export default function Link<R>({ route, props, ...rest }: {
 	route: RouteDefinition<any, R>;
