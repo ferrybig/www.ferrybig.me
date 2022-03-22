@@ -7,7 +7,7 @@ import js from './embedded-js';
 import content from './content';
 import * as routes from './pages';
 import PageBase, { PartialBase } from './PageBase';
-import renderElement from './build-utils/jsx-to-html';
+import renderElement from './utils/jsx-to-html';
 import { RouteDefinition } from './minirouter/route';
 
 function writeFile(file: string, data: string | Buffer) {
