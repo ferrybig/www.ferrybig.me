@@ -2,23 +2,18 @@ import fs from 'fs';
 import path from 'path';
 import mkdirs from 'mkdirs';
 import md5 from 'md5';
-import SourceMapConcat from 'inline-sourcemap-concat';
-import css from './build-utils/capture-css';
-
-// Load any pages after this point
 import './css'
 import js from './embedded-js';
 import content from './content';
 import * as routes from './pages';
-import PageBase, { PartialBase, SitemapEntry } from './PageBase';
+import PageBase, { PartialBase } from './PageBase';
 import renderElement from './build-utils/jsx-to-html';
 import { RouteDefinition } from './minirouter/route';
-import Sitemap from './pages/SitemapXML';
 
 function writeFile(file: string, data: string | Buffer) {
 	const base = path.dirname(file);
 	mkdirs(base);
-	console.log(`${file}: ${data.length} bytes written`);
+	console.log(`${file}:\t ${data.length}\t bytes written`);
 	fs.writeFileSync(file, data);
 }
 
@@ -56,18 +51,14 @@ function renderRoute<P, I>(
 export default function render(assets: Record<string, string>) {
 	console.log("Rendering...");
 
-	var sm = SourceMapConcat.create({ mapCommentType: 'block' })
-	for (let i = 0; i < css.length; i++) {
-		sm.addFileSource(null, css[i]);
-	}
 	const partialBase: PartialBase = {
 		assets,
 		publicPath: '/',
 		site: 'https://www.ferrybig.me/',
 		urls: [],
 		js,
+		css: Object.keys(assets).filter(e => e.endsWith('.css')).map(e => `/${e}`),
 	}
-	writeWebFile(partialBase, "bundle.css", sm.generate(), true);
 	const pages: {
 		[K in keyof typeof routes]: ((partialBase: PartialBase) => [string, string, JSX.Element | null])[];
 	} = {

@@ -1,4 +1,4 @@
-import { RAW_TAG_MARKER } from "../jsx/jsx-runtime";
+import { JSXNode, RAW_TAG_MARKER } from "../jsx/jsx-runtime";
 import assertNever from "./assert-never";
 
 const translateMap: Partial<Record<string, string>> = {
@@ -14,8 +14,6 @@ const selfClosing: Partial<Record<string, true>> = {
 	input: true,
 	base: true,
 }
-
-
 
 export function escape(input: any): string {
 	const type = typeof input;
@@ -38,26 +36,27 @@ export function escape(input: any): string {
 		default:
 			assertNever(type);
 	}
-};
+}
 
 export function escapeArgument([key, value]: [string, any]): string {
 	if (value === true) return ` ${escape(translateMap[key] ?? key)}`;
 	if (value === false) return ``;
 	if (value === undefined) return ``;
     return ` ${escape(translateMap[key] ?? key)}="${escape(value)}"`;
-};
-
-export type JSXNode = JSX.Element | null | undefined | string | number | (JSX.Element | null | undefined | string | number)[];
+}
 
 export default function renderElement(
 	elm: JSXNode,
 	renderStack: string[] = [],
 ): string {
-	if (elm === null || elm === undefined) {
+	if (elm === null || elm === undefined || elm === false) {
 		return '';
 	}
 	if (typeof elm === 'string' || typeof elm === 'number') {
 		return escape(elm);
+	}
+	if (elm === true) {
+		return 'true';
 	}
 	if (Array.isArray(elm)) {
 		return elm.map(e => renderElement(e, [...renderStack, '[]'])).join('');
@@ -76,7 +75,7 @@ export default function renderElement(
 	if (typeof elm.type !== 'string' && elm.type !== RAW_TAG_MARKER) {
 		throw new Error("Unknown tag type: " + JSON.stringify({ elm, renderStack}, (_, e) => typeof e === 'function' ? `${e}`.split('\n')[0] : e));
 	}
-	let output: string = '';
+	let output = '';
 	const { children, dangerouslySetInnerHTML, ...props } = elm.props ?? {};
 	output += elm.type === RAW_TAG_MARKER ? elm.props.start : `<${escape(elm.type)}${Object.entries(props).map(escapeArgument).join('')}>`
 	if (!selfClosing[elm.type]) {

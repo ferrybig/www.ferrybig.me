@@ -1,23 +1,35 @@
 {
   "devDependencies": {
-    "@babel/core": "^7.17.5",
+    "@babel/core": "^7.17.8",
     "@babel/preset-env": "^7.16.11",
     "@teamsupercell/typings-for-css-modules-loader": "^2.5.1",
+    "@types/luxon": "^2.3.1",
     "@types/md5": "^2.3.2",
     "@types/react": "^17.0.39",
+    "@typescript-eslint/eslint-plugin": "^5.16.0",
     "babel-loader": "^8.2.3",
     "browser-sync": "^2.27.8",
     "classnames": "^2.3.1",
     "css-loader": "^6.7.1",
+    "css-minimizer-webpack-plugin": "^3.4.1",
+    "eslint": "^8.11.0",
+    "eslint-plugin-react": "^7.29.4",
     "file-loader": "^6.2.0",
     "fs-extra": "^10.0.1",
     "highlight.js": "^11.5.0",
     "html-loader": "^3.1.0",
-    "inline-sourcemap-concat": "^0.2.0",
-    "json-tagged-file-loader": "^1.0.0",
+    "image-minimizer-webpack-plugin": "^3.2.3",
+    "imagemin": "^8.0.1",
+    "imagemin-gifsicle": "^7.0.0",
+    "imagemin-jpegtran": "^7.0.0",
+    "imagemin-optipng": "^8.0.0",
+    "imagemin-svgo": "^10.0.1",
+    "json-tagged-file-loader": "^1.1.0",
     "loader-runner": "^4.2.0",
+    "luxon": "^2.3.1",
     "markdown-loader": "^8.0.0",
     "md5": "^2.3.0",
+    "mini-css-extract-plugin": "^2.6.0",
     "mkdirs": "^0.0.3",
     "style-loader": "^3.3.1",
     "ts-loader": "^9.2.8",
@@ -31,12 +43,16 @@
   "version": "1.0.0",
   "main": "",
   "scripts": {
-    "start": "node build.js"
+    "start": "node build.js",
+    "lint": "eslint ."
   },
   "author": "",
   "license": "ISC",
   "description": "",
   "engines": {
     "node": ">=16"
-  }
+  },
+  "browserslist": [
+    "> 0.5%, last 2 versions, Firefox ESR, not dead, not IE 11"
+  ]
 }

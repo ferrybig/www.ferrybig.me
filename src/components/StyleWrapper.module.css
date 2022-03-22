@@ -1,0 +1,71 @@
+.root {
+	padding: 0 16px;
+	background: linear-gradient(var(--outer-start-bg), var(--outer-stop-bg));
+}
+.root > div {
+	max-width: 1700px;
+	margin: 0 auto;
+	border-left: 2px solid var(--outer-stop-line);
+	border-right: 2px solid var(--outer-stop-line);
+	background: linear-gradient(var(--inner-start-bg), var(--inner-stop-bg));
+	border-image: linear-gradient(var(--outer-start-line), var(--outer-stop-line)) 1 100%;
+}
+.topInnerPrimary {
+	--inner-start-bg: var(--background-primary-color);
+}
+.topOuterPrimary {
+	--outer-start-bg: var(--background-primary-color);
+	--outer-start-line: var(--text-primary-color);
+}
+.topInnerSecondary {
+	--inner-start-bg: var(--background-secondary-color);
+}
+.topOuterSecondary {
+	--outer-start-bg: var(--background-secondary-color);
+	--outer-start-line: var(--text-secondary-color);
+}
+.topInnerTertiary {
+	--inner-start-bg: var(--background-tertiary-color);
+}
+.topOuterTertiary {
+	--outer-start-bg: var(--background-tertiary-color);
+	--outer-start-line: var(--text-tertiary-color);
+}
+.topInnerBase {
+	--inner-start-bg: var(--background-color);
+}
+.topOuterBase {
+	--outer-start-bg: var(--background-color);
+	--outer-start-line: var(--text-color);
+}
+.bottomInnerPrimary {
+	--inner-stop-bg: var(--background-primary-color);
+}
+.bottomOuterPrimary {
+	--outer-stop-bg: var(--background-primary-color);
+	--outer-stop-line: var(--text-primary-color);
+}
+.bottomInnerSecondary {
+	--inner-stop-bg: var(--background-secondary-color);
+}
+.bottomOuterSecondary {
+	--outer-stop-bg: var(--background-secondary-color);
+	--outer-stop-line: var(--text-secondary-color);
+}
+.bottomInnerTertiary {
+	--inner-stop-bg: var(--background-tertiary-color);
+}
+.bottomOuterTertiary {
+	--outer-stop-bg: var(--background-tertiary-color);
+	--outer-stop-line: var(--text-tertiary-color);
+}
+.bottomInnerBase {
+	--inner-stop-bg: var(--background-color);
+}
+.bottomOuterBase {
+	--outer-stop-bg: var(--text-color);
+	--outer-stop-line: var(--background-color);
+}
+.heightShort > div {
+	height: 8px;
+}

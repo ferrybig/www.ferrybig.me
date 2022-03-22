@@ -1,10 +1,12 @@
+import { DateTime } from "luxon";
 import { byYear, byMonth, blog } from ".";
 import Breadcrumb from "../components/Breadcrumb";
+import Markdown from "../components/Markdown";
 import PageWrapper from "../components/PageWrapper";
 import PageBase from "../PageBase";
 import ContentDefinition from "../types/ContentDefinition";
 
-var monthNames = [
+const monthNames = [
 	"January", "February", "March",
 	"April", "May", "June",
 	"July", "August", "September",
@@ -33,15 +35,26 @@ export default function Content({ content, base }: Props) {
 			]}/>
 			<pre>{JSON.stringify(content, null, 4)}</pre>
 			<article>
-				<h1 dangerouslySetInnerHTML={{__html: content.titleHTML}}/>
-				<dl>
-					<dt>Created</dt><dd><time dateTime={content.date}>{content.date}</time></dd>
-					{content.endDate && <dt>Ended</dt>}
-					{content.endDate && <dd><time dateTime={content.endDate}>{content.endDate}</time></dd>}
-					<dt>Published</dt><dd><time dateTime={content.created}>{content.created}</time></dd>
-					<dt>Updated</dt><dd><time dateTime={content.updated}>{content.updated}</time></dd>
-				</dl>
-				<div dangerouslySetInnerHTML={{__html: content.body}}/>
+				<header>
+					<p>
+						<span>Created: <time dateTime={DateTime.fromISO(content.date).toISO()} title={content.date}>
+							{DateTime.fromISO(content.date).toLocaleString({ dateStyle: 'long'})}
+						</time><br/></span>
+						{content.endDate && <span>Ended<time dateTime={content.endDate} title={content.endDate}>
+							{DateTime.fromISO(content.endDate).toLocaleString({ dateStyle: 'long'})}
+						</time><br/></span>}
+						<span>Published: <time dateTime={DateTime.fromRFC2822(content.created).toISO()} title={DateTime.fromRFC2822(content.created).toISO()}>
+							{DateTime.fromRFC2822(content.created).toLocaleString({ dateStyle: 'long', timeStyle: 'short', hour12: false })}
+						</time><br/></span>
+						{content.updated !== content.updated && <span>Updated: <time dateTime={DateTime.fromRFC2822(content.updated).toISO()} title={DateTime.fromRFC2822(content.updated).toISO()}>
+							{DateTime.fromRFC2822(content.updated).toLocaleString({ dateStyle: 'long', timeStyle: 'short', hour12: false })}
+						</time></span>}
+					</p>
+				</header>
+				<Markdown
+					title={content.titleHTML}
+					content={content.body}
+				/>
 			</article>
 		</PageWrapper>
 	);

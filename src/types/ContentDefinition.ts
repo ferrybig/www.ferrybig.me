@@ -12,6 +12,6 @@ interface ContentDefinition {
 	tags: string[]
 	extraTags: string[]
 	hidden: boolean
-};
+}
 
 export default ContentDefinition;

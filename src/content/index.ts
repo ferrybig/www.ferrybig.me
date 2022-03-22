@@ -3,8 +3,8 @@ import blog from './blog';
 import carriers from './carriers';
 
 function decodeEntities(encodedString: string) {
-	var translate_re = /&(nbsp|amp|quot|lt|gt);/g;
-	var translate: Partial<Record<string, string>> = {
+	const translate_re = /&(nbsp|amp|quot|lt|gt);/g;
+	const translate: Partial<Record<string, string>> = {
 		"nbsp":" ",
 		"amp" : "&",
 		"quot": "\"",
@@ -14,7 +14,7 @@ function decodeEntities(encodedString: string) {
 	return encodedString.replace(translate_re, function(match, entity) {
 		return translate[entity] ?? '';
 	}).replace(/&#(\d+);/gi, function(match, numStr) {
-		var num = parseInt(numStr, 10);
+		const num = parseInt(numStr, 10);
 		return String.fromCharCode(num);
 	});
 }

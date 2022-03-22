@@ -1,23 +1,30 @@
 extends:
-  - eslint:recommended
-  - plugin:@typescript-eslint/recommended
-  - plugin:react/recommended
+    - eslint:recommended
+    - plugin:@typescript-eslint/recommended
+    - plugin:react/recommended
+    - plugin:react/jsx-runtime
+ignorePatterns:
+    - tmp
+    - dist
+    - "*.content.js"
 parser: "@typescript-eslint/parser"
 plugins:
-  - "@typescript-eslint"
+    - "@typescript-eslint"
 rules:
-  no-shadow: off
-  "@typescript-eslint/no-shadow":
-    - error
-  no-use-before-define: off
-  "@typescript-eslint/no-use-before-define":
-    - error
-  react/jsx-filename-extension:
-    - warn
-    - extensions:
-        - .tsx
+    no-shadow: off
+    "@typescript-eslint/no-shadow":
+        - error
+    no-use-before-define: off
+    "@typescript-eslint/no-use-before-define":
+        - error
+    react/jsx-filename-extension:
+        - warn
+        - extensions:
+            - .tsx
+    react/jsx-key:
+        - off
 env:
-  browser: true
+    browser: true
 settings:
-  react:
-    pragma: React
+    react:
+        pragma: React

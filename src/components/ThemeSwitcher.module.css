@@ -40,7 +40,10 @@
 	mask-repeat: no-repeat;
 }
 .selected {
-	background: var(--button-active-color);
+	background: var(--background-secondary-color);
+}
+.selected::after {
+	background-color: var(--text-secondary-color);
 }
 .light {
 	composes: button;

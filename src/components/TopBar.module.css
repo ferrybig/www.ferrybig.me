@@ -1,12 +1,4 @@
-.root {
-	background: var(--background-primary-color);
-	display: flex;
-	padding: 0 16px;
-	border-bottom: 2px solid var(--text-primary-color);
-}
 .root > div {
-	max-width: 1700px;
-	margin: 0 auto;
 	display: grid;
 	align-items: center;
 	height: 200px;

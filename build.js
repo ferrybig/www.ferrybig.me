@@ -1,4 +1,6 @@
 #!/usr/bin/env node
+/* eslint-disable @typescript-eslint/no-var-requires */
+/* eslint-disable no-undef */
 const webpack = require('webpack');
 const path = require('path');
 const fs = require('fs-extra');
@@ -6,6 +8,10 @@ const nodeExternals = require('webpack-node-externals');
 const browserSync = require('browser-sync');
 const md5 = require('md5');
 const hljs = require('highlight.js');
+const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const ImageMinimizerPlugin = require("image-minimizer-webpack-plugin");
+const { extendDefaultPlugins } = require("svgo");
 
 function main(watchMode = false) {
 	return new Promise((doResolve, doReject) => {
@@ -17,7 +23,7 @@ function main(watchMode = false) {
 				filename: 'bundle.js',
 				libraryTarget: 'umd',
 				publicPath: "/",
-				assetModuleFilename: 'static/[hash][ext][query]',
+				assetModuleFilename: 'static/[contenthash][ext][query]',
 			},
 			target: 'node', // use require() & use NodeJs CommonJS style
 			externals: [nodeExternals()], // in order to ignore all modules in node_modules folder
@@ -26,8 +32,55 @@ function main(watchMode = false) {
 			},
 			node: false,
 			mode: 'development',
-			devtool: 'cheap-source-map',
+			devtool: 'source-map',
+			optimization: {
+				minimize: true,
+				minimizer: [
+					new CssMinimizerPlugin({
+						minimizerOptions: {
+							preset: [
+								"default",
+								{
+									discardComments: { removeAll: true },
+								},
+							],
+						},
+					}),
+					new ImageMinimizerPlugin({
+						minimizer: {
+							implementation: ImageMinimizerPlugin.imageminMinify,
+							options: {
+								// Lossless optimization with custom option
+								// Feel free to experiment with options for better result for you
+								plugins: [
+									["gifsicle", { interlaced: true }],
+									["jpegtran", { progressive: true }],
+									["optipng", { optimizationLevel: 5 }],
+									// Svgo configuration here https://github.com/svg/svgo#configuration
+									[
+										"svgo",
+										{},
+									],
+								],
+							},
+						},
+					}),
+				],
+				splitChunks: {
+					cacheGroups: {
+						styles: {
+							name: "styles",
+							type: "css/mini-extract",
+							chunks: "all",
+							enforce: true,
+						},
+					},
+				},
+			},
 			plugins: [
+				new MiniCssExtractPlugin({
+					filename: "static/[contenthash].css",
+				}),
 			],
 			resolve: {
 				extensions: [
@@ -42,18 +95,13 @@ function main(watchMode = false) {
 					{
 						test: /\.css$/,
 						use: [
-							{
-								loader: 'style-loader',
-								options: {
-									esModule: false
-								}
-							},
+							MiniCssExtractPlugin.loader,
 							{
 								loader: 'css-loader',
 								options: {
 									importLoaders: 1,
 									sourceMap: true,
-									esModule: false
+									esModule: false,
 								}
 							}
 						]
@@ -67,6 +115,16 @@ function main(watchMode = false) {
 						test: /\.content.js?$/,
 						exclude: /node_modules/,
 						type: 'asset/resource',
+						use: {
+							loader: 'babel-loader',
+							options: {
+								presets: ['@babel/preset-env'],
+								minified: true,
+								inputSourceMap: false,
+								sourceMaps: 'inline',
+								comments: false,
+							},
+						},
 					},
 					{
 						test: /\.(png|jpg|jpeg|gif|svg|ttf|woff|woff2)$/i,
@@ -135,7 +193,7 @@ function main(watchMode = false) {
 										{
 											loader: "markdown-loader",
 											options: {
-												highlight: function(code, lang) {
+												highlight: function (code, lang) {
 													const language = hljs.getLanguage(lang) ? lang : 'plaintext';
 													return hljs.highlight(code, { language }).value;
 												},
@@ -208,8 +266,18 @@ function main(watchMode = false) {
 					bs?.notify(stats.toString('errors-warnings'));
 				}
 				fs.copySync('./tmp', './dist', { filter: (name) => !name.endsWith('bundle.js') && !name.endsWith('bundle.js.map') });
+				const newAssets = {
+					...assets,
+				}
+				//console.log(stats.toJson('all').chunks);
+				for (const asset of stats.toJson('all').assets) {
+					if (asset.name.startsWith('static/')) {
+						newAssets[asset.name] = asset.name;
+						console.log(`dist/${asset.name}:\t ${asset.size}\t bytes emitted (from: ${asset.info.sourceFilename})${asset.isOverSizeLimit ? ' OVERSIZED' : ''}`);
+					}
+				}
 				delete require.cache[require.resolve("./tmp/bundle.js")];
-				require("./tmp/bundle.js").default(assets);
+				require("./tmp/bundle.js").default(newAssets);
 				console.log('Done!');
 				bs?.reload();
 				if (!watching) return resolve();

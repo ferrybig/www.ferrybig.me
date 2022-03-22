@@ -1,11 +1,11 @@
-import { ReactNode } from "react"
 import PageBase, {writeLinkToAsset} from "../PageBase";
 import Doctype from "./Doctype";
 import themeClasses from '../theme.module.css';
 import './RootWrapper.module.css';
+import { JSXNode } from "../jsx/jsx-runtime";
 
 interface Props {
-	children: ReactNode;
+	children: JSXNode;
 	title: string
 	base: PageBase,
 	lang?: string,
@@ -22,7 +22,9 @@ export default function RootWrapper({
 			<html data-theme-light={themeClasses.themeLight} data-theme-dark={themeClasses.themeDark} lang={lang}>
 				<head>
 					<title>{title}</title>
-					<link href={writeLinkToAsset(base, 'bundle.css')} rel="preload" as="style"/>
+					{base.css.map(css => (
+						<link href={css} rel="preload" as="style"/>
+					))}
 					{base.js.map(js => (
 						<link href={js} rel="preload" as="script"/>
 					))}
@@ -31,7 +33,9 @@ export default function RootWrapper({
 					<meta name="color-scheme" content="light dark"/>
 					{base.canonical ? <meta property="og:url" content={base.canonical}/> : null}
 					{base.canonical ? <link rel="canonical" href={base.canonical}/> : null}
-					<link href={writeLinkToAsset(base, 'bundle.css')} rel="stylesheet"/>
+					{base.css.map(css => (
+						<link href={css} rel="stylesheet"/>
+					))}
 					<link rel="icon" type="image/png" sizes="16x16" href={writeLinkToAsset(base, "favicon-16x16.png")}/>
 					<link rel="icon" type="image/png" sizes="32x32" href={writeLinkToAsset(base, "favicon-32x32.png")}/>
 					<link rel="icon" type="image/png" sizes="96x96" href={writeLinkToAsset(base, "favicon-96x96.png")}/>

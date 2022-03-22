@@ -1,4 +1,4 @@
-import { JSXNode } from "../build-utils/jsx-to-html";
+import { JSXNode } from "../jsx/jsx-runtime";
 import { RouteDefinition } from "../minirouter/route";
 import Link from "./Link";
 

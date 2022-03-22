@@ -12,6 +12,7 @@ export default interface PageBase {
 	site: string | null,
 	urls: SitemapEntry[];
 	js: string[],
+	css: string[],
 }
 export type PartialBase = Omit<PageBase, 'canonical'>;
 export function writeLinkToAsset(base: PageBase, resource: string) {

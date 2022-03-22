@@ -1,23 +1,30 @@
-import { ComponentProps, ReactNode } from "react"
-import Nav from "./Nav";
-import classes from './PageWrapper.module.css';
+import { ComponentProps } from '../jsx/jsx-runtime';
+import StyleWrapper from './StyleWrapper';
 import RootWrapper from "./RootWrapper";
-import ThemeSwitcher from "./ThemeSwitcher";
 import TopBar from "./TopBar";
+import PageFooter from "./PageFooter";
+import classes from './PageWrapper.module.css';
 
 interface Props extends ComponentProps<typeof RootWrapper> {
+	outer?: 'primary' | 'secondary' | 'tertiary' | 'base',
+	inner?: 'primary' | 'secondary' | 'tertiary' | 'base',
 }
 
 export default function PageWrapper({
 	children,
+	outer = 'secondary',
+	inner = 'base',
 	...rest
 }: Props) {
 	return (
 		<RootWrapper {...rest}>
 			<TopBar/>
-			<main>
+			<StyleWrapper height="short" top='primary' bottom={outer} bottomInner={inner}/>
+			<StyleWrapper as="main" top="secondary" topInner='base' bottom="secondary" bottomInner='base' className={classes.main}>
 				{children}
-			</main>
+			</StyleWrapper>
+			<StyleWrapper height="short" top={outer} topInner={inner} bottom='tertiary'/>
+			<PageFooter/>
 		</RootWrapper>
 	)
 }
