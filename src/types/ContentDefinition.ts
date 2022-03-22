@@ -1,5 +1,3 @@
-import * as md from '*.md'
-
 interface ContentDefinition {
 	body: string,
 	title: string,

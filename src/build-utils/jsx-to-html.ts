@@ -1,5 +1,5 @@
 import { JSXNode, RAW_TAG_MARKER } from "../jsx/jsx-runtime";
-import assertNever from "./assert-never";
+import assertNever from "../utils/assert-never";
 
 const translateMap: Partial<Record<string, string>> = {
 	className: 'class',

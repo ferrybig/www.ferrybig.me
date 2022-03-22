@@ -1,5 +1,5 @@
 import { DateTime } from "luxon"
-import assertNever from "../build-utils/assert-never";
+import assertNever from "../utils/assert-never";
 
 interface Props {
 	dateTime: string,

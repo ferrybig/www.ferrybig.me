@@ -13,7 +13,7 @@ import { RouteDefinition } from './minirouter/route';
 function writeFile(file: string, data: string | Buffer) {
 	const base = path.dirname(file);
 	mkdirs(base);
-	console.log(`${file}:\t ${data.length}\t bytes written`);
+	console.log(`${`${file}: `.padEnd(40)} ${data.length}\t bytes written`);
 	fs.writeFileSync(file, data);
 }
 

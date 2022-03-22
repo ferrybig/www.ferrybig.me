@@ -3,6 +3,7 @@ import { byYear, byMonth, blog } from ".";
 import Breadcrumb from "../components/Breadcrumb";
 import Markdown from "../components/Markdown";
 import PageWrapper from "../components/PageWrapper";
+import Time from "../components/Time";
 import PageBase from "../PageBase";
 import ContentDefinition from "../types/ContentDefinition";
 
@@ -37,18 +38,10 @@ export default function Content({ content, base }: Props) {
 			<article>
 				<header>
 					<p>
-						<span>Created: <time dateTime={DateTime.fromISO(content.date).toISO()} title={content.date}>
-							{DateTime.fromISO(content.date).toLocaleString({ dateStyle: 'long'})}
-						</time><br/></span>
-						{content.endDate && <span>Ended<time dateTime={content.endDate} title={content.endDate}>
-							{DateTime.fromISO(content.endDate).toLocaleString({ dateStyle: 'long'})}
-						</time><br/></span>}
-						<span>Published: <time dateTime={DateTime.fromRFC2822(content.created).toISO()} title={DateTime.fromRFC2822(content.created).toISO()}>
-							{DateTime.fromRFC2822(content.created).toLocaleString({ dateStyle: 'long', timeStyle: 'short', hour12: false })}
-						</time><br/></span>
-						{content.updated !== content.updated && <span>Updated: <time dateTime={DateTime.fromRFC2822(content.updated).toISO()} title={DateTime.fromRFC2822(content.updated).toISO()}>
-							{DateTime.fromRFC2822(content.updated).toLocaleString({ dateStyle: 'long', timeStyle: 'short', hour12: false })}
-						</time></span>}
+						<span>Created: <Time dateTime={content.date} from="iso" format="date"/><br/></span>
+						{content.endDate && <span>Ended: <Time dateTime={content.endDate} from="iso" format="date"/><br/></span>}
+						<span>Published: <Time dateTime={content.created} from="rfc" format="date-time"/><br/></span>
+						{content.created !== content.updated && <span>Updated: <Time dateTime={content.updated} from="rfc" format="date-time"/></span>}
 					</p>
 				</header>
 				<Markdown

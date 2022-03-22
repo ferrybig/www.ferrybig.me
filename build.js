@@ -273,7 +273,7 @@ function main(watchMode = false) {
 				for (const asset of stats.toJson('all').assets) {
 					if (asset.name.startsWith('static/')) {
 						newAssets[asset.name] = asset.name;
-						console.log(`dist/${asset.name}:\t ${asset.size}\t bytes emitted (from: ${asset.info.sourceFilename})${asset.isOverSizeLimit ? ' OVERSIZED' : ''}`);
+						console.log(`${`dist/${asset.name}:`.padEnd(40)} ${asset.size}\t bytes emitted (from: ${asset.info.sourceFilename})${asset.isOverSizeLimit ? ' OVERSIZED' : ''}`);
 					}
 				}
 				delete require.cache[require.resolve("./tmp/bundle.js")];
@@ -292,6 +292,7 @@ function main(watchMode = false) {
 			if (s.isFile()) {
 				const fileContents = await fs.readFile('./public/' + f);
 				assets[f] = `${f}?v=${md5(fileContents).substring(0, 20)}`;
+				console.log(`${`dist/${f}:`.padEnd(40)} ${fileContents.length}\t bytes copied`);
 			}
 		})))
 		const clean = false;
