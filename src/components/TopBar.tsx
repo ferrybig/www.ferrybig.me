@@ -5,7 +5,7 @@ import StyleWrapper from './StyleWrapper';
 import ThemeSwitcher from './ThemeSwitcher';
 import classes from './TopBar.module.css'
 
-export default function() {
+export default function TopBar() {
 	return (
 		<StyleWrapper as="header" top="primary" bottom="primary" className={classes.root}>
 			<Logo className={classes.logo}/>

@@ -15,6 +15,9 @@
 	text-decoration: underline;
 	cursor: pointer;
 }
+.titleSecond:hover, .titleSecond:focus-visible {
+	text-decoration: underline dashed;
+}
 .titleThird {
 	color: var(--text-tertiary-color);
 }

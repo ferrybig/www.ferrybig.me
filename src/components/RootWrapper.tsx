@@ -1,4 +1,4 @@
-import PageBase, {writeLinkToAsset} from '../PageBase';
+import PageBase from '../PageBase';
 import Doctype from './Doctype';
 import themeClasses from '../theme.module.css';
 import './RootWrapper.module.css';
@@ -36,10 +36,10 @@ export default function RootWrapper({
 					{base.css.map(css => (
 						<link href={css} rel="stylesheet"/>
 					))}
-					<link rel="icon" type="image/png" sizes="16x16" href={writeLinkToAsset(base, 'favicon-16x16.png')}/>
-					<link rel="icon" type="image/png" sizes="32x32" href={writeLinkToAsset(base, 'favicon-32x32.png')}/>
-					<link rel="icon" type="image/png" sizes="96x96" href={writeLinkToAsset(base, 'favicon-96x96.png')}/>
-					<link rel="icon" type="image/png" sizes="194x194" href={writeLinkToAsset(base, 'favicon-194x194.png')}/>
+					<link rel="icon" type="image/png" sizes="16x16" href={require('../images/favicon-16x16.png')}/>
+					<link rel="icon" type="image/png" sizes="32x32" href={require('../images/favicon-32x32.png')}/>
+					<link rel="icon" type="image/png" sizes="96x96" href={require('../images/favicon-96x96.png')}/>
+					<link rel="icon" type="image/png" sizes="194x194" href={require('../images/favicon-194x194.png')}/>
 					<link rel="icon" href="/favicon.ico"/>
 				</head>
 				<body data-no-instant>

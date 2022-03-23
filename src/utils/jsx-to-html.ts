@@ -1,5 +1,4 @@
 import { JSXNode, RAW_TAG_MARKER } from '../jsx/jsx-runtime';
-import assertNever from './assert-never';
 
 const translateMap: Partial<Record<string, string>> = {
 	className: 'class',
@@ -15,9 +14,8 @@ const selfClosing: Partial<Record<string, true>> = {
 	base: true,
 }
 
-export function escape(input: any): string {
-	const type = typeof input;
-	switch(type) {
+export function escape(input: unknown): string {
+	switch(typeof input) {
 	case 'bigint':
 	case 'boolean':
 	case 'undefined':
@@ -34,7 +32,7 @@ export function escape(input: any): string {
 			.replace(/</g, '&lt;')
 			.replace(/>/g, '&gt;');
 	default:
-		assertNever(type);
+		throw new Error('Unknown type: ' + typeof input);
 	}
 }
 
