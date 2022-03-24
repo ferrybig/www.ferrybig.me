@@ -13,7 +13,7 @@ import { RouteDefinition } from './minirouter/route';
 function writeFile(file: string, data: string | Buffer) {
 	const base = path.dirname(file);
 	mkdirs(base);
-	console.log(`${`${file}: `.padEnd(40)} ${data.length}\t bytes written`);
+	console.log(`${`${file}:`.padEnd(40)} ${data.length}\t bytes written`);
 	fs.writeFileSync(file, data);
 }
 
@@ -36,16 +36,35 @@ function renderRoute<P, I>(
 	partialBase: PartialBase,
 	route: RouteDefinition<P, I>,
 	props: Omit<P, 'base'> & I): [string, string, JSX.Element | null] {
-	const path = route.toPath(props);
+	const parsedPath = route.toPath(props);
 	const site = partialBase.site?.endsWith('/') ? partialBase.site.substring(0, partialBase.site.length - 1) : partialBase.site;
 	const publicPath = partialBase.publicPath?.endsWith('/') ? partialBase.publicPath.substring(0, partialBase.publicPath.length - 1) : partialBase.publicPath;
 
 	const base: PageBase = {
-		canonical: site ? `${site}${publicPath}${path}` : null,
+		link: {
+			canonical: site ? `${site}${publicPath}${parsedPath}` : null,
+			'og:url': site ? `${site}${publicPath}${parsedPath}` : null,
+		},
 		...partialBase,
 	}
-	const file = path.endsWith('.xml') ? `${path}` : path.endsWith('/') ? `${path}index.html` : `${path}.html`;
-	return [file, path, route.tryRender(path)?.({ base, ...props} as unknown as P) ?? null];
+	const file =
+		parsedPath.endsWith('.xml') ? `${parsedPath}` :
+		parsedPath.endsWith('/') ? `${parsedPath}index.html` :
+		`${parsedPath}.html`;
+	const renderFunction = route.tryRender(parsedPath);
+	if (!renderFunction) {
+		throw new Error(`Attempting to render ${route}, we got a problem when we parsed ${parsedPath} to a route constructor`);
+	}
+	return [file, parsedPath, renderFunction({ base, ...props} as unknown as P) ?? null];
+}
+
+function renderFeed<P, I>(
+	partialBase: PartialBase,
+	route: RouteDefinition<P, I>,
+	props: Omit<P, 'base'> & I,
+	posts: PaginatedContent
+): ((partialBase: PartialBase) => [string, string, JSX.Element | null])[] {
+
 }
 
 export default function render(assets: Record<string, string>) {
@@ -58,6 +77,7 @@ export default function render(assets: Record<string, string>) {
 		urls: [],
 		js,
 		css: Object.keys(assets).filter(e => e.endsWith('.css')).map(e => `/${e}`),
+
 	}
 	const pages: {
 		[K in keyof typeof routes]: ((partialBase: PartialBase) => [string, string, JSX.Element | null])[];

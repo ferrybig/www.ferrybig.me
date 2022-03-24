@@ -36,7 +36,7 @@ export function escape(input: unknown): string {
 	}
 }
 
-export function escapeArgument([key, value]: [string, any]): string {
+export function escapeArgument([key, value]: [string, unknown]): string {
 	if (value === true) return ` ${escape(translateMap[key] ?? key)}`;
 	if (value === false) return ``;
 	if (value === undefined) return ``;

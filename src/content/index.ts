@@ -2,6 +2,7 @@ import ContentDefinition from '../types/ContentDefinition';
 import findOrCreate from '../utils/findOrCreate';
 import paginate from '../utils/paginate';
 import sortByKey from '../utils/sortByKey';
+import importedTags from './tags';
 import blog from './blog';
 import carriers from './carriers';
 
@@ -30,39 +31,31 @@ function split(body: string, slug: string): { title: string, titleHTML: string, 
 	return { title: decodeEntities(match[1].replace(/<\/?[^>]+(>|$)/g, "")), titleHTML: match[1], body: body.substring(match[0].length) };
 }
 
-const content: ContentDefinition[] = [...blog, ...carriers].map(({default: body, endDate, hidden, ...rest}) => ({
-	...rest,
-	endDate: endDate ?? null,
-	hidden: hidden ?? false,
-	...split(body, rest.slug),
-})).sort(sortByKey('date', false, sortByKey('created', false)));
+function mdToContentDefinition({default: body, endDate, hidden, ...rest}: typeof import('*.md')): ContentDefinition {
+	return {
+		...rest,
+		endDate: endDate ?? null,
+		hidden: hidden ?? false,
+		...split(body, rest.slug),
+	};
+}
+const tags: Partial<Record<string, ContentDefinition>> = {};
+for (const tag of importedTags) {
+	tags[tag.slug] = mdToContentDefinition(tag);
+}
+
+const content: ContentDefinition[] = [...blog, ...carriers]
+	.map(mdToContentDefinition)
+	.sort(sortByKey('date', false, sortByKey('created', false)));
 
 
 type PaginatedContent = ContentDefinition[][];
 function makeOverview(posts: ContentDefinition[], paginateSize = 12): {
 	everything: PaginatedContent,
-	perYear: {
-		year: string,
-		next: null | {
-			year: string,
-		},
-		previous: null | {
-			year: string,
-		},
-		content: PaginatedContent,
-	}[],
 	perPeriod: {
 		year: string,
 		month: string,
-		next: null | {
-			year: string,
-			month: string,
-		},
-		previous: null | {
-			year: string,
-			month: string,
-		},
-		content: PaginatedContent,
+		content: ContentDefinition[],
 	}[],
 	perTag: {
 		tag: string,
@@ -94,6 +87,7 @@ function makeOverview(posts: ContentDefinition[], paginateSize = 12): {
 	}[] = [];
 	const perTag: {
 		tag: string,
+		tagContent: ContentDefinition | null,
 		content: ContentDefinition[],
 	}[] = [];
 	const everything: ContentDefinition[] = [];
@@ -121,6 +115,7 @@ function makeOverview(posts: ContentDefinition[], paginateSize = 12): {
 		for (const tag of [...post.tags, ...post.extraTags]) {
 			findOrCreate(perTag, i => i.tag === tag, () => ({
 				tag,
+				tagContent: tags[tag] ?? null,
 				content: [],
 			})).content.push(post);
 		}

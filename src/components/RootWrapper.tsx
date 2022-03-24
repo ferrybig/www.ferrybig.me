@@ -31,8 +31,11 @@ export default function RootWrapper({
 					<meta name="viewport" content="width=device-width, initial-scale=1"/>
 					<meta name="author" content="Fernando van Loenhout"/>
 					<meta name="color-scheme" content="light dark"/>
-					{base.canonical ? <meta property="og:url" content={base.canonical}/> : null}
-					{base.canonical ? <link rel="canonical" href={base.canonical}/> : null}
+					{Object.entries(base.link).filter((e): e is [string, string] => !!e[1]).map(([name, value]) => ['og:url'].includes(name) ? (
+						<meta property={name} content={value}/>
+					) : (
+						<link rel={name} href={value}/>
+					))}
 					{base.css.map(css => (
 						<link href={css} rel="stylesheet"/>
 					))}
