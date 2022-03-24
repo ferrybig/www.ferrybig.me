@@ -1,5 +1,6 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
+/* eslint-disable no-undef */
 const { spawn } = require('child_process');
-const { resolve } = require('path');
 
 module.exports = function(buffer) {
 	return this.data.git.then(std => {
@@ -14,8 +15,8 @@ module.exports.pitch = function (remainingRequest, precedingRequest, data) {
 	data.git = new Promise((resolve, reject) => {
 		const child = spawn('git', ['log', '--format=%aD', '--follow', '--', this.resource], { stdio: ['ignore', 'pipe', process.stderr], windowsHide: true });
 		let stdout = '';
-		child.stdout.on('data', (data) => {
-			stdout += data;
+		child.stdout.on('data', (d) => {
+			stdout += d;
 		});
 		child.on('close', (code) => {
 			if (code !== 0) {

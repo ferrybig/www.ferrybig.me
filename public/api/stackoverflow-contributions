@@ -1,0 +1,599 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom" xmlns:creativeCommons="http://backend.userland.com/creativeCommonsRssModule" xmlns:re="http://purl.org/atompub/rank/1.0">
+    <title type="text">User Ferrybig - Stack Overflow</title>
+    <link rel="self" href="https://stackoverflow.com/feeds/user/1542723" type="application/atom+xml" />
+    <link rel="alternate" href="https://stackoverflow.com/users/1542723" type="text/html" />
+    <subtitle>most recent 30 from stackoverflow.com</subtitle>
+    <updated>2022-03-24T12:59:00Z</updated>
+    <id>https://stackoverflow.com/feeds/user/1542723</id>
+    <creativeCommons:license>https://creativecommons.org/licenses/by-sa/4.0/rdf</creativeCommons:license> 
+            <entry>
+        <id>https://stackoverflow.com/questions/71237704/-/71237887#71237887</id>
+        <re:rank scheme="https://stackoverflow.com">0</re:rank>
+        <title type="text">Answer by Ferrybig for How can I use bukkit Javaplugin without &#x27;extends javaplugin&#x27;?</title>
+        <author>
+            <name>Ferrybig</name>
+            <uri>https://stackoverflow.com/users/1542723</uri>
+        </author>
+        <link rel="alternate" href="https://stackoverflow.com/questions/71237704/how-can-i-use-bukkit-javaplugin-without-extends-javaplugin/71237887#71237887" />
+        <published>2022-02-23T13:33:27Z</published>
+        <updated>2022-02-23T13:33:27Z</updated>
+        <summary type="html">&lt;p&gt;The standard way to do this in Bukkit, is passing the instance of your plugin to the constructor of the listener&lt;/p&gt;&#xA;&lt;pre class=&quot;lang-java prettyprint-override&quot;&gt;&lt;code&gt;public class (class name spot) extends JavaPlugin implements Listener {&#xA;&#xA;    @Override&#xA;    public void onEnable() {&#xA;        getLogger().warning(&amp;quot;Server started.&amp;quot;);&#xA;&#xA;        first_function first = new first_function(this);&#xA;        first.onEnable();&#xA;&#xA;        getLogger().info(&amp;quot;Nice try!&amp;quot;); // check point&#xA;&#xA;    }&#xA;}&#xA;&#xA;class first_function implements Listener {&#xA;&#xA;    private final (class name spot) plugin;&#xA;&#xA;    first_function((class name spot) plugin) {&#xA;        this.plugin = plugin;&#xA;    }&#xA;&#xA;    void onEnable() {&#xA;        String abcd = &amp;quot;abc&amp;quot;;&#xA;        this.plugin.getLogger().info(abcd);&#xA;    }&#xA;}&#xA;&lt;/code&gt;&lt;/pre&gt;&#xA;&lt;p&gt;We modify the place where you create the listener to pass the plugin, and then store this inside the listener via the constructor. Then later we refer to &lt;code&gt;this.plugin&lt;/code&gt; to access methods on the plugin instance.&lt;/p&gt;&#xA;</summary>
+    </entry>
+            <entry>
+        <id>https://stackoverflow.com/questions/71141571/-/71144624#71144624</id>
+        <re:rank scheme="https://stackoverflow.com">2</re:rank>
+        <title type="text">Answer by Ferrybig for How exactly does compare method in comparator work?</title>
+        <author>
+            <name>Ferrybig</name>
+            <uri>https://stackoverflow.com/users/1542723</uri>
+        </author>
+        <link rel="alternate" href="https://stackoverflow.com/questions/71141571/how-exactly-does-compare-method-in-comparator-work/71144624#71144624" />
+        <published>2022-02-16T15:28:14Z</published>
+        <updated>2022-02-16T15:28:14Z</updated>
+        <summary type="html">&lt;p&gt;When you call sort, Java internally uses &lt;a href=&quot;https://en.wikipedia.org/wiki/Timsort&quot; rel=&quot;nofollow noreferrer&quot;&gt;Tim sort&lt;/a&gt; to sort the list. (Note that the actual used sorting method is not a requirement by the language, future updates for Java may chance it even in minor updates)&lt;/p&gt;&#xA;&lt;p&gt;Since your list is smaller than the typical threshold used for Tim sorts merge vs insertion behavior, it Tim sort delegates sorting your list to &lt;a href=&quot;https://en.wikipedia.org/wiki/Insertion_sort&quot; rel=&quot;nofollow noreferrer&quot;&gt;insertion sorting&lt;/a&gt;.&lt;/p&gt;&#xA;&lt;p&gt;Java then uses a variant of insertion sort that tries to minimize the comparisons done by using a binary search to find the index.&lt;/p&gt;&#xA;&lt;p&gt;It starts with:&lt;/p&gt;&#xA;&lt;pre&gt;&lt;code&gt;Sorted: []&#xA;Unsorted: [3,2,6,1]&#xA;&lt;/code&gt;&lt;/pre&gt;&#xA;&lt;p&gt;It picks the first number, no further checks are done, sine a list of 1 is always sorted&lt;/p&gt;&#xA;&lt;pre&gt;&lt;code&gt;Sorted: [3]&#xA;Unsorted: [2,6,1]&#xA;&lt;/code&gt;&lt;/pre&gt;&#xA;&lt;p&gt;It then looks at the second number, and sees that it is smaller, so it puts it before the 3. One observation here, is that it puts the item under test in the A variable, &lt;em&gt;note that this is an implementation detail&lt;/em&gt;. Because the compare function return &lt;code&gt;-1&lt;/code&gt;, it knows the item has to be inserted to the left of the checked element)&lt;/p&gt;&#xA;&lt;pre&gt;&lt;code&gt;Comparisons done: (2, 3) =&amp;gt; -1&#xA;Sorted: [2,3]&#xA;Unsorted: [6,1]&#xA;&lt;/code&gt;&lt;/pre&gt;&#xA;&lt;p&gt;Now that we have 2 numbers, we either have to pick the first or second one and hope it was the best choose, java always compares it with the first number&lt;/p&gt;&#xA;&lt;pre&gt;&lt;code&gt;Comparisons done: (6, 2) =&amp;gt; 1, (6, 3) =&amp;gt; 1&#xA;Sorted: [2, 3, 6]&#xA;Unsorted: [1]&#xA;&lt;/code&gt;&lt;/pre&gt;&#xA;&lt;p&gt;Now we are the last item, we first call the compare function between 1 and 3. We either get lucky and it returns 0, or we have to do 1 call more to see where the item belongs&lt;/p&gt;&#xA;&lt;pre&gt;&lt;code&gt;Comparisons done: (1, 3) =&amp;gt; -1, (1, 2) =&amp;gt; -1&#xA;Sorted: [1, 2, 3, 6]&#xA;Unsorted: []&#xA;&lt;/code&gt;&lt;/pre&gt;&#xA;&lt;p&gt;We are done with the algorithm&lt;/p&gt;&#xA;</summary>
+    </entry>
+            <entry>
+        <id>https://stackoverflow.com/questions/69078285/-/69078649#69078649</id>
+        <re:rank scheme="https://stackoverflow.com">1</re:rank>
+        <title type="text">Answer by Ferrybig for Any way to use &#x27;clear&#x27; in a Bash script *without* its byte sequence being output to stdout?</title>
+        <author>
+            <name>Ferrybig</name>
+            <uri>https://stackoverflow.com/users/1542723</uri>
+        </author>
+        <link rel="alternate" href="https://stackoverflow.com/questions/69078285/any-way-to-use-clear-in-a-bash-script-without-its-byte-sequence-being-output/69078649#69078649" />
+        <published>2021-09-06T18:00:05Z</published>
+        <updated>2021-09-06T18:00:05Z</updated>
+        <summary type="html">&lt;p&gt;One solution you could do, is detecting if the &lt;code&gt;STDOUT&lt;/code&gt; (1) is connected to a terminal. This comes from the perspective that you either redirect to a file, or output to a terminal, but neither at the same time (as can be done with &lt;code&gt;tee&lt;/code&gt;)&lt;/p&gt;&#xA;&lt;p&gt;Your clear command then becomes:&lt;/p&gt;&#xA;&#xA;&lt;pre&gt;&lt;code&gt;if [ -t 1 ] ; then clear; fi&#xA;&lt;/code&gt;&lt;/pre&gt;&#xA;</summary>
+    </entry>
+            <entry>
+        <id>https://stackoverflow.com/questions/66708098/-/66708367#66708367</id>
+        <re:rank scheme="https://stackoverflow.com">1</re:rank>
+        <title type="text">Answer by Ferrybig for How to put greater words at the end when using insertion sort?</title>
+        <author>
+            <name>Ferrybig</name>
+            <uri>https://stackoverflow.com/users/1542723</uri>
+        </author>
+        <link rel="alternate" href="https://stackoverflow.com/questions/66708098/how-to-put-greater-words-at-the-end-when-using-insertion-sort/66708367#66708367" />
+        <published>2021-03-19T12:40:45Z</published>
+        <updated>2021-03-19T12:59:29Z</updated>
+        <summary type="html">&lt;p&gt;At the moment, you use compareTo to compare the 2 items. Lets update this this to use a Comparator:&lt;/p&gt;&#xA;&lt;pre&gt;&lt;code&gt;// Sort by the natural order&#xA;Comparator&amp;lt;string&amp;gt; cmp = Comparator.naturalOrder();&#xA;...&#xA;if (cmp.compare(key, inputArray[i]) &amp;gt; 0) {//here too&#xA;&lt;/code&gt;&lt;/pre&gt;&#xA;&lt;p&gt;Since you want ito ignore the case during sorting, you need to use a case insensitive comparator:&lt;/p&gt;&#xA;&lt;pre&gt;&lt;code&gt;Comparator cmp =  String.CASE_INSENSITIVE_ORDER;&#xA;// Result = [ago, and, Fourscore, our, seven, years]&#xA;&lt;/code&gt;&lt;/pre&gt;&#xA;</summary>
+    </entry>
+            <entry>
+        <id>https://stackoverflow.com/questions/66687022/http2-nginx-server-200-response-for-xhr-post-request-to-a-static-file/66690670#66690670</id>
+        <re:rank scheme="https://stackoverflow.com">1</re:rank>
+        <title type="text">Answer by Ferrybig for HTTP2 Nginx server 200 response for XHR POST Request to a Static FILE</title>
+        <author>
+            <name>Ferrybig</name>
+            <uri>https://stackoverflow.com/users/1542723</uri>
+        </author>
+        <link rel="alternate" href="https://stackoverflow.com/questions/66687022/http2-nginx-server-200-response-for-xhr-post-request-to-a-static-file/66690670#66690670" />
+        <published>2021-03-18T11:58:37Z</published>
+        <updated>2021-03-18T11:58:37Z</updated>
+        <summary type="html">&lt;p&gt;This is intentional.&lt;/p&gt;&#xA;&lt;p&gt;NGINX knows that your renderer for a 405 error doesn&#x27;t need any body, so with HTTP, it discards any received data. This is really how HTTP1.1 has been designed.&lt;/p&gt;&#xA;&lt;p&gt;With HTTP2, it becomes smarter, it tells the other side to abort sending data, and sends the resulting page. This is done to prevent wasting internet packets for data that is going to be discarded anyway.&lt;/p&gt;&#xA;&lt;p&gt;The way HTTP2 and higher works, is just smarter and wastes less of your data for things that are already known (for example, if you need to login for a file upload, it just tells the client as soon as possible that there is an error, instead waiting until your full file has been uploaded)&lt;/p&gt;&#xA;&lt;p&gt;When you send a request to a .php file, the php process takes it over, and it doesn&#x27;t have a way to instantly return a result, so NGINX streams the whole page to php before showing the error, because PHP only starts executing the code on the page once the file has been received, and it might do something with the POST request&lt;/p&gt;&#xA;</summary>
+    </entry>
+            <entry>
+        <id>https://stackoverflow.com/questions/66359259/-/66359283#66359283</id>
+        <re:rank scheme="https://stackoverflow.com">3</re:rank>
+        <title type="text">Answer by Ferrybig for Is it possible to tell if a Git hook has been bypassed?</title>
+        <author>
+            <name>Ferrybig</name>
+            <uri>https://stackoverflow.com/users/1542723</uri>
+        </author>
+        <link rel="alternate" href="https://stackoverflow.com/questions/66359259/is-it-possible-to-tell-if-a-git-hook-has-been-bypassed/66359283#66359283" />
+        <published>2021-02-24T21:46:37Z</published>
+        <updated>2021-02-24T21:46:37Z</updated>
+        <summary type="html">&lt;p&gt;No, they cannot see if you bypassed the hook.&lt;/p&gt;&#xA;&lt;p&gt;For this reason, implement the crucial checking scripts server side, and reject any pushes containing &amp;quot;bad&amp;quot; commits&lt;/p&gt;&#xA;</summary>
+    </entry>
+            <entry>
+        <id>https://stackoverflow.com/questions/66290924/-/66291073#66291073</id>
+        <re:rank scheme="https://stackoverflow.com">2</re:rank>
+        <title type="text">Answer by Ferrybig for Wake-on-Lan app only works for recently shutdown devices</title>
+        <author>
+            <name>Ferrybig</name>
+            <uri>https://stackoverflow.com/users/1542723</uri>
+        </author>
+        <link rel="alternate" href="https://stackoverflow.com/questions/66290924/wake-on-lan-app-only-works-for-recently-shutdown-devices/66291073#66291073" />
+        <published>2021-02-20T11:38:40Z</published>
+        <updated>2021-02-20T11:38:40Z</updated>
+        <summary type="html">&lt;p&gt;When sending a wakeonlan packet, you need to make sure the target device can receive the packet.&lt;/p&gt;&#xA;&lt;p&gt;At the moment, you are sending the packet to the IPv4 address of the device.&lt;/p&gt;&#xA;&lt;p&gt;When your computer has to send a packet to an IPv4 address, it needs to know its MAC address. So it asks the network &amp;quot;Who has IPv4 192.168.2.32? Tell me your mac address&amp;quot;. Since you TV is shutdown, it does not respond.&lt;/p&gt;&#xA;&lt;p&gt;The real wake on lan packet will never be send, as it des not know the destination mac address.&lt;/p&gt;&#xA;&lt;p&gt;The real question then becomes, why does it work directly after shutting down, and the reason for this is that your OS keeps a list of IPv4&#x2B;mac address table, so it can quickly send the packet out. You can view this list with the command &lt;code&gt;arp -av&lt;/code&gt; on Windows&lt;/p&gt;&#xA;&lt;p&gt;Note how it shows &amp;quot;dynamic&amp;quot; when your program successfully wakes the TV, but shows &amp;quot;invalid&amp;quot; when it fails to wake the TV up.&lt;/p&gt;&#xA;&lt;p&gt;One solution for this, is sending the packet to the broadcast IPv4 address, which every devices receives. This IPv4 address typically ends with &lt;code&gt;.255&lt;/code&gt; with typical consumer IPv4 ranges.&lt;/p&gt;&#xA;</summary>
+    </entry>
+            <entry>
+        <id>https://stackoverflow.com/questions/66102669/how-to-fix-attributekey-leading-to-illegalargumentexception-in-netty-4/66102978#66102978</id>
+        <re:rank scheme="https://stackoverflow.com">0</re:rank>
+        <title type="text">Answer by Ferrybig for How to fix AttributeKey leading to IllegalArgumentException in Netty 4</title>
+        <author>
+            <name>Ferrybig</name>
+            <uri>https://stackoverflow.com/users/1542723</uri>
+        </author>
+        <link rel="alternate" href="https://stackoverflow.com/questions/66102669/how-to-fix-attributekey-leading-to-illegalargumentexception-in-netty-4/66102978#66102978" />
+        <published>2021-02-08T13:52:09Z</published>
+        <updated>2021-02-08T13:52:09Z</updated>
+        <summary type="html">&lt;p&gt;When using Attribute keys, make sure you only construct them 1 time.&lt;/p&gt;&#xA;&lt;p&gt;This means, you need to store them inside a &lt;code&gt;private static final&lt;/code&gt; variable, a &lt;code&gt;private final&lt;/code&gt; variable is not good enough, as it gives error when the class is constructed multiple times.&lt;/p&gt;&#xA;&lt;p&gt;If it is impossible to make sure the method &lt;code&gt;newInstance&lt;/code&gt; method is called a single time, you need to use &lt;code&gt;AttributeKey.valueOf&lt;/code&gt;, so it turns off conflict detection. This is required for some unit testing framework, where the libraries are loaded 1 time, but the application code is dynamically restarted.&lt;/p&gt;&#xA;</summary>
+    </entry>
+            <entry>
+        <id>https://stackoverflow.com/questions/54960185/-/54960262#54960262</id>
+        <re:rank scheme="https://stackoverflow.com">3</re:rank>
+        <title type="text">Answer by Ferrybig for Vue router - missing param for named route</title>
+        <author>
+            <name>Ferrybig</name>
+            <uri>https://stackoverflow.com/users/1542723</uri>
+        </author>
+        <link rel="alternate" href="https://stackoverflow.com/questions/54960185/vue-router-missing-param-for-named-route/54960262#54960262" />
+        <published>2019-03-02T15:50:03Z</published>
+        <updated>2021-01-04T14:36:44Z</updated>
+        <summary type="html">&lt;p&gt;You should make a normal html button, and then manually redirect the user after you make your backend object (and use css to style the button)&lt;/p&gt;&#xA;&lt;pre class=&quot;lang-html prettyprint-override&quot;&gt;&lt;code&gt;    &amp;lt;button @click=&amp;quot;createDetail()&amp;quot;&amp;gt; Create Detail&#xA;    &amp;lt;/button&amp;gt;&#xA;&lt;/code&gt;&lt;/pre&gt;&#xA;&lt;pre class=&quot;lang-js prettyprint-override&quot;&gt;&lt;code&gt;    createDetail(){&#xA;        makeBackendCall().then(detail=&amp;gt;{&#xA;            this.$router.push({&#xA;                name: DetailView,&#xA;                params: {&#xA;                    id: detail.id&#xA;                }&#xA;            })&#xA;        })&#xA;    }&#xA;&lt;/code&gt;&lt;/pre&gt;&#xA;&lt;p&gt;In the above code, &lt;code&gt;$router&lt;/code&gt; is a link to the current active Vue router, &lt;a href=&quot;https://router.vuejs.org/guide/essentials/navigation.html&quot; rel=&quot;nofollow noreferrer&quot;&gt;and there are also other methods you can call on it, to do differend things&lt;/a&gt;&lt;/p&gt;&#xA;</summary>
+    </entry>
+            <entry>
+        <id>https://stackoverflow.com/questions/40862160/-/40862161#40862161</id>
+        <re:rank scheme="https://stackoverflow.com">9</re:rank>
+        <title type="text">Answer by Ferrybig for Netty doesn&#x27;t write</title>
+        <author>
+            <name>Ferrybig</name>
+            <uri>https://stackoverflow.com/users/1542723</uri>
+        </author>
+        <link rel="alternate" href="https://stackoverflow.com/questions/40862160/netty-doesnt-write/40862161#40862161" />
+        <published>2016-11-29T09:28:51Z</published>
+        <updated>2020-05-07T08:14:34Z</updated>
+        <summary type="html">&lt;p&gt;Netty is asynchronous, meaning that it won&#x27;t throw exceptions when a write failed. Instead of throwing exceptions, it returns a &lt;code&gt;Future&amp;lt;?&amp;gt;&lt;/code&gt; that will be updated when the request is done. Make sure to log any exceptions coming from this as your first debugging steps:&lt;/p&gt;&#xA;&#xA;&lt;pre&gt;&lt;code&gt;channel.writeAndFlush(...).addListener(new GenericFutureListener&amp;lt;Future&amp;lt;Object&amp;gt;&amp;gt;() {&#xA;    @Override&#xA;    public void operationComplete(Future&amp;lt;Object&amp;gt; future) {&#xA;        // TODO: Use proper logger in production here&#xA;        if (future.isSuccess()) {&#xA;            System.out.println(&quot;Data written succesfully&quot;);&#xA;        } else {&#xA;            System.out.println(&quot;Data failed to write:&quot;);&#xA;            future.cause().printStackTrace();&#xA;        }&#xA;    }&#xA;});&#xA;&lt;/code&gt;&lt;/pre&gt;&#xA;&#xA;&lt;p&gt;Or more simply:&lt;/p&gt;&#xA;&#xA;&lt;pre&gt;&lt;code&gt;channel.writeAndFlush(...).addListener(ChannelFutureListener.FIRE_EXCEPTION_ON_FAILURE);&#xA;&lt;/code&gt;&lt;/pre&gt;&#xA;&#xA;&lt;p&gt;After you get the root cause of the exception, there could be multiple problems:&lt;/p&gt;&#xA;&#xA;&lt;h1&gt;&lt;code&gt;java.lang.UnsupportedOperationException:&lt;/code&gt;&lt;br&gt;&lt;code&gt;unsupported message type: &amp;lt;type&amp;gt; (expected: ...)&lt;/code&gt;&lt;/h1&gt;&#xA;&#xA;&lt;p&gt;&lt;em&gt;Notice:&lt;/em&gt; This also throws when using an &lt;a href=&quot;https://netty.io/4.0/api/io/netty/handler/codec/serialization/ObjectEncoder.html&quot; rel=&quot;nofollow noreferrer&quot;&gt;&lt;code&gt;ObjectEncoder&lt;/code&gt;&lt;/a&gt;, but your object does not implements &lt;a href=&quot;http://docs.oracle.com/javase/7/docs/api/java/io/Serializable.html?is-external=true&quot; rel=&quot;nofollow noreferrer&quot;&gt;&lt;code&gt;Serializable&lt;/code&gt;&lt;/a&gt;&lt;/p&gt;&#xA;&#xA;&lt;p&gt;A default Netty channel can only send &lt;code&gt;ByteBuf&lt;/code&gt;s and &lt;code&gt;FileRegion&lt;/code&gt;s. You need to convert your objects to these types either by adding more handlers to the pipeline, or converting them manually to &lt;code&gt;ByteBuf&lt;/code&gt;s.&lt;/p&gt;&#xA;&#xA;&lt;p&gt;A &lt;code&gt;ByteBuf&lt;/code&gt; is the Netty variant of a byte array, but has the potential for performance because it can be stored in the direct memory space.&lt;/p&gt;&#xA;&#xA;&lt;p&gt;The following handlers are commonly used:&lt;/p&gt;&#xA;&#xA;&lt;blockquote&gt;&#xA;  &lt;p&gt;To convert a &lt;code&gt;String&lt;/code&gt; use a &lt;code&gt;StringEncoder&lt;/code&gt;&#xA;  To convert a &lt;code&gt;Serializable&lt;/code&gt; use a &lt;code&gt;ObjectEncoder&lt;/code&gt; (warning, not compatible with normal Java object streams)&#xA;  To convert a &lt;code&gt;byte[]&lt;/code&gt; use a &lt;code&gt;ByteArrayEncoder&lt;/code&gt;&lt;/p&gt;&#xA;&lt;/blockquote&gt;&#xA;&#xA;&lt;p&gt;&lt;em&gt;Notice:&lt;/em&gt; Since TCP is a stream based protocol, you usually want some form of packet sizes attached, since you may not receive exact packets that you write. See &lt;a href=&quot;http://netty.io/wiki/user-guide-for-4.x.html#wiki-h3-11&quot; rel=&quot;nofollow noreferrer&quot;&gt;Dealing with a Stream-based Transport&lt;/a&gt; in the Netty wiki for more information.&lt;/p&gt;&#xA;</summary>
+    </entry>
+    <entry>
+        <id>https://stackoverflow.com/q/40862160</id>
+        <re:rank scheme="https://stackoverflow.com">1</re:rank>
+        <title type="text">Netty doesn&#x27;t write</title>
+            <category scheme="https://stackoverflow.com/tags" term="java" />
+            <category scheme="https://stackoverflow.com/tags" term="netty" />
+        <author>
+            <name>Ferrybig</name>
+            <uri>https://stackoverflow.com/users/1542723</uri>
+        </author>
+        <link rel="alternate" href="https://stackoverflow.com/questions/40862160/netty-doesnt-write" />
+        <published>2016-11-29T09:28:51Z</published>
+        <updated>2020-05-07T08:14:34Z</updated>
+        <summary type="html">
+            &lt;p&gt;When trying to write with netty, the written data never ends up at the remote side, confirmed with Wireshark.&lt;/p&gt;&#xA;&#xA;&lt;p&gt;I have tried:&lt;/p&gt;&#xA;&#xA;&lt;pre&gt;&lt;code&gt;//Directly using writeAndFlush&#xA;channel.writeAndFlush(new Packet());&#xA;&#xA;//Manually flushing&#xA;channel.write(new Packet());&#xA;channel.flush();&#xA;&#xA;// Even sending bytes won&#x27;t work:&#xA;channel.writeAndFlush(new byte[]{1,2,3});&#xA;&lt;/code&gt;&lt;/pre&gt;&#xA;&#xA;&lt;p&gt;No exception is caught when I wrap it in &lt;code&gt;try{...}catch(Throwable e){e.printStackTrace();}&lt;/code&gt;&lt;/p&gt;&#xA;&#xA;&lt;p&gt;What can I do to debug this problem?&lt;/p&gt;&#xA;
+        </summary>
+    </entry>
+            <entry>
+        <id>https://stackoverflow.com/questions/61596904/-/61597084#61597084</id>
+        <re:rank scheme="https://stackoverflow.com">1</re:rank>
+        <title type="text">Answer by Ferrybig for Why does Intellij display weird parameter names?</title>
+        <author>
+            <name>Ferrybig</name>
+            <uri>https://stackoverflow.com/users/1542723</uri>
+        </author>
+        <link rel="alternate" href="https://stackoverflow.com/questions/61596904/why-does-intellij-display-weird-parameter-names/61597084#61597084" />
+        <published>2020-05-04T16:32:13Z</published>
+        <updated>2020-05-04T16:32:13Z</updated>
+        <summary type="html">&lt;p&gt;When IntelliJ tries to figure out the parameter names, it looks into the following places:&lt;/p&gt;&#xA;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;&lt;p&gt;Source code&lt;/p&gt;&#xA;&#xA;&lt;p&gt;If you added source code to a library file, it uses the names from the source code for the names in the documentation&lt;/p&gt;&lt;/li&gt;&#xA;&lt;li&gt;&lt;p&gt;Build jar file&lt;/p&gt;&#xA;&#xA;&lt;p&gt;In most cases, the build jar file contains debug information about the parameter names, this is not always the case&lt;/p&gt;&lt;/li&gt;&#xA;&lt;li&gt;&lt;p&gt;Random generated names&lt;/p&gt;&#xA;&#xA;&lt;p&gt;If the above fails, it will generate random meaningless names, like &lt;code&gt;i1&lt;/code&gt; for the first number parameter.&lt;/p&gt;&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;</summary>
+    </entry>
+            <entry>
+        <id>https://stackoverflow.com/questions/55246947/-/55247021#55247021</id>
+        <re:rank scheme="https://stackoverflow.com">10</re:rank>
+        <title type="text">Answer by Ferrybig for beforeDestroy vue dynamic component</title>
+        <author>
+            <name>Ferrybig</name>
+            <uri>https://stackoverflow.com/users/1542723</uri>
+        </author>
+        <link rel="alternate" href="https://stackoverflow.com/questions/55246947/beforedestroy-vue-dynamic-component/55247021#55247021" />
+        <published>2019-03-19T17:41:43Z</published>
+        <updated>2020-03-31T02:15:37Z</updated>
+        <summary type="html">&lt;p&gt;As you already discovered, when you keep a component alive, it doesn&#x27;t throw &quot;&lt;code&gt;beforeDestroy&lt;/code&gt;&quot; and &quot;&lt;code&gt;created&lt;/code&gt;&quot; as normal components, since its being kept alive.&lt;/p&gt;&#xA;&#xA;&lt;p&gt;Therefore, Vue has defined other lifecycle methods for this purpose:&lt;/p&gt;&#xA;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;&lt;a href=&quot;https://vuejs.org/v2/api/#activated&quot; rel=&quot;noreferrer&quot;&gt;&lt;code&gt;activated&lt;/code&gt;&lt;/a&gt; - This gets called when &lt;code&gt;keep-alive&lt;/code&gt; loads the component&lt;/li&gt;&#xA;&lt;li&gt;&lt;a href=&quot;https://vuejs.org/v2/api/#deactivated&quot; rel=&quot;noreferrer&quot;&gt;&lt;code&gt;deactivated&lt;/code&gt;&lt;/a&gt; - This gets called when &lt;code&gt;&amp;lt;keep-alive&amp;gt;&lt;/code&gt; unloads the component&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&#xA;&lt;p&gt;You use them like this:&lt;/p&gt;&#xA;&#xA;&lt;pre&gt;&lt;code&gt;export default {&#xA;    created() {&#xA;        console.log(&#x27;created&#x27;);&#xA;    },&#xA;    activated() {&#xA;        console.log(&#x27;activated&#x27;);&#xA;    },&#xA;    deactivated() {&#xA;        console.log(&#x27;deactivated&#x27;);&#xA;    },&#xA;    beforeDestroy() {&#xA;        console.log(&#x27;beforeDestroy&#x27;);&#xA;    },&#xA;}&#xA;&lt;/code&gt;&lt;/pre&gt;&#xA;</summary>
+    </entry>
+            <entry>
+        <id>https://stackoverflow.com/questions/60777958/-/60778044#60778044</id>
+        <re:rank scheme="https://stackoverflow.com">3</re:rank>
+        <title type="text">Answer by Ferrybig for Vue Single File Components, how to mount multiple?</title>
+        <author>
+            <name>Ferrybig</name>
+            <uri>https://stackoverflow.com/users/1542723</uri>
+        </author>
+        <link rel="alternate" href="https://stackoverflow.com/questions/60777958/vue-single-file-components-how-to-mount-multiple/60778044#60778044" />
+        <published>2020-03-20T16:29:27Z</published>
+        <updated>2020-03-20T16:29:27Z</updated>
+        <summary type="html">&lt;p&gt;HTML Does not support closing tags with /&gt;, its bahaves as the tag is not closed.&lt;/p&gt;&#xA;&#xA;&lt;p&gt;This means your structure looks like the following to the browser (check you elements with javascript disabled):&lt;/p&gt;&#xA;&#xA;&lt;pre&gt;&lt;code&gt;&amp;lt;div id=&quot;app&quot;&amp;gt;&#xA;    &amp;lt;Counter&amp;gt;&#xA;        &amp;lt;Goodbye&amp;gt;&#xA;            &amp;lt;Hello&amp;gt;&#xA;            &amp;lt;/Hello&amp;gt;&#xA;        &amp;lt;/Goodbye&amp;gt;&#xA;    &amp;lt;/Counter&amp;gt;&#xA;&amp;lt;/div&amp;gt;&#xA;&lt;/code&gt;&lt;/pre&gt;&#xA;&#xA;&lt;p&gt;This will of course not work, we need to update index.html to:&lt;/p&gt;&#xA;&#xA;&lt;pre&gt;&lt;code&gt;&amp;lt;div id=&quot;app&quot;&amp;gt;&#xA;    &amp;lt;Counter&amp;gt;&amp;lt;/Counter&amp;gt;&#xA;    &amp;lt;Goodbye&amp;gt;&amp;lt;/Goodbye&amp;gt;&#xA;    &amp;lt;Hello&amp;gt;&amp;lt;/Hello&amp;gt;&#xA;&amp;lt;/div&amp;gt;&#xA;&lt;/code&gt;&lt;/pre&gt;&#xA;</summary>
+    </entry>
+            <entry>
+        <id>https://stackoverflow.com/questions/23128232/-/35318079#35318079</id>
+        <re:rank scheme="https://stackoverflow.com">16</re:rank>
+        <title type="text">Answer by Ferrybig for How to get server response with netty client</title>
+        <author>
+            <name>Ferrybig</name>
+            <uri>https://stackoverflow.com/users/1542723</uri>
+        </author>
+        <link rel="alternate" href="https://stackoverflow.com/questions/23128232/how-to-get-server-response-with-netty-client/35318079#35318079" />
+        <published>2016-02-10T14:37:05Z</published>
+        <updated>2019-12-19T09:21:29Z</updated>
+        <summary type="html">&lt;p&gt;Returning a &lt;code&gt;Future&amp;lt;String&amp;gt;&lt;/code&gt; for the method is simple, we are going to implement the following method signature:&lt;/p&gt;&#xA;&#xA;&lt;pre&gt;&lt;code&gt;public Futute&amp;lt;String&amp;gt; sendMessage(String msg) {&#xA;&lt;/code&gt;&lt;/pre&gt;&#xA;&#xA;&lt;p&gt;The is relatively easy to do when you are known with the async programming structures. To solve the design problem, we are going to do the following steps:&lt;/p&gt;&#xA;&#xA;&lt;ol&gt;&#xA;&lt;li&gt;&lt;p&gt;When a message is written, add a &lt;code&gt;Promise&amp;lt;String&amp;gt;&lt;/code&gt; to a &lt;a href=&quot;https://docs.oracle.com/javase/7/docs/api/java/util/concurrent/ArrayBlockingQueue.html&quot; rel=&quot;nofollow noreferrer&quot;&gt;&lt;code&gt;ArrayBlockingQueue&amp;lt;Promise&amp;gt;&lt;/code&gt;&lt;/a&gt;&lt;/p&gt;&#xA;&#xA;&lt;p&gt;This will serve as a list of what messages have recently been send, and allows us to change our &lt;code&gt;Future&amp;lt;String&amp;gt;&lt;/code&gt; objects return result.&lt;/p&gt;&lt;/li&gt;&#xA;&lt;li&gt;&lt;p&gt;When a message arrives back into the handler, resolve it against the head of the &lt;code&gt;Queue&lt;/code&gt;&lt;/p&gt;&#xA;&#xA;&lt;p&gt;This allows us to get the correct future to change.&lt;/p&gt;&lt;/li&gt;&#xA;&lt;li&gt;&lt;p&gt;Update the state of the &lt;code&gt;Promise&amp;lt;String&amp;gt;&lt;/code&gt;&lt;/p&gt;&#xA;&#xA;&lt;p&gt;We call &lt;code&gt;promise.setSuccess()&lt;/code&gt; to finally set the state on the object, this will propagate back to the future object.&lt;/p&gt;&lt;/li&gt;&#xA;&lt;/ol&gt;&#xA;&#xA;&lt;h2&gt;Example code&lt;/h2&gt;&#xA;&#xA;&lt;pre&gt;&lt;code&gt;public class ClientHandler extends SimpleChannelInboundHandler&amp;lt;String&amp;gt; {&#xA;    private ChannelHandlerContext ctx;&#xA;    private BlockingQueue&amp;lt;Promise&amp;lt;String&amp;gt;&amp;gt; messageList = new ArrayBlockingQueue&amp;lt;&amp;gt;(16);&#xA;&#xA;    @Override&#xA;    public void channelActive(ChannelHandlerContext ctx) {&#xA;        super.channelActive(ctx);&#xA;        this.ctx = ctx;&#xA;    }&#xA;&#xA;    @Override&#xA;    public void channelInactive(ChannelHandlerContext ctx) {&#xA;        super.channelInactive(ctx);&#xA;        synchronized(this){&#xA;            Promise&amp;lt;String&amp;gt; prom;&#xA;            while((prom = messageList.poll()) != null) &#xA;                prom.setFailure(new IOException(&quot;Connection lost&quot;));&#xA;            messageList = null;&#xA;        }&#xA;    }&#xA;&#xA;    public Future&amp;lt;String&amp;gt; sendMessage(String message) {&#xA;        if(ctx == null) &#xA;            throw new IllegalStateException();&#xA;        return sendMessage(message, ctx.executor().newPromise());&#xA;    }&#xA;&#xA;    public Future&amp;lt;String&amp;gt; sendMessage(String message, Promise&amp;lt;String&amp;gt; prom) {&#xA;        synchronized(this){&#xA;            if(messageList == null) {&#xA;                // Connection closed&#xA;                prom.setFailure(new IllegalStateException());&#xA;            } else if(messageList.offer(prom)) { &#xA;                // Connection open and message accepted&#xA;                ctx.writeAndFlush(message).addListener();&#xA;            } else { &#xA;                // Connection open and message rejected&#xA;                prom.setFailure(new BufferOverflowException());&#xA;            }&#xA;            return prom;&#xA;        }&#xA;    }&#xA;    @Override&#xA;    protected void messageReceived(ChannelHandlerContext ctx, String msg) {&#xA;        synchronized(this){&#xA;            if(messageList != null) {&#xA;                 messageList.poll().setSuccess(msg);&#xA;            }&#xA;        }&#xA;    }&#xA;}&#xA;&lt;/code&gt;&lt;/pre&gt;&#xA;&#xA;&lt;h2&gt;Documentation breakdown&lt;/h2&gt;&#xA;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;&lt;p&gt;&lt;code&gt;private ChannelHandlerContext ctx;&lt;/code&gt;&lt;/p&gt;&#xA;&#xA;&lt;p&gt;Used to store our reference to the ChannelHandlerContext, we use this so we can create promises&lt;/p&gt;&lt;/li&gt;&#xA;&lt;li&gt;&lt;p&gt;&lt;code&gt;private BlockingQueue&amp;lt;Promise&amp;lt;String&amp;gt;&amp;gt; messageList = new ArrayBlockingQueue&amp;lt;&amp;gt;();&lt;/code&gt;&lt;/p&gt;&#xA;&#xA;&lt;p&gt;We keep the past messages in this list so we can change the result of the future&lt;/p&gt;&lt;/li&gt;&#xA;&lt;li&gt;&lt;p&gt;&lt;code&gt;public void channelActive(ChannelHandlerContext ctx)&lt;/code&gt;&lt;/p&gt;&#xA;&#xA;&lt;p&gt;Called by netty when the connection becomes active. Init our variables here.&lt;/p&gt;&lt;/li&gt;&#xA;&lt;li&gt;&lt;p&gt;&lt;code&gt;public void channelInactive(ChannelHandlerContext ctx)&lt;/code&gt;&lt;/p&gt;&#xA;&#xA;&lt;p&gt;Called by netty when the connection becomes inactive, either due to error or normal connection close.&lt;/p&gt;&lt;/li&gt;&#xA;&lt;li&gt;&lt;p&gt;&lt;code&gt;protected void messageReceived(ChannelHandlerContext ctx, String msg)&lt;/code&gt;&lt;/p&gt;&#xA;&#xA;&lt;p&gt;Called by netty when a new message arrives, here pick out the head of the queue, and then we call setsuccess on it.&lt;/p&gt;&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&#xA;&lt;h2&gt;Warning advise&lt;/h2&gt;&#xA;&#xA;&lt;p&gt;When using futures, there is 1 thing you need to lookout for, do not call get() from 1 of the netty threads if the future isn&#x27;t done yet, failure to follow this simple rule will either result in a deadlock or a &lt;a href=&quot;http://netty.io/4.0/api/index.html?io/netty/util/concurrent/BlockingOperationException.html&quot; rel=&quot;nofollow noreferrer&quot;&gt;&lt;code&gt;BlockingOperationException&lt;/code&gt;&lt;/a&gt;.&lt;/p&gt;&#xA;</summary>
+    </entry>
+            <entry>
+        <id>https://stackoverflow.com/questions/52944642/-/52951006#52951006</id>
+        <re:rank scheme="https://stackoverflow.com">12</re:rank>
+        <title type="text">Answer by Ferrybig for three.js perspectiveCamera &#x2B; orbitControl how I can get current &quot;zoom&quot; level?</title>
+        <author>
+            <name>Ferrybig</name>
+            <uri>https://stackoverflow.com/users/1542723</uri>
+        </author>
+        <link rel="alternate" href="https://stackoverflow.com/questions/52944642/three-js-perspectivecamera-orbitcontrol-how-i-can-get-current-zoom-level/52951006#52951006" />
+        <published>2018-10-23T14:01:56Z</published>
+        <updated>2019-11-27T16:24:48Z</updated>
+        <summary type="html">&lt;p&gt;When you are using a &lt;code&gt;PerspectiveCamera&lt;/code&gt; in combination with &lt;code&gt;OrbitControls&lt;/code&gt;, you have to be aware that &quot;zooming&quot; is not as a variable as it is with a orthographic camera. Instead &quot;zooming&quot; is done by just placing the camera closer to the target.&lt;/p&gt;&#xA;&#xA;&lt;p&gt;This means you can get the zoom distance by calculating the distance between the target and the camera position.&lt;/p&gt;&#xA;&#xA;&lt;pre&gt;&lt;code&gt;var zoom = controls.target.distanceTo( controls.object.position )&#xA;&lt;/code&gt;&lt;/pre&gt;&#xA;</summary>
+    </entry>
+            <entry>
+        <id>https://stackoverflow.com/questions/58707320/-/58710359#58710359</id>
+        <re:rank scheme="https://stackoverflow.com">1</re:rank>
+        <title type="text">Answer by Ferrybig for ThreeJS different shapes object texture not working true</title>
+        <author>
+            <name>Ferrybig</name>
+            <uri>https://stackoverflow.com/users/1542723</uri>
+        </author>
+        <link rel="alternate" href="https://stackoverflow.com/questions/58707320/threejs-different-shapes-object-texture-not-working-true/58710359#58710359" />
+        <published>2019-11-05T11:25:03Z</published>
+        <updated>2019-11-05T11:25:03Z</updated>
+        <summary type="html">&lt;p&gt;When using textures in OpenGL (ThreeJS uses this via WebGL), its important that you properly set the UV parameters on your faces.&lt;/p&gt;&#xA;&#xA;&lt;p&gt;These UV parameters tell how to morph and transform an 2d texture into 3d space.&lt;/p&gt;&#xA;&#xA;&lt;p&gt;Lets see the UV parameters on our simple box model (&lt;code&gt;new THREE.BoxGeometry()&lt;/code&gt;):&lt;/p&gt;&#xA;&#xA;&lt;pre&gt;&lt;code&gt;[[&#xA;    [{&quot;x&quot;:0,&quot;y&quot;:1},{&quot;x&quot;:0,&quot;y&quot;:0},{&quot;x&quot;:1,&quot;y&quot;:1}],&#xA;    [{&quot;x&quot;:0,&quot;y&quot;:0},{&quot;x&quot;:1,&quot;y&quot;:0},{&quot;x&quot;:1,&quot;y&quot;:1}],&#xA;    [{&quot;x&quot;:0,&quot;y&quot;:1},{&quot;x&quot;:0,&quot;y&quot;:0},{&quot;x&quot;:1,&quot;y&quot;:1}],&#xA;    [{&quot;x&quot;:0,&quot;y&quot;:0},{&quot;x&quot;:1,&quot;y&quot;:0},{&quot;x&quot;:1,&quot;y&quot;:1}],&#xA;    [{&quot;x&quot;:0,&quot;y&quot;:1},{&quot;x&quot;:0,&quot;y&quot;:0},{&quot;x&quot;:1,&quot;y&quot;:1}],&#xA;    [{&quot;x&quot;:0,&quot;y&quot;:0},{&quot;x&quot;:1,&quot;y&quot;:0},{&quot;x&quot;:1,&quot;y&quot;:1}],&#xA;    [{&quot;x&quot;:0,&quot;y&quot;:1},{&quot;x&quot;:0,&quot;y&quot;:0},{&quot;x&quot;:1,&quot;y&quot;:1}],&#xA;    [{&quot;x&quot;:0,&quot;y&quot;:0},{&quot;x&quot;:1,&quot;y&quot;:0},{&quot;x&quot;:1,&quot;y&quot;:1}],&#xA;    [{&quot;x&quot;:0,&quot;y&quot;:1},{&quot;x&quot;:0,&quot;y&quot;:0},{&quot;x&quot;:1,&quot;y&quot;:1}],&#xA;    [{&quot;x&quot;:0,&quot;y&quot;:0},{&quot;x&quot;:1,&quot;y&quot;:0},{&quot;x&quot;:1,&quot;y&quot;:1}],&#xA;    [{&quot;x&quot;:0,&quot;y&quot;:1},{&quot;x&quot;:0,&quot;y&quot;:0},{&quot;x&quot;:1,&quot;y&quot;:1}],&#xA;    [{&quot;x&quot;:0,&quot;y&quot;:0},{&quot;x&quot;:1,&quot;y&quot;:0},{&quot;x&quot;:1,&quot;y&quot;:1}]&#xA;]]&#xA;&lt;/code&gt;&lt;/pre&gt;&#xA;&#xA;&lt;p&gt;&lt;em&gt;This looks scary&lt;/em&gt;&lt;/p&gt;&#xA;&#xA;&lt;p&gt;To understand these coordinates, you have to understand that our box is made up of 12 &quot;faces&quot;, or triangles in this case, 2 triangles per side.&lt;/p&gt;&#xA;&#xA;&lt;p&gt;Interesting things happen when we modify 1 of the coordinates in the UV grid:&lt;/p&gt;&#xA;&#xA;&lt;p&gt;&lt;div class=&quot;snippet&quot; data-lang=&quot;js&quot; data-hide=&quot;true&quot; data-console=&quot;true&quot; data-babel=&quot;false&quot;&gt;&#xD;&#xA;&lt;div class=&quot;snippet-code snippet-currently-hidden&quot;&gt;&#xD;&#xA;&lt;pre class=&quot;snippet-code-js lang-js prettyprint-override&quot;&gt;&lt;code&gt;var scene = new THREE.Scene();&#xD;&#xA;var camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );&#xD;&#xA;&#xD;&#xA;var renderer = new THREE.WebGLRenderer();&#xD;&#xA;renderer.setSize( window.innerWidth, window.innerHeight );&#xD;&#xA;document.body.appendChild( renderer.domElement );&#xD;&#xA;&#xD;&#xA;var geometry = new THREE.BoxGeometry( 3,3,3 );&#xD;&#xA;var material = new THREE.MeshBasicMaterial( { color: 0xffffff } );&#xD;&#xA;&#xD;&#xA;new THREE.TextureLoader().load( &quot;https://threejs.org/examples/textures/uv_grid_opengl.jpg&quot;, (texture) =&amp;gt; {     &#xD;&#xA;    material.map = texture;&#xD;&#xA;    renderer.render( scene, camera );&#xD;&#xA;});&#xD;&#xA;&#xD;&#xA;geometry.faceVertexUvs = &#xD;&#xA;    [[&#xD;&#xA;        [{&quot;x&quot;:0,&quot;y&quot;:1},{&quot;x&quot;:0,&quot;y&quot;:-1},{&quot;x&quot;:2,&quot;y&quot;:1}],&#xD;&#xA;        [{&quot;x&quot;:0,&quot;y&quot;:0},{&quot;x&quot;:1,&quot;y&quot;:0},{&quot;x&quot;:1,&quot;y&quot;:1}],&#xD;&#xA;        [{&quot;x&quot;:0,&quot;y&quot;:1},{&quot;x&quot;:0,&quot;y&quot;:0},{&quot;x&quot;:1,&quot;y&quot;:1}],&#xD;&#xA;        [{&quot;x&quot;:0,&quot;y&quot;:0},{&quot;x&quot;:1,&quot;y&quot;:0},{&quot;x&quot;:1,&quot;y&quot;:1}],&#xD;&#xA;        [{&quot;x&quot;:0,&quot;y&quot;:1},{&quot;x&quot;:0,&quot;y&quot;:0},{&quot;x&quot;:1,&quot;y&quot;:1}],&#xD;&#xA;        [{&quot;x&quot;:0,&quot;y&quot;:0},{&quot;x&quot;:1,&quot;y&quot;:0},{&quot;x&quot;:1,&quot;y&quot;:1}],&#xD;&#xA;        [{&quot;x&quot;:0,&quot;y&quot;:1},{&quot;x&quot;:0,&quot;y&quot;:0},{&quot;x&quot;:1,&quot;y&quot;:1}],&#xD;&#xA;        [{&quot;x&quot;:0,&quot;y&quot;:0},{&quot;x&quot;:1,&quot;y&quot;:0},{&quot;x&quot;:1,&quot;y&quot;:1}],&#xD;&#xA;        [{&quot;x&quot;:0,&quot;y&quot;:1},{&quot;x&quot;:0,&quot;y&quot;:0},{&quot;x&quot;:1,&quot;y&quot;:1}],&#xD;&#xA;        [{&quot;x&quot;:0,&quot;y&quot;:0},{&quot;x&quot;:1,&quot;y&quot;:0},{&quot;x&quot;:1,&quot;y&quot;:1}],&#xD;&#xA;        [{&quot;x&quot;:0,&quot;y&quot;:1},{&quot;x&quot;:0,&quot;y&quot;:0},{&quot;x&quot;:1,&quot;y&quot;:1}],&#xD;&#xA;        [{&quot;x&quot;:0,&quot;y&quot;:0},{&quot;x&quot;:1,&quot;y&quot;:0},{&quot;x&quot;:1,&quot;y&quot;:1}]&#xD;&#xA;    ]]&#xD;&#xA;&#xD;&#xA;&#xD;&#xA;var cube = new THREE.Mesh( geometry, material );&#xD;&#xA;cube.rotation.x = Math.PI / 3&#xD;&#xA;cube.rotation.y = 0&#xD;&#xA;cube.rotation.z = Math.PI / 3&#xD;&#xA;scene.add( cube );&#xD;&#xA;&#xD;&#xA;camera.position.z = 5;&lt;/code&gt;&lt;/pre&gt;&#xD;&#xA;&lt;pre class=&quot;snippet-code-css lang-css prettyprint-override&quot;&gt;&lt;code&gt;body { margin: 0; font-size: 0; }&#xD;&#xA;&#x9;&#x9;&#x9;canvas { width: 100%; height: 100% }&lt;/code&gt;&lt;/pre&gt;&#xD;&#xA;&lt;pre class=&quot;snippet-code-html lang-html prettyprint-override&quot;&gt;&lt;code&gt;&amp;lt;script src=&quot;https://threejs.org/build/three.js&quot;&amp;gt;&amp;lt;/script&amp;gt;&lt;/code&gt;&lt;/pre&gt;&#xD;&#xA;&lt;/div&gt;&#xD;&#xA;&lt;/div&gt;&#xD;&#xA;&lt;/p&gt;&#xA;&#xA;&lt;p&gt;Notice how the texture shifts? This is how UV coordinates help you apply a 2d texture to any 3d surface. (Try to also play around with &lt;a href=&quot;https://threejs.org/docs/index.html#api/en/textures/Texture.wrapS&quot; rel=&quot;nofollow noreferrer&quot;&gt;Texture.wrapS&lt;/a&gt;)&lt;/p&gt;&#xA;&#xA;&lt;h2&gt;The problem&lt;/h2&gt;&#xA;&#xA;&lt;p&gt;At the moment, inside your code, you are loading your objects from an external source, most likely an OBJ file (based on the fact that you are using an ObjectLoader), and since an MAT file was not present, there is no information present about the properties of the materials.&lt;/p&gt;&#xA;&#xA;&lt;p&gt;This means that the objects you are trying to render to screen, don&#x27;t have any &quot;texture coordinates&quot;, and we need to &quot;provide&quot; this information in some way.&lt;/p&gt;&#xA;&#xA;&lt;p&gt;While its possible to hand craft this data, this isn&#x27;t always so saleable, so we have to fallback to another alternative, generating this data based on the position of the item.&lt;/p&gt;&#xA;&#xA;&lt;p&gt;Generating UV coordinates is a complex topic, as there are many different mappings for this, and I recommend you find and use one of the solutions at &lt;a href=&quot;https://stackoverflow.com/q/20774648/1542723&quot;&gt;&quot;THREE.js generate UV coordinate - StackOverflow&quot;&lt;/a&gt; for this.&lt;/p&gt;&#xA;</summary>
+    </entry>
+            <entry>
+        <id>https://stackoverflow.com/questions/58594055/-/58656423#58656423</id>
+        <re:rank scheme="https://stackoverflow.com">0</re:rank>
+        <title type="text">Answer by Ferrybig for Its possible to message received being out of order or limited using Netty?</title>
+        <author>
+            <name>Ferrybig</name>
+            <uri>https://stackoverflow.com/users/1542723</uri>
+        </author>
+        <link rel="alternate" href="https://stackoverflow.com/questions/58594055/its-possible-to-message-received-being-out-of-order-or-limited-using-netty/58656423#58656423" />
+        <published>2019-11-01T08:51:31Z</published>
+        <updated>2019-11-01T08:51:31Z</updated>
+        <summary type="html">&lt;p&gt;Netty is designed to be a simplified layer over the actual protocol, and thus inherits many semantics from it.&lt;/p&gt;&#xA;&#xA;&lt;p&gt;One important semantic is that TCP is a &lt;em&gt;stream&lt;/em&gt; based protocol, meaning that when you read any data, you get all the data in order, but the data might be spread out over multiple packets, or all data might be in the same packet.&lt;/p&gt;&#xA;&#xA;&lt;p&gt;Your code does not deal with this properly, and this is causing your issues.&lt;/p&gt;&#xA;&#xA;&lt;p&gt;What happened in your case is that the remote send 2 &quot;protocol specific packets&quot;, and after reading, these packets where mixed up over &quot;tcp packets&quot;&lt;/p&gt;&#xA;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;Before: &lt;code&gt;Aaaaa Bbbbb Cccc Ddddd&lt;/code&gt;&lt;/li&gt;&#xA;&lt;li&gt;After: &lt;code&gt;Aaa aaaBbbbCccccDdddd&lt;/code&gt;&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&#xA;&lt;p&gt;&lt;em&gt;You need something to reconstruct the original messages again.&lt;/em&gt;&lt;/p&gt;&#xA;&#xA;&lt;p&gt;At the moment, your pipeline exists of a &lt;code&gt;StringDecoder&lt;/code&gt;, followed by your business handler. Unfortunately, &lt;code&gt;StringDecoder&lt;/code&gt; is not suited up to the task of handling raw incoming data, and could &lt;a href=&quot;https://github.com/netty/netty/issues/4690&quot; rel=&quot;nofollow noreferrer&quot;&gt;actually cause corruption&lt;/a&gt; when handling raw incoming data.&lt;/p&gt;&#xA;&#xA;&lt;p&gt;Fortunately for you, &quot;tr-06&quot; has a length field in every packet. (Detecting the presence of a start and stop bit is unreliable, since they could also be inside a packet) We can use this length field to decode the &quot;stream of bytes&quot; to &quot;packets again. Lets gather some information the the documentation of the protocol:&lt;/p&gt;&#xA;&#xA;&lt;blockquote&gt;&#xA;  &lt;p&gt;&lt;strong&gt;iv.Data Packet Format&lt;/strong&gt;&lt;/p&gt;&#xA;  &#xA;  &lt;p&gt;The communication is transferred asynchronously in&#xA;  bytes.The total length of packets is (10&#x2B;N) Bytes&lt;/p&gt;&#xA;  &#xA;  &lt;p&gt;...&lt;/p&gt;&#xA;  &#xA;  &lt;p&gt;&lt;strong&gt;4.2.Packet Length&lt;/strong&gt;&lt;/p&gt;&#xA;  &#xA;  &lt;p&gt;Length  =  Protocol  Number  &#x2B;  Information  Content  &#x2B;  Information  Serial  Number  &#x2B;  Error  Check, totally (5&#x2B;N)Bytes, because the Information Content is a variable length field.&lt;/p&gt;&#xA;&lt;/blockquote&gt;&#xA;&#xA;&lt;p&gt;We eventually want to use a pre-build solution for &quot;framing&quot; the bytes, so lets read into the documentation of &lt;a href=&quot;https://netty.io/3.10/api/index.html?org/jboss/netty/handler/codec/frame/DelimiterBasedFrameDecoder.html&quot; rel=&quot;nofollow noreferrer&quot;&gt;&lt;code&gt;DelimiterBasedFrameDecoder&lt;/code&gt;&lt;/a&gt;. We can see that the example of &quot;3 bytes length field at the end of 5 bytes header, do not strip header&quot; closely matches what we need, but isn&#x27;t quite it. Lets calculate the correct data based on these examples:&lt;/p&gt;&#xA;&#xA;&lt;p&gt;We see in the protocol example that the length field comes after the start bit, and the start bit is 2 bytes long, so the offset becomes 2&lt;/p&gt;&#xA;&#xA;&lt;pre&gt;&lt;code&gt;lengthFieldOffset   = 2&#xA;&lt;/code&gt;&lt;/pre&gt;&#xA;&#xA;&lt;p&gt;According to the documentation, the packet length field is 1, meaning that it supports packets up to 255 bytes in length&lt;/p&gt;&#xA;&#xA;&lt;pre&gt;&lt;code&gt;lengthFieldLength   = 1&#xA;&lt;/code&gt;&lt;/pre&gt;&#xA;&#xA;&lt;p&gt;This is a hard one to calculate, Netty assumes that the packet length is all the bytes after the length fields is contained inside the packet, so lets calculate it from netties perspective, and see how it lines up. &lt;/p&gt;&#xA;&#xA;&lt;p&gt;Netty: &lt;code&gt;1 &#x2B; N &#x2B; 2 &#x2B; 2 &#x2B; 2&lt;/code&gt;&#xA;Protocol: &lt;code&gt;1 N &#x2B; 2 &#x2B; 2&lt;/code&gt;&lt;/p&gt;&#xA;&#xA;&lt;pre&gt;&lt;code&gt;lengthAdjustment    = 2&#xA;&lt;/code&gt;&lt;/pre&gt;&#xA;&#xA;&lt;p&gt;We need to adjust the length field by 2&lt;/p&gt;&#xA;&#xA;&lt;p&gt;We don&#x27;t want to strip any bytes (you might want to enable this later if you are not interested in the start and stop bits)&lt;/p&gt;&#xA;&#xA;&lt;pre&gt;&lt;code&gt;initialBytesToStrip = 0&#xA;&lt;/code&gt;&lt;/pre&gt;&#xA;&#xA;&lt;p&gt;&lt;strong&gt;Lets put this together:&lt;/strong&gt;&lt;/p&gt;&#xA;&#xA;&lt;pre&gt;&lt;code&gt;        @Override&#xA;        protected void addSpecificHandlers(ChannelPipeline pipeline) {&#xA;            pipeline.addLast(&quot;frameDecoder&quot;, new LengthFieldBasedFrameDecoder(255, 2, 1, 2, 0));&#xA;            pipeline.addLast(&quot;stringEncoder&quot;, new StringEncoder());&#xA;            pipeline.addLast(&quot;stringDecoder&quot;, new StringDecoder());&#xA;            pipeline.addLast(&quot;objectDecoder&quot;, new EquipProtocolDecoder(EquipProtocol.this));&#xA;        }&#xA;&lt;/code&gt;&lt;/pre&gt;&#xA;</summary>
+    </entry>
+            <entry>
+        <id>https://stackoverflow.com/questions/58655142/-/58655996#58655996</id>
+        <re:rank scheme="https://stackoverflow.com">1</re:rank>
+        <title type="text">Answer by Ferrybig for String array without double quotes in javascript</title>
+        <author>
+            <name>Ferrybig</name>
+            <uri>https://stackoverflow.com/users/1542723</uri>
+        </author>
+        <link rel="alternate" href="https://stackoverflow.com/questions/58655142/string-array-without-double-quotes-in-javascript/58655996#58655996" />
+        <published>2019-11-01T08:10:48Z</published>
+        <updated>2019-11-01T08:10:48Z</updated>
+        <summary type="html">&lt;p&gt;There are multiple approaches to this problem.&lt;/p&gt;&#xA;&#xA;&lt;h1&gt;The dangerously unsafe &lt;code&gt;eval&lt;/code&gt; way:&lt;/h1&gt;&#xA;&#xA;&lt;p&gt;This approach directly calls &lt;code&gt;eval&lt;/code&gt;, this executes any JavaScript code passed in, and thus has a lot of security problems related to this.&lt;/p&gt;&#xA;&#xA;&lt;pre&gt;&lt;code&gt;const newArray = stringArray.map(eval);&#xA;&lt;/code&gt;&lt;/pre&gt;&#xA;&#xA;&lt;h1&gt;&lt;code&gt;eval&lt;/code&gt; with a whitelist&lt;/h1&gt;&#xA;&#xA;&lt;p&gt;One way to make a call to &lt;code&gt;eval&lt;/code&gt; more safe, is to use a whitelist of the allowed patterns, this makes sure code doesn&#x27;t access any variables outside its intended scope.&lt;/p&gt;&#xA;&#xA;&lt;p&gt;&lt;div class=&quot;snippet&quot; data-lang=&quot;js&quot; data-hide=&quot;false&quot; data-console=&quot;true&quot; data-babel=&quot;false&quot;&gt;&#xD;&#xA;&lt;div class=&quot;snippet-code&quot;&gt;&#xD;&#xA;&lt;pre class=&quot;snippet-code-js lang-js prettyprint-override&quot;&gt;&lt;code&gt;const L = {};&#xD;&#xA;L.latLng = (lat, lng) =&amp;gt; ({ lat, lng })&#xD;&#xA;&#xD;&#xA;const stringArray = [&#xD;&#xA;    &quot;L.latLng(30.709455,76.688576)&quot;,&#xD;&#xA;    &quot;L.latLng(30.709461,76.68856)&quot;,&#xD;&#xA;    &quot;L.latLng(30.709461,76.68856)&quot;,&#xD;&#xA;    &quot;L.latLng(30.70947,76.6886)&quot;,&#xD;&#xA;    &quot;L.latLng(30.709461,76.68856)&quot;&#xD;&#xA;];&#xD;&#xA;&#xD;&#xA;const newArray = stringArray.map((line) =&amp;gt; {&#xD;&#xA;    if(/L\.latLng\(-?[0-9]&#x2B;(?:\.[0-9]&#x2B;),-?[0-9]&#x2B;(?:\.[0-9]&#x2B;)\)/.test(line)) {&#xD;&#xA;        return eval(line);&#xD;&#xA;    }&#xD;&#xA;    throw new Error(&#x27;Invalid string specified: &#x27; &#x2B; line);&#xD;&#xA;});&#xD;&#xA;&#xD;&#xA;console.log(newArray);&lt;/code&gt;&lt;/pre&gt;&#xD;&#xA;&lt;/div&gt;&#xD;&#xA;&lt;/div&gt;&#xD;&#xA;&lt;/p&gt;&#xA;&#xA;&lt;h1&gt;Custom parser per line&lt;/h1&gt;&#xA;&#xA;&lt;p&gt;By having a custom parser per line, you prevent any unwanted code executing, as only save methods can be executed.&lt;/p&gt;&#xA;&#xA;&lt;p&gt;This is a step up from the exec with whitelist case, as just certain parts of the string have to be captured&lt;/p&gt;&#xA;&#xA;&lt;p&gt;&lt;div class=&quot;snippet&quot; data-lang=&quot;js&quot; data-hide=&quot;false&quot; data-console=&quot;true&quot; data-babel=&quot;false&quot;&gt;&#xD;&#xA;&lt;div class=&quot;snippet-code&quot;&gt;&#xD;&#xA;&lt;pre class=&quot;snippet-code-js lang-js prettyprint-override&quot;&gt;&lt;code&gt;const L = {};&#xD;&#xA;L.latLng = (lat, lng) =&amp;gt; ({ lat, lng })&#xD;&#xA;&#xD;&#xA;const stringArray = [&#xD;&#xA;    &quot;L.latLng(30.709455,76.688576)&quot;,&#xD;&#xA;    &quot;L.latLng(30.709461,76.68856)&quot;,&#xD;&#xA;    &quot;L.latLng(30.709461,76.68856)&quot;,&#xD;&#xA;    &quot;L.latLng(30.70947,76.6886)&quot;,&#xD;&#xA;    &quot;L.latLng(30.709461,76.68856)&quot;&#xD;&#xA;];&#xD;&#xA;&#xD;&#xA;const newArray = stringArray.map((line) =&amp;gt; {&#xD;&#xA;    const match = /^L\.latLng\((-?[0-9]&#x2B;(?:\.[0-9]&#x2B;)),(-?[0-9]&#x2B;(?:\.[0-9]&#x2B;))\)$/.exec(line)&#xD;&#xA;    if(match !== null) {&#xD;&#xA;        return L.latLng(parseFloat(match[1]), parseFloat(match[2]));&#xD;&#xA;    }&#xD;&#xA;    throw new Error(&#x27;Invalid string specified: &#x27; &#x2B; line);&#xD;&#xA;});&#xD;&#xA;&#xD;&#xA;console.log(newArray);&lt;/code&gt;&lt;/pre&gt;&#xD;&#xA;&lt;/div&gt;&#xD;&#xA;&lt;/div&gt;&#xD;&#xA;&lt;/p&gt;&#xA;</summary>
+    </entry>
+            <entry>
+        <id>https://stackoverflow.com/questions/58479405/-/58482166#58482166</id>
+        <re:rank scheme="https://stackoverflow.com">1</re:rank>
+        <title type="text">Answer by Ferrybig for Insert HTML into user string and render it in React (and avoid XSS threat)</title>
+        <author>
+            <name>Ferrybig</name>
+            <uri>https://stackoverflow.com/users/1542723</uri>
+        </author>
+        <link rel="alternate" href="https://stackoverflow.com/questions/58479405/insert-html-into-user-string-and-render-it-in-react-and-avoid-xss-threat/58482166#58482166" />
+        <published>2019-10-21T08:04:31Z</published>
+        <updated>2019-10-21T08:04:31Z</updated>
+        <summary type="html">&lt;p&gt;One other solution for this is to manually convert the search terms to JSX elements. Since typical search doesn&#x27;t use Regex, we can just use &lt;code&gt;.indexof&lt;/code&gt; to split the string (although supporting Regex isn&#x27;t that hard as it also has a match index.)&lt;/p&gt;&#xA;&#xA;&lt;pre&gt;&lt;code&gt;function highlightText(input/*: string */, searchTerm/*: string*/)/*: ReactNode */ {&#xA;    let index = input.indexOf(searchTerm);&#xA;    let lastIndex = 0;&#xA;    let result/*: ReactNode[] */ = []&#xA;    while(index &amp;gt;= 0) {&#xA;        result.push(&amp;lt;span key={result.length}&amp;gt;{input.substring(lastIndex, index)}&amp;lt;\span&amp;gt;);&#xA;        result.push(&amp;lt;mark key={result.length}&amp;gt;{input.substring(index, index &#x2B; searchTerm.length)}&amp;lt;\span&amp;gt;);&#xA;        lastIndex = index &#x2B; searchTerm.length;&#xA;        index = input.indexOf(searchTerm, lastIndex);&#xA;    }&#xA;    result.push(&amp;lt;span key={result.length}&amp;gt;{input.substring(lastIndex, input.length)}&amp;lt;\span&amp;gt;);&#xA;    return result;&#xA;}&#xA;&lt;/code&gt;&lt;/pre&gt;&#xA;&#xA;&lt;p&gt;You can then call this in your render part of your component like:&lt;/p&gt;&#xA;&#xA;&lt;pre&gt;&lt;code&gt;function MyComponent(props) {&#xA;    return &amp;lt;p&amp;gt;&#xA;        {highlightText(props.input, props.searchTerm)}&#xA;    &amp;lt;\p&amp;gt;;&#xA;}&#xA;&lt;/code&gt;&lt;/pre&gt;&#xA;</summary>
+    </entry>
+            <entry>
+        <id>https://stackoverflow.com/questions/58458944/where-is-the-leak-in-my-java-7-code-is-it-a-false-positive-using-filechannel/58461417#58461417</id>
+        <re:rank scheme="https://stackoverflow.com">0</re:rank>
+        <title type="text">Answer by Ferrybig for Where is the leak in my Java 7 code? Is it a false positive? (Using FileChannel to write a 771kb ByteBuffer (fileFinal)</title>
+        <author>
+            <name>Ferrybig</name>
+            <uri>https://stackoverflow.com/users/1542723</uri>
+        </author>
+        <link rel="alternate" href="https://stackoverflow.com/questions/58458944/where-is-the-leak-in-my-java-7-code-is-it-a-false-positive-using-filechannel/58461417#58461417" />
+        <published>2019-10-19T07:17:42Z</published>
+        <updated>2019-10-19T07:17:42Z</updated>
+        <summary type="html">&lt;p&gt;While you thought of the normal case, you also have to worry what happens when there is an exception writing the file contents&lt;/p&gt;&#xA;&#xA;&lt;p&gt;It is possible to open an file without error, and then while  writing get an &quot;ioException: out of disk space&quot;&lt;/p&gt;&#xA;&#xA;&lt;p&gt;To handle closing in these situations, it&#x27;s the best to use a try with resources:&lt;/p&gt;&#xA;&#xA;&lt;pre&gt;&lt;code&gt;try (FileChannel output1 = new FileOutputStream(System.getProperty(&quot;user.home&quot;)&#x2B;&quot;\\Desktop\\file\\output\\data0.bin&quot;) .getChannel()) {&#xA;     output2.write(fileFinal);&#xA;}&#xA;&lt;/code&gt;&lt;/pre&gt;&#xA;</summary>
+    </entry>
+            <entry>
+        <id>https://stackoverflow.com/questions/58425890/-/58426134#58426134</id>
+        <re:rank scheme="https://stackoverflow.com">0</re:rank>
+        <title type="text">Answer by Ferrybig for why i am not able to update env variable in node js</title>
+        <author>
+            <name>Ferrybig</name>
+            <uri>https://stackoverflow.com/users/1542723</uri>
+        </author>
+        <link rel="alternate" href="https://stackoverflow.com/questions/58425890/why-i-am-not-able-to-update-env-variable-in-node-js/58426134#58426134" />
+        <published>2019-10-17T06:22:01Z</published>
+        <updated>2019-10-17T06:22:01Z</updated>
+        <summary type="html">&lt;p&gt;When you use &lt;code&gt;export&lt;/code&gt; in a terminal, it instructs the shell to set environment variables.&lt;/p&gt;&#xA;&#xA;&lt;p&gt;When you call &lt;code&gt;exec&lt;/code&gt; from your code, you are not running such a shell, with the reason being that it would become a challenge to extract the output of every command.&lt;/p&gt;&#xA;&#xA;&lt;p&gt;This makes &lt;code&gt;export&lt;/code&gt; an ignored command.&lt;/p&gt;&#xA;&#xA;&lt;p&gt;You can solve this by passing an &lt;a href=&quot;https://nodejs.org/api/child_process.html#child_process_child_process_execsync_command_options&quot; rel=&quot;nofollow noreferrer&quot;&gt;option object to &lt;code&gt;execSync&lt;/code&gt;:&lt;/a&gt;&lt;/p&gt;&#xA;&#xA;&lt;pre&gt;&lt;code&gt;execSync(&#x27;node main.js&#x27;, {&#xA;    env: {&#xA;        DB_HOST: &#x27;localhost&#x27;,&#xA;         // More envs...&#xA;    }&#xA;}&#xA;&lt;/code&gt;&lt;/pre&gt;&#xA;</summary>
+    </entry>
+            <entry>
+        <id>https://stackoverflow.com/questions/58378154/-/58380671#58380671</id>
+        <re:rank scheme="https://stackoverflow.com">1</re:rank>
+        <title type="text">Answer by Ferrybig for What is best practice for image src in vue SFC?</title>
+        <author>
+            <name>Ferrybig</name>
+            <uri>https://stackoverflow.com/users/1542723</uri>
+        </author>
+        <link rel="alternate" href="https://stackoverflow.com/questions/58378154/what-is-best-practice-for-image-src-in-vue-sfc/58380671#58380671" />
+        <published>2019-10-14T16:25:15Z</published>
+        <updated>2019-10-14T16:25:51Z</updated>
+        <summary type="html">&lt;p&gt;There are 2 ways of using an image in your setup:&lt;/p&gt;&#xA;&#xA;&lt;h1&gt;Bundled with webpack&lt;/h1&gt;&#xA;&#xA;&lt;pre&gt;&lt;code&gt;&amp;lt;img src=&quot;./assets/logo.png&quot;&amp;gt;&#xA;&lt;/code&gt;&lt;/pre&gt;&#xA;&#xA;&#xA;&#xA;&lt;pre&gt;&lt;code&gt;import image from &quot;./assets/logo.png&quot; &#xA;&lt;/code&gt;&lt;/pre&gt;&#xA;&#xA;&lt;p&gt;These bundle the image using webpack, and using this solution you get the benefits of:&lt;/p&gt;&#xA;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;Automatic inlinening with base64 for small images&lt;/li&gt;&#xA;&lt;li&gt;Automatic &quot;deep&quot; compressing with any webpack loaders&lt;/li&gt;&#xA;&lt;li&gt;Path works from every path in your app&lt;/li&gt;&#xA;&lt;li&gt;Compile time checking if the file exists&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&#xA;&lt;h1&gt;Using your own webserver&lt;/h1&gt;&#xA;&#xA;&lt;pre&gt;&lt;code&gt;const image = &#x27;/assets/logo.png&#x27;&#xA;&lt;/code&gt;&lt;/pre&gt;&#xA;&#xA;&#xA;&#xA;&lt;pre&gt;&lt;code&gt;const image = &#x27;http://example.com/&#x2019;&#xA;&lt;/code&gt;&lt;/pre&gt;&#xA;&#xA;&lt;p&gt;In these solutions, you need to setup your webserver yourself to serve those resources (or put them in the public directory)&lt;/p&gt;&#xA;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;Easy changing to a different image without rebuilding the front end&lt;/li&gt;&#xA;&lt;li&gt;More flexible&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;</summary>
+    </entry>
+            <entry>
+        <id>https://stackoverflow.com/questions/58273624/-/58302468#58302468</id>
+        <re:rank scheme="https://stackoverflow.com">0</re:rank>
+        <title type="text">Answer by Ferrybig for Wiring a component with typed Props</title>
+        <author>
+            <name>Ferrybig</name>
+            <uri>https://stackoverflow.com/users/1542723</uri>
+        </author>
+        <link rel="alternate" href="https://stackoverflow.com/questions/58273624/wiring-a-component-with-typed-props/58302468#58302468" />
+        <published>2019-10-09T10:49:24Z</published>
+        <updated>2019-10-09T10:49:24Z</updated>
+        <summary type="html">&lt;p&gt;You have to understand how connect jugles the types.&lt;/p&gt;&#xA;&#xA;&lt;p&gt;Connect is the best explained when looking from the right to the left:&lt;/p&gt;&#xA;&#xA;&lt;p&gt;Your component accepts 2 props: &lt;code&gt;todos&lt;/code&gt;, &lt;code&gt;fetchTodos&lt;/code&gt;.&lt;/p&gt;&#xA;&#xA;&lt;p&gt;Then it looks at the &lt;code&gt;mapDispatchToProps&lt;/code&gt;. Your implentation of this provides &lt;code&gt;fetchTodos&lt;/code&gt;. The new prop list is: &lt;code&gt;todos&lt;/code&gt;&lt;/p&gt;&#xA;&#xA;&lt;p&gt;It finally looks at &lt;code&gt;mapStateToProps&lt;/code&gt;: it provides &lt;code&gt;todos&lt;/code&gt;, but to execute the function, it requires an object containi g: &lt;code&gt;todos&lt;/code&gt;, &lt;code&gt;fetchTodos&lt;/code&gt;&lt;/p&gt;&#xA;&#xA;&lt;p&gt;Your final component contains these props: &lt;code&gt;todos&lt;/code&gt;, &lt;code&gt;fetchTodos&lt;/code&gt;&lt;/p&gt;&#xA;&#xA;&lt;p&gt;This is not what you want, you want none props.&lt;/p&gt;&#xA;&#xA;&lt;p&gt;You need to adjust your &lt;code&gt;mapStateToProps&lt;/code&gt; function:&lt;/p&gt;&#xA;&#xA;&lt;pre&gt;&lt;code&gt;const mapStateToProps = ({ todos }: StoreState, ownProps: {}): { todos: Todo[]; } =&amp;gt; { return { todos }; &#xA;&lt;/code&gt;&lt;/pre&gt;&#xA;&#xA;&lt;p&gt;Or simply:&lt;/p&gt;&#xA;&#xA;&lt;pre&gt;&lt;code&gt;const mapStateToProps = ({ todos }: StoreState): { todos: Todo[]; } =&amp;gt; { return { todos }; &#xA;&lt;/code&gt;&lt;/pre&gt;&#xA;</summary>
+    </entry>
+            <entry>
+        <id>https://stackoverflow.com/questions/58033880/-/58034134#58034134</id>
+        <re:rank scheme="https://stackoverflow.com">0</re:rank>
+        <title type="text">Answer by Ferrybig for How import something from index.js in the same directory?</title>
+        <author>
+            <name>Ferrybig</name>
+            <uri>https://stackoverflow.com/users/1542723</uri>
+        </author>
+        <link rel="alternate" href="https://stackoverflow.com/questions/58033880/how-import-something-from-index-js-in-the-same-directory/58034134#58034134" />
+        <published>2019-09-20T19:24:19Z</published>
+        <updated>2019-09-20T19:24:19Z</updated>
+        <summary type="html">&lt;p&gt;You cannot have an cyclic dependency structure with imports.&lt;/p&gt;&#xA;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;ModuleA requires index&lt;/li&gt;&#xA;&lt;li&gt;index requires ModuleA&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&#xA;&lt;p&gt;This generates undefined behaviour when bundled with webpack, usually manifesting as 1 of the files becoming undefined&lt;/p&gt;&#xA;</summary>
+    </entry>
+            <entry>
+        <id>https://stackoverflow.com/questions/57752780/-/57799765#57799765</id>
+        <re:rank scheme="https://stackoverflow.com">0</re:rank>
+        <title type="text">Answer by Ferrybig for How to change vue-cli message after successfull compile (&quot;App running at...&quot;)?</title>
+        <author>
+            <name>Ferrybig</name>
+            <uri>https://stackoverflow.com/users/1542723</uri>
+        </author>
+        <link rel="alternate" href="https://stackoverflow.com/questions/57752780/how-to-change-vue-cli-message-after-successfull-compile-app-running-at/57799765#57799765" />
+        <published>2019-09-05T06:42:11Z</published>
+        <updated>2019-09-05T06:42:11Z</updated>
+        <summary type="html">&lt;p&gt;Instead of changing the message, &lt;a href=&quot;https://stackoverflow.com/a/51343026/1542723&quot;&gt;it&#x27;s better to change the port Vue is listening on&lt;/a&gt;.&lt;/p&gt;&#xA;&#xA;&lt;blockquote&gt;&#xA;  &lt;p&gt;.    npm run serve -- --port 4180&lt;/p&gt;&#xA;&lt;/blockquote&gt;&#xA;&#xA;&lt;p&gt;This automatically updates your message to say the new port, and after you updated your docker port forward for the new port, it it will work again.&lt;/p&gt;&#xA;</summary>
+    </entry>
+            <entry>
+        <id>https://stackoverflow.com/questions/57550374/-/57551237#57551237</id>
+        <re:rank scheme="https://stackoverflow.com">0</re:rank>
+        <title type="text">Answer by Ferrybig for Google Chrome Autofill not offering to remember login</title>
+        <author>
+            <name>Ferrybig</name>
+            <uri>https://stackoverflow.com/users/1542723</uri>
+        </author>
+        <link rel="alternate" href="https://stackoverflow.com/questions/57550374/google-chrome-autofill-not-offering-to-remember-login/57551237#57551237" />
+        <published>2019-08-19T06:09:31Z</published>
+        <updated>2019-08-19T06:09:31Z</updated>
+        <summary type="html">&lt;p&gt;Your email field has its autocomplete set to &lt;code&gt;username&lt;/code&gt;.&lt;/p&gt;&#xA;&#xA;&lt;p&gt;Since your input accepts emails only, this creates confusion&lt;/p&gt;&#xA;&#xA;&lt;p&gt;You should set the autocomplete to &lt;code&gt;email&lt;/code&gt;&lt;/p&gt;&#xA;</summary>
+    </entry>
+            <entry>
+        <id>https://stackoverflow.com/questions/41829146/-/55932964#55932964</id>
+        <re:rank scheme="https://stackoverflow.com">0</re:rank>
+        <title type="text">Answer by Ferrybig for &quot;left side of comma operator..&quot; error in html content of render</title>
+        <author>
+            <name>Ferrybig</name>
+            <uri>https://stackoverflow.com/users/1542723</uri>
+        </author>
+        <link rel="alternate" href="https://stackoverflow.com/questions/41829146/left-side-of-comma-operator-error-in-html-content-of-render/55932964#55932964" />
+        <published>2019-05-01T07:31:49Z</published>
+        <updated>2019-08-08T01:06:01Z</updated>
+        <summary type="html">&lt;p&gt;Another cause of this error is accidentally ending your line with a comma instead of a semicolon, this might happen because you make a mistake during refactoring of your code.&lt;/p&gt;&#xA;&#xA;&lt;p&gt;These give errors&lt;/p&gt;&#xA;&#xA;&lt;pre&gt;&lt;code&gt;return &amp;lt;div&amp;gt;hi&amp;lt;/div&amp;gt;, // error&#xA;return (&amp;lt;div&amp;gt;hi&amp;lt;/div&amp;gt;,) // error&#xA;&lt;/code&gt;&lt;/pre&gt;&#xA;&#xA;&lt;p&gt;These are correct:&lt;/p&gt;&#xA;&#xA;&lt;pre&gt;&lt;code&gt;return &amp;lt;div&amp;gt;hi&amp;lt;/div&amp;gt;; // ok&#xA;return (&amp;lt;div&amp;gt;hi&amp;lt;/div&amp;gt;) // ok&#xA;return (&amp;lt;div&amp;gt;hi&amp;lt;/div&amp;gt;); // ok&#xA;&lt;/code&gt;&lt;/pre&gt;&#xA;&#xA;&lt;p&gt;This error is more cofusing in this case, since it highlights the whole JSX block, instead of the comma&lt;/p&gt;&#xA;</summary>
+    </entry>
+            <entry>
+        <id>https://stackoverflow.com/questions/56792011/-/56793009#56793009</id>
+        <re:rank scheme="https://stackoverflow.com">5</re:rank>
+        <title type="text">Answer by Ferrybig for POST file (as binary stream) using java.net.HttpURLConnection as a param file=&lt;file binary stream&gt;</title>
+        <author>
+            <name>Ferrybig</name>
+            <uri>https://stackoverflow.com/users/1542723</uri>
+        </author>
+        <link rel="alternate" href="https://stackoverflow.com/questions/56792011/post-file-as-binary-stream-using-java-net-httpurlconnection-as-a-param-file-f/56793009#56793009" />
+        <published>2019-06-27T14:14:10Z</published>
+        <updated>2019-06-27T14:14:10Z</updated>
+        <summary type="html">&lt;p&gt;When looking at your curl command line, it shows that the file needs to be send as a &lt;code&gt;multipart/form-data&lt;/code&gt; request. This is actually a complex way of formatting your data when it is requires.&lt;/p&gt;&#xA;&#xA;&lt;p&gt;&lt;a href=&quot;https://www.w3.org/TR/html401/interact/forms.html#h-17.13.4&quot; rel=&quot;noreferrer&quot;&gt;An example of the format you need to send is:&lt;/a&gt;&lt;/p&gt;&#xA;&#xA;&lt;blockquote&gt;&#xA;  &lt;p&gt;Headers:&lt;/p&gt;&#xA;&#xA;&lt;pre&gt;&lt;code&gt;Content-Type: multipart/form-data; boundary=AaB03x&#xA;&lt;/code&gt;&lt;/pre&gt;&#xA;  &#xA;  &lt;p&gt;Body:&lt;/p&gt;&#xA;&#xA;&lt;pre&gt;&lt;code&gt;--AaB03x&#xA;Content-Disposition: form-data; name=&quot;files&quot;; filename=&quot;file1.txt&quot;&#xA;Content-Type: text/plain&#xA;&#xA;... contents of file1.txt ...&#xA;--AaB03x--&#xA;&lt;/code&gt;&lt;/pre&gt;&#xA;&lt;/blockquote&gt;&#xA;&#xA;&lt;p&gt;At the moment, your code is sending the file as a POST/GET formatted request, and this doesn&#x27;t work as the backend isn&#x27;t expecting that.&lt;/p&gt;&#xA;&#xA;&lt;p&gt;To solve this problem, we need to format the source files into the format required by the backend, and once you know that the &quot;boundary&quot; header option is just a randomly generated value, it becomes more easy to send the request.&lt;/p&gt;&#xA;&#xA;&lt;pre&gt;&lt;code&gt;String boundary = &quot;MY_AWESOME_BOUNDARY&quot;&#xA;http_conn.setRequestProperty(&quot;Content-Type&quot;, &quot;multipart/form-data; boundary=&quot; &#x2B; boundary);  &#xA;&#xA;try(DataOutputStream outputStream = new DataOutputStream(http_conn.getOutputStream())) {&#xA;    File file_obj = new File(this.file);                      &#xA;&#xA;    // Write form-data header   &#xA;    outputStream.write((&quot;--&quot; &#x2B; boundary &#x2B; &quot;\r\n&quot;).getBytes(&quot;UTF-8&quot;));&#xA;    outputStream.write((&quot;Content-Disposition: form-data; name=\&quot;file\&quot;; filename=\&quot;file1.txt\&quot;\r\n&quot;).getBytes(&quot;UTF-8&quot;));&#xA;    outputStream.write((&quot;Content-Type: text/plain\r\n&quot;).getBytes(&quot;UTF-8&quot;));&#xA;    outputStream.write((&quot;\r\n&quot;).getBytes(&quot;UTF-8&quot;));&#xA;    // Write form-data body&#xA;    Files.copy(file_obj.toPath(), outputStream)&#xA;    // Write form-data &quot;end&quot;&#xA;    outputStream.write((&quot;--&quot; &#x2B; boundary &#x2B; &quot;--\r\n&quot;).getBytes(&quot;UTF-8&quot;));&#xA;}&#xA;// Read backend response here&#xA;try(InputStream inputStream = http_conn.getInputStream()) {           &#xA;    BufferedReader bufferedReader = new BufferedReader(new &#xA;    InputStreamReader(inputStream));&#xA;    StringBuilder lines = new StringBuilder(); // StringBuilder is faster for concatination than appending strings           &#xA;    while ((line = bufferedReader.readLine()) != null) {&#xA;        lines.append(line);                &#xA;    }&#xA;    System.out.println(lines);&#xA;}&#xA;&lt;/code&gt;&lt;/pre&gt;&#xA;&#xA;&lt;p&gt;Note that I used &quot;try-with-resource&quot; blocks, these blocks make sure that any external resources are closed and disposed when you are done using them, generally the open resource limit of the OS is very low, compared to the amount of memory your program has, so what happens is that your program could give weird errors that only happens after some time of running or when the user executes certain actions inside your application&lt;/p&gt;&#xA;</summary>
+    </entry>
+            <entry>
+        <id>https://stackoverflow.com/questions/47547702/-/56706677#56706677</id>
+        <re:rank scheme="https://stackoverflow.com">11</re:rank>
+        <title type="text">Answer by Ferrybig for Clearing console before build in Webpack</title>
+        <author>
+            <name>Ferrybig</name>
+            <uri>https://stackoverflow.com/users/1542723</uri>
+        </author>
+        <link rel="alternate" href="https://stackoverflow.com/questions/47547702/clearing-console-before-build-in-webpack/56706677#56706677" />
+        <published>2019-06-21T15:45:49Z</published>
+        <updated>2019-06-21T15:45:49Z</updated>
+        <summary type="html">&lt;p&gt;This can be done using the &lt;a href=&quot;https://www.npmjs.com/package/clean-terminal-webpack-plugin&quot; rel=&quot;noreferrer&quot;&gt;&lt;code&gt;clean-terminal-webpack-plugin&lt;/code&gt;&lt;/a&gt; npm module.&lt;/p&gt;&#xA;&#xA;&lt;p&gt;Using this webpack plugin is supprisenly easy, as there is no configuration required for this module, you just have to add the plugin to the list of plugins in webpack.&lt;/p&gt;&#xA;&#xA;&lt;p&gt;Instructions from the readme of the npm module:&lt;/p&gt;&#xA;&#xA;&lt;blockquote&gt;&#xA;  &lt;p&gt;&lt;strong&gt;Usage&lt;/strong&gt;&lt;/p&gt;&#xA;  &#xA;  &lt;p&gt;Via webpack config file:&lt;/p&gt;&#xA;&#xA;&lt;pre&gt;&lt;code&gt;// webpack.config.js&#xA;&#xA;const CleanTerminalPlugin = require(&#x27;clean-terminal-webpack-plugin&#x27;);&#xA;&#xA;module.exports = {&#xA;  plugins: [new CleanTerminalPlugin()]&#xA;};&#xA;&lt;/code&gt;&lt;/pre&gt;&#xA;&lt;/blockquote&gt;&#xA;</summary>
+    </entry>
+               <entry>
+        <id>https://stackoverflow.com/questions/31052991/webpack-progress-using-node-js-api/44013385?cid=126422996#44013385</id>
+        <title type="text">Comment by Ferrybig on Webpack progress using node.js API</title>
+        <author>
+            <name>Ferrybig</name>
+            <uri>https://stackoverflow.com/users/1542723</uri>
+        </author>
+        <link rel="alternate" href="https://stackoverflow.com/questions/31052991/webpack-progress-using-node-js-api/44013385#44013385" />
+        <published>2022-03-18T15:26:05Z</published>
+        <updated>2022-03-18T15:26:05Z</updated>
+        <summary type="html">In Webpack 5, this results in &lt;code&gt;TypeError: compiler.apply is not a function&lt;/code&gt;</summary>
+    </entry>
+
+               <entry>
+        <id>https://stackoverflow.com/questions/15451191/how-to-serve-html-files-in-nginx-without-showing-the-extension-in-this-alias-set/15456686?cid=126315897#15456686</id>
+        <title type="text">Comment by Ferrybig on how to serve html files in nginx without showing the extension in this alias setup</title>
+        <author>
+            <name>Ferrybig</name>
+            <uri>https://stackoverflow.com/users/1542723</uri>
+        </author>
+        <link rel="alternate" href="https://stackoverflow.com/questions/15451191/how-to-serve-html-files-in-nginx-without-showing-the-extension-in-this-alias-set/15456686#15456686" />
+        <published>2022-03-14T10:14:18Z</published>
+        <updated>2022-03-14T10:14:18Z</updated>
+        <summary type="html">Following the bottom example is changing 404 errors into 500 errors, the error logs shows &lt;code&gt;*20172 rewrite or internal redirection cycle while internally redirecting to &amp;quot;index.html&amp;quot;, client:&lt;/code&gt; , I ha to follow the steps shown in &lt;a href=&quot;https://serverfault.com/questions/660986/nginx-request-files-without-extension&quot; title=&quot;nginx request files without extension&quot;&gt;serverfault.com/questions/660986/&amp;hellip;&lt;/a&gt; to fix this 500 error</summary>
+    </entry>
+
+               <entry>
+        <id>https://stackoverflow.com/questions/55082584/how-to-create-a-react-app-directly-in-the-current-folder/59810673?cid=126073641#59810673</id>
+        <title type="text">Comment by Ferrybig on How to create a React app directly in the current folder</title>
+        <author>
+            <name>Ferrybig</name>
+            <uri>https://stackoverflow.com/users/1542723</uri>
+        </author>
+        <link rel="alternate" href="https://stackoverflow.com/questions/55082584/how-to-create-a-react-app-directly-in-the-current-folder/59810673#59810673" />
+        <published>2022-03-02T15:30:23Z</published>
+        <updated>2022-03-02T15:30:23Z</updated>
+        <summary type="html">This is saying &amp;quot;The directory . contains files that could conflict: &amp;lt;all files in the current folder&amp;gt;&amp;quot;</summary>
+    </entry>
+
+               <entry>
+        <id>https://stackoverflow.com/questions/71214824/how-does-the-camel-netty-tcp-socket-consumer-decide-how-to-split-incoming-data-i/71215288?cid=125919632#71215288</id>
+        <title type="text">Comment by Ferrybig on How does the Camel Netty TCP socket consumer decide how to split incoming data into messages (and is it configurable)?</title>
+        <author>
+            <name>Ferrybig</name>
+            <uri>https://stackoverflow.com/users/1542723</uri>
+        </author>
+        <link rel="alternate" href="https://stackoverflow.com/questions/71214824/how-does-the-camel-netty-tcp-socket-consumer-decide-how-to-split-incoming-data-i/71215288#71215288" />
+        <published>2022-02-23T12:46:42Z</published>
+        <updated>2022-02-23T12:46:42Z</updated>
+        <summary type="html">You cannot add a timeout to the decoder, because a connection interruption can also cause you to miss packets for X amount of time in the middle of a message</summary>
+    </entry>
+
+               <entry>
+        <id>https://stackoverflow.com/questions/22013421/non-blocking-network-address-resolution-gethostbyname-or-getaddrinfo/22013796?cid=125864224#22013796</id>
+        <title type="text">Comment by Ferrybig on non-blocking network address resolution (gethostbyname or getaddrinfo)?</title>
+        <author>
+            <name>Ferrybig</name>
+            <uri>https://stackoverflow.com/users/1542723</uri>
+        </author>
+        <link rel="alternate" href="https://stackoverflow.com/questions/22013421/non-blocking-network-address-resolution-gethostbyname-or-getaddrinfo/22013796#22013796" />
+        <published>2022-02-21T11:10:30Z</published>
+        <updated>2022-02-21T11:10:30Z</updated>
+        <summary type="html">@parrowdice The question is tagged &lt;a href=&quot;https://stackoverflow.com/questions/tagged/linux&quot;&gt;linux&lt;/a&gt;, if you check the man page of &lt;a href=&quot;https://www.man7.org/linux/man-pages/man3/gethostbyname.3.html&quot; rel=&quot;nofollow noreferrer&quot;&gt;gethostbyname&lt;/a&gt;, it tells you &amp;quot;gethostbyname()    &#x2502; Thread safety &#x2502; MT-Unsafe race:hostbyname env locale&amp;quot;. Note that it says &lt;i&gt;MT-Unsafe&lt;/i&gt;, which stands for not thread safe</summary>
+    </entry>
+
+               <entry>
+        <id>https://stackoverflow.com/questions/11369076/mysql-insert-if-not-exist-not-using-primary-key/11369373?cid=125759298#11369373</id>
+        <title type="text">Comment by Ferrybig on MySQL INSERT if not exist (not using primary key)</title>
+        <author>
+            <name>Ferrybig</name>
+            <uri>https://stackoverflow.com/users/1542723</uri>
+        </author>
+        <link rel="alternate" href="https://stackoverflow.com/questions/11369076/mysql-insert-if-not-exist-not-using-primary-key/11369373#11369373" />
+        <published>2022-02-16T14:07:21Z</published>
+        <updated>2022-02-16T14:07:21Z</updated>
+        <summary type="html">@Newbie the dual table is a virtual table consisting of no rows and no columns. It i used in places where a from is requires, but you do not want to use an existing table</summary>
+    </entry>
+
+               <entry>
+        <id>https://stackoverflow.com/questions/79780/parsing-http-headers/79812?cid=125654433#79812</id>
+        <title type="text">Comment by Ferrybig on Parsing HTTP Headers</title>
+        <author>
+            <name>Ferrybig</name>
+            <uri>https://stackoverflow.com/users/1542723</uri>
+        </author>
+        <link rel="alternate" href="https://stackoverflow.com/questions/79780/parsing-http-headers/79812#79812" />
+        <published>2022-02-11T15:02:46Z</published>
+        <updated>2022-02-11T15:02:46Z</updated>
+        <summary type="html">Note that this answer is not fully complete, you can also get headers after the content if one of the headers is a &lt;code&gt;Trailers&lt;/code&gt; header, this can catch you off guard during parsing</summary>
+    </entry>
+
+               <entry>
+        <id>https://stackoverflow.com/questions/22788236/how-can-i-manipulate-the-json-body-of-a-post-request-using-nginx-and-lua/22809372?cid=125233455#22809372</id>
+        <title type="text">Comment by Ferrybig on How can I manipulate the JSON body of a POST request using Nginx and Lua?</title>
+        <author>
+            <name>Ferrybig</name>
+            <uri>https://stackoverflow.com/users/1542723</uri>
+        </author>
+        <link rel="alternate" href="https://stackoverflow.com/questions/22788236/how-can-i-manipulate-the-json-body-of-a-post-request-using-nginx-and-lua/22809372#22809372" />
+        <published>2022-01-24T19:49:12Z</published>
+        <updated>2022-01-24T19:49:12Z</updated>
+        <summary type="html">The website you link is down</summary>
+    </entry>
+
+               <entry>
+        <id>https://stackoverflow.com/questions/49729550/implicitly-create-a-tuple-in-typescript/52445008?cid=123616421#52445008</id>
+        <title type="text">Comment by Ferrybig on Implicitly create a tuple in Typescript</title>
+        <author>
+            <name>Ferrybig</name>
+            <uri>https://stackoverflow.com/users/1542723</uri>
+        </author>
+        <link rel="alternate" href="https://stackoverflow.com/questions/49729550/implicitly-create-a-tuple-in-typescript/52445008#52445008" />
+        <published>2021-11-11T14:58:24Z</published>
+        <updated>2021-11-11T14:58:24Z</updated>
+        <summary type="html">@ShaneCallanan The type information is already been lost after the initial array is constructed, typescript cannot magically get the array length back, which is required in tuples. The best typescript can do with the type information it know (&lt;code&gt;string[]&lt;/code&gt;) is making  &lt;code&gt;[...string]&lt;/code&gt;, which is effectively a string array</summary>
+    </entry>
+
+               <entry>
+        <id>https://stackoverflow.com/questions/50374908/transform-union-type-to-intersection-type/50375286?cid=122652191#50375286</id>
+        <title type="text">Comment by Ferrybig on Transform union type to intersection type</title>
+        <author>
+            <name>Ferrybig</name>
+            <uri>https://stackoverflow.com/users/1542723</uri>
+        </author>
+        <link rel="alternate" href="https://stackoverflow.com/questions/50374908/transform-union-type-to-intersection-type/50375286#50375286" />
+        <published>2021-09-30T13:53:58Z</published>
+        <updated>2021-09-30T13:53:58Z</updated>
+        <summary type="html">@jcalz After further testing,it breaks with &lt;a href=&quot;https://www.typescriptlang.org/tsconfig#exactOptionalPropertyTypes&quot; rel=&quot;nofollow noreferrer&quot;&gt;&lt;code&gt;exactOptionalPropertyTypes&lt;/code&gt;&lt;/a&gt; turned on: &lt;a href=&quot;https://www.typescriptlang.org/play?exactOptionalPropertyTypes=true#code/C4TwDgpgBAqgdgSwPZwCpIJJ2BATgZwgGNhk4AeGAPigF4AoKKAChiggA8c4ATfKAIZwQUAPwsA1gC5YASjo0AbkgQ8oMuBEV55nbnxbNpUBHABmeKBnm0lKnvPEZ1UTdtz16oSFAAySJAl8ADFTCHQAWWhaWEQUdCwcAmJSFHIAb0FRGUyAI2yofGBcUwBzKABfSqgAHyhMgQLMogKikrhyqoqqegB6ACoob2h-QJCwyOjXLUt&#x2B;3qA&quot; rel=&quot;nofollow noreferrer&quot;&gt;typescriptlang.org/play?exactOptionalPropertyTypes=true#code&amp;zwnj;&amp;#8203;/&amp;hellip;&lt;/a&gt; This is a new option in typescript 4.4:&lt;a href=&quot;https://www.typescriptlang.org/docs/handbook/release-notes/typescript-4-4.html&quot; rel=&quot;nofollow noreferrer&quot;&gt;typescriptlang.org/docs/handbook/release-notes/&amp;hellip;&lt;/a&gt;</summary>
+    </entry>
+
+               <entry>
+        <id>https://stackoverflow.com/questions/50374908/transform-union-type-to-intersection-type/50375286?cid=122651704#50375286</id>
+        <title type="text">Comment by Ferrybig on Transform union type to intersection type</title>
+        <author>
+            <name>Ferrybig</name>
+            <uri>https://stackoverflow.com/users/1542723</uri>
+        </author>
+        <link rel="alternate" href="https://stackoverflow.com/questions/50374908/transform-union-type-to-intersection-type/50375286#50375286" />
+        <published>2021-09-30T13:37:40Z</published>
+        <updated>2021-09-30T13:37:40Z</updated>
+        <summary type="html">This fails with &lt;code&gt;UnionToIntersection&amp;lt;{ a?: { b?: string }} | { a?: { c?: string }}&amp;gt;&lt;/code&gt;, it should return &lt;code&gt;{ a?: { b?: string }} &amp;amp; { a?: { c?: string }}&lt;/code&gt; but actually returns a &lt;code&gt;never&lt;/code&gt;, even though the former is a valid type</summary>
+    </entry>
+
+               <entry>
+        <id>https://stackoverflow.com/questions/69078285/any-way-to-use-clear-in-a-bash-script-without-its-byte-sequence-being-output?cid=122088236</id>
+        <title type="text">Comment by Ferrybig on Any way to use &#x27;clear&#x27; in a Bash script *without* its byte sequence being output to stdout?</title>
+        <author>
+            <name>Ferrybig</name>
+            <uri>https://stackoverflow.com/users/1542723</uri>
+        </author>
+        <link rel="alternate" href="https://stackoverflow.com/questions/69078285/any-way-to-use-clear-in-a-bash-script-without-its-byte-sequence-being-output" />
+        <published>2021-09-06T17:30:19Z</published>
+        <updated>2021-09-06T17:30:19Z</updated>
+        <summary type="html">Would doing &lt;code&gt;if [ -t 1 ] ; then clear; fi;&lt;/code&gt; work for you? Only run the clear command if the current output is attached to a terminal, and skipping it if the output of the script is redirected to a file</summary>
+    </entry>
+
+               <entry>
+        <id>https://stackoverflow.com/questions/47377304/what-means-mysql-serverstatus-34-in-response-of-waterline-orm-in-sails-js/47416782?cid=121693829#47416782</id>
+        <title type="text">Comment by Ferrybig on What means mysql &quot;serverStatus: 34&quot; in response of waterline orm in sails.js?</title>
+        <author>
+            <name>Ferrybig</name>
+            <uri>https://stackoverflow.com/users/1542723</uri>
+        </author>
+        <link rel="alternate" href="https://stackoverflow.com/questions/47377304/what-means-mysql-serverstatus-34-in-response-of-waterline-orm-in-sails-js/47416782#47416782" />
+        <published>2021-08-20T08:00:14Z</published>
+        <updated>2021-08-20T08:00:14Z</updated>
+        <summary type="html">@OsaguiAghedo The values shown on the status flag documentation page are hexadecial valus. A &lt;code&gt;serverStatus: 34&lt;/code&gt; means &lt;code&gt;0x22&lt;/code&gt; in hex, which means &lt;code&gt;SERVER_STATUS_AUTOCOMMIT&lt;/code&gt; (0x02) and &lt;code&gt;SERVER_STATUS_NO_INDEX_USED&lt;/code&gt; (0x20)  (in &lt;a href=&quot;https://dev.mysql.com/doc/internals/en/status-flags.html&quot; rel=&quot;nofollow noreferrer&quot;&gt;MySQL 14.1.3.4&lt;/a&gt; )</summary>
+    </entry>
+
+               <entry>
+        <id>https://stackoverflow.com/questions/13212187/is-it-possible-to-get-the-mac-address-for-machine-using-nmap/14165492?cid=120743286#14165492</id>
+        <title type="text">Comment by Ferrybig on is it possible to get the MAC address for machine using nmap</title>
+        <author>
+            <name>Ferrybig</name>
+            <uri>https://stackoverflow.com/users/1542723</uri>
+        </author>
+        <link rel="alternate" href="https://stackoverflow.com/questions/13212187/is-it-possible-to-get-the-mac-address-for-machine-using-nmap/14165492#14165492" />
+        <published>2021-07-09T15:02:26Z</published>
+        <updated>2021-07-09T15:02:26Z</updated>
+        <summary type="html">Note that this does not show any mac address if you are scanning an address belonging to an interface of your own computer, it is a trap if you are not paying attention</summary>
+    </entry>
+
+               <entry>
+        <id>https://stackoverflow.com/questions/67822825/how-to-solve-java-lang-unsupportedclassversionerror?cid=119879756</id>
+        <title type="text">Comment by Ferrybig on How to solve java.lang.UnsupportedClassVersionError?</title>
+        <author>
+            <name>Ferrybig</name>
+            <uri>https://stackoverflow.com/users/1542723</uri>
+        </author>
+        <link rel="alternate" href="https://stackoverflow.com/questions/67822825/how-to-solve-java-lang-unsupportedclassversionerror" />
+        <published>2021-06-03T13:58:43Z</published>
+        <updated>2021-06-03T13:58:43Z</updated>
+        <summary type="html">Use &lt;code&gt;FROM openjdk:14-jdk-alpine&lt;/code&gt; instead of &lt;code&gt;FROM openjdk:7-jdk-alpine&lt;/code&gt;, since you are using java 14 locally. Making sure the enviomets match is the first step</summary>
+    </entry>
+
+</feed>

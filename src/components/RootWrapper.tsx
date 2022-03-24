@@ -45,7 +45,7 @@ export default function RootWrapper({
 				<body data-no-instant>
 					{children}
 					{base.js.map(js => (
-						<script src={js} data-no-instant/>
+						<script defer src={js} data-no-instant/>
 					))}
 				</body>
 			</html>

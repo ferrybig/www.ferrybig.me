@@ -3,3 +3,6 @@
 	max-width: 100%;
 	max-height: 80vh;
 }
+.markdown img {
+	max-width: 100%;
+}

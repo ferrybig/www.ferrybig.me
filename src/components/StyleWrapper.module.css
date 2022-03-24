@@ -9,6 +9,7 @@
 	border-right: 2px solid var(--outer-stop-line);
 	background: linear-gradient(var(--inner-start-bg), var(--inner-stop-bg));
 	border-image: linear-gradient(var(--outer-start-line), var(--outer-stop-line)) 1 100%;
+	box-sizing: border-box;
 }
 .topInnerPrimary {
 	--inner-start-bg: var(--background-primary-color);

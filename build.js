@@ -11,6 +11,7 @@ const hljs = require('highlight.js');
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const ImageMinimizerPlugin = require('image-minimizer-webpack-plugin');
+const {noopener: noOpener} = require('posthtml-noopener');
 
 function main(watchMode = false) {
 	return new Promise((doResolve, doReject) => {
@@ -38,7 +39,7 @@ function main(watchMode = false) {
 					new CssMinimizerPlugin({
 						minimizerOptions: {
 							preset: [
-								'default',
+								'cssnano-preset-advanced',
 								{
 									discardComments: { removeAll: true },
 								},
@@ -126,7 +127,7 @@ function main(watchMode = false) {
 						},
 					},
 					{
-						test: /\.(png|jpg|jpeg|gif|svg|ttf|woff|woff2)$/i,
+						test: /\.(png|jpg|jpeg|gif|svg|ttf|woff|woff2|zip|jar|tar)$/i,
 						type: 'asset',
 					},
 					{
@@ -187,7 +188,52 @@ function main(watchMode = false) {
 											options: {
 												minimize: true,
 												esModule: false,
+												sources: {
+													list: [
+														'...',
+														{
+															tag: 'a',
+															attribute: 'href',
+															type: 'src',
+															filter: (tag, attribute, attributes) => {
+																const attributeInstance = attributes.find(a => a.name === attribute);
+																if (!attributeInstance) {
+																	return false;
+																}
+																return attributeInstance.value
+																	&& attributeInstance.value.endsWith('.zip')
+																	&& attributeInstance.value.startsWith('.')
+																	|| false;
+															}
+														},
+													],
+												},
 											},
+										},
+										{
+											loader: 'posthtml-loader',
+											options: {
+												plugins: [
+													noOpener(),
+													(tree) => {
+														tree.match(
+															{
+																tag: 'a',
+																attrs: { href: new RegExp(/\S+/), download: '' },
+															},
+															(node) => {
+																const { download, href } = node.attrs;
+
+																if (!download) {
+																	node.attrs.download = href.substring(href.lastIndexOf('/')+ 1, href.length);
+																}
+
+																return node;
+															}
+														);
+													}
+												]
+											}
 										},
 										{
 											loader: 'markdown-loader',
@@ -209,7 +255,7 @@ function main(watchMode = false) {
 			},
 		});
 		function reject(e) {
-			compiler.close((closeErr) => {
+			compiler.close(() => {
 				doReject(e);
 			});
 		}
@@ -227,7 +273,7 @@ function main(watchMode = false) {
 			if (err) {
 				bs?.close();
 				if (watching) {
-					watching.close((err1) => {
+					watching.close(() => {
 						reject(err instanceof Error ? err : new Error(err));
 					});
 				} else {
@@ -313,7 +359,9 @@ function main(watchMode = false) {
 	});
 }
 
-main(true).then(() => { }, (e) => {
+main(true).then(() => {
+	console.log('success');
+}, (e) => {
 	console.error(e);
 	process.exit(1);
 });
