@@ -3,7 +3,7 @@ import Logo from './Logo';
 import Nav from './Nav';
 import StyleWrapper from './StyleWrapper';
 import ThemeSwitcher from './ThemeSwitcher';
-import classes from './TopBar.module.css'
+import classes from './TopBar.module.css';
 
 export default function TopBar() {
 	return (
@@ -13,5 +13,5 @@ export default function TopBar() {
 			<Nav className={classes.nav}/>
 			<ThemeSwitcher className={classes.themeSwitcher}/>
 		</StyleWrapper>
-	)
+	);
 }

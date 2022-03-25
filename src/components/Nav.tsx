@@ -1,7 +1,7 @@
 import classNames from 'classnames';
-import * as routes from '../pages'
+import * as routes from '../pages';
 import LiLink from './LiLink';
-import classes from './Nav.module.css'
+import classes from './Nav.module.css';
 
 interface Props {
 	className: string,

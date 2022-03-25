@@ -7,7 +7,7 @@ function namedTag(name: string, input: typeof import('*.md')) {
 	return {
 		...input,
 		slug: name,
-	}
+	};
 }
 
 export default [
@@ -15,4 +15,4 @@ export default [
 	namedTag('carriers', carriers),
 	namedTag('3d-models', _3dModels),
 	namedTag('openscad', openscad),
-]
+];

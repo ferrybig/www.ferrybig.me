@@ -53,5 +53,5 @@ export default function RootWrapper({
 				</body>
 			</html>
 		</Output>
-	)
+	);
 }

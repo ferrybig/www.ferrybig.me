@@ -6,4 +6,4 @@ export default [
 	instantClick,
 	luxon,
 	main,
-]
+];

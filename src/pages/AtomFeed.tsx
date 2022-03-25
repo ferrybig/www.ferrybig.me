@@ -1,17 +1,13 @@
 import { DateTime } from 'luxon';
-import { DOMParser } from 'xmldom'
+import { DOMParser } from 'xmldom';
 import { blog } from '.';
 import Output from '../components/Output';
 import { createElement } from '../jsx/jsx-runtime';
-import { PartialBase } from '../PageBase';
+import PageBase, { fullPath } from '../PageBase';
 import ContentDefinition from '../types/ContentDefinition';
 
-function href(base: PartialBase, link: string) {
-	return base.site + base.publicPath.substring(1) + link.substring(1);
-}
-
 interface Props {
-	base: PartialBase,
+	base: PageBase,
 	slice: ContentDefinition[],
 	title: string,
 	linkMain: string,
@@ -25,8 +21,8 @@ export default function AtomFeed({ base, slice, title, linkMain, linkSelf }: Pro
 				xmlns: 'http://www.w3.org/2005/Atom',
 			}, [
 				createElement('title', {}, title),
-				createElement('link', { href: href(base, linkSelf), rel: 'self'}),
-				createElement('link', { href:  href(base, linkMain), rel: 'alternative', type: 'text/html'}),
+				createElement('link', { href: fullPath(base, linkSelf), rel: 'self'}),
+				createElement('link', { href:  fullPath(base, linkMain), rel: 'alternative', type: 'text/html'}),
 				createElement('author', {}, [
 					createElement('name', {}, 'Fernando van Loenhout')
 				]),
@@ -34,7 +30,7 @@ export default function AtomFeed({ base, slice, title, linkMain, linkSelf }: Pro
 				slice.map(content => createElement('entry', {}, [
 					createElement('id', {}, content.slug),
 					createElement('title', {}, content.title),
-					createElement('link', { href: href(base, blog.toPath({slug: content.slug }))}),
+					createElement('link', { href: fullPath(base, blog.toPath({slug: content.slug }))}),
 					createElement('published', {}, content.created.toISO()),
 					createElement('updated', {}, content.updated.toISO()),
 					createElement('summary', { type: 'xhtml'}, [

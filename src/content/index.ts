@@ -111,7 +111,7 @@ function makeOverview(posts: ContentDefinition[], paginateSize = 12): {
 			...data,
 			content: paginate(data.content, paginateSize)
 		})),
-	}
+	};
 }
 
 export const {

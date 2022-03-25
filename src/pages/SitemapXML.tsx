@@ -1,9 +1,9 @@
 import Output from '../components/Output';
 import { createElement } from '../jsx/jsx-runtime';
-import { PartialBase } from '../PageBase';
+import PageBase from '../PageBase';
 
 interface Props {
-	base: PartialBase,
+	base: PageBase,
 }
 
 export default function SitemapXML({ base }: Props) {

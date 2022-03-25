@@ -2,11 +2,11 @@ import fs from 'fs';
 import path from 'path';
 import mkdirs from 'mkdirs';
 import md5 from 'md5';
-import './css'
+import './css';
 import js from './embedded-js';
 import everyPost, { homePage, perTag } from './content';
 import * as routes from './pages';
-import PageBase, { PartialBase } from './PageBase';
+import PageBase from './PageBase';
 import renderElement from './utils/jsx-to-html';
 import { RouteDefinition } from './minirouter/route';
 
@@ -17,7 +17,7 @@ function writeFile(file: string, data: string | Buffer) {
 	fs.writeFileSync(file, data);
 }
 
-function writeWebFile(partialBase: PartialBase, file: string, data: string | Buffer, version: boolean) {
+function writeWebFile(partialBase: PageBase, file: string, data: string | Buffer, version: boolean) {
 	const f = file.startsWith('/') ? file.substring(1) : file;
 	if (version) {
 		const hash = md5(data).substring(0, 20);
@@ -33,7 +33,7 @@ function writeWebFile(partialBase: PartialBase, file: string, data: string | Buf
 }
 
 function renderRoute<P, I>(
-	partialBase: PartialBase,
+	partialBase: PageBase,
 	route: RouteDefinition<P, I>,
 	props: Omit<P, 'base'> & I): [string, string, JSX.Element | null] {
 	const parsedPath = route.toPath(props);
@@ -41,16 +41,20 @@ function renderRoute<P, I>(
 	const publicPath = partialBase.publicPath?.endsWith('/') ? partialBase.publicPath.substring(0, partialBase.publicPath.length - 1) : partialBase.publicPath;
 
 	const base: PageBase = {
-		link: {
-			canonical: site ? `${site}${publicPath}${parsedPath}` : null,
-			'og:url': site ? `${site}${publicPath}${parsedPath}` : null,
-		},
 		...partialBase,
-	}
+		link: {
+			...partialBase.link,
+			canonical: site ? `${site}${publicPath}${parsedPath}` : null,
+		},
+		meta: {
+			...partialBase.meta,
+			'og:url': site ? `${site}${publicPath}${parsedPath}` : null,
+		}
+	};
 	const file =
 		parsedPath.endsWith('.xml') ? `${parsedPath}` :
-			parsedPath.endsWith('/') ? `${parsedPath}index.html` :
-				`${parsedPath}.html`;
+		parsedPath.endsWith('/') ? `${parsedPath}index.html` :
+		`${parsedPath}.html`;
 	const renderFunction = route.tryRender(parsedPath);
 	if (!renderFunction) {
 		throw new Error(`Attempting to render ${route}, we got a problem when we parsed ${parsedPath} to a route constructor`);
@@ -60,18 +64,8 @@ function renderRoute<P, I>(
 
 export default function render(assets: Record<string, string>) {
 	console.log('Rendering...');
-
-	const partialBase: PartialBase = {
-		assets,
-		publicPath: '/',
-		site: 'https://www.ferrybig.me/',
-		urls: [],
-		js,
-		css: Object.keys(assets).filter(e => e.endsWith('.css')).map(e => `/${e}`),
-
-	}
 	const allRenderers: {
-		[K in keyof typeof routes]: ((partialBase: PartialBase) => [string, string, JSX.Element | null])[];
+		[K in keyof typeof routes]: ((partialBase: PageBase) => [string, string, JSX.Element | null])[];
 	} = {
 		blog: everyPost.map(content => base => renderRoute(base, routes.blog, { content, slug: content.slug})),
 		home: homePage.map((slice, page, { length: pages }) => base => renderRoute(base, routes.home, {slice, page: page === 0 ? '' : page + 1, pages})),
@@ -96,11 +90,21 @@ export default function render(assets: Record<string, string>) {
 		period: [base => renderRoute(base, routes.period, {})],
 		sitemap: [base => renderRoute(base, routes.sitemap, {})],
 		sitemapXML: [base => renderRoute(base, routes.sitemapXML, {})],
-	}
+	};
+	const applicationBase: PageBase = {
+		assets,
+		publicPath: '/',
+		site: 'https://www.ferrybig.me/',
+		urls: [],
+		js,
+		css: Object.keys(assets).filter(e => e.endsWith('.css')).map(e => `/${e}`),
+		link: {},
+		meta: {},
+	};
 	for (const factory of Object.values(allRenderers).flatMap(a => a)) {
-		const [file, loc, jsx] = factory(partialBase);
+		const [file, loc, jsx] = factory(applicationBase);
 		const html = renderElement(jsx);
-		writeWebFile(partialBase, file, html, false);
-		partialBase.urls.push({ loc, file, renderedBy: (jsx?.type instanceof Function ? `<${jsx.type.name}>` : jsx?.type) ?? 'unknown'});
+		writeWebFile(applicationBase, file, html, false);
+		applicationBase.urls.push({ loc, file, renderedBy: (jsx?.type instanceof Function ? `<${jsx.type.name}>` : jsx?.type) ?? 'unknown'});
 	}
 }

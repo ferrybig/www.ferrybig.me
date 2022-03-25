@@ -17,5 +17,5 @@ export default function LiLink<R>({children, route, props, className, linkClassN
 				{children}
 			</Link>
 		</li>
-	)
+	);
 }

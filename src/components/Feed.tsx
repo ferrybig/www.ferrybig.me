@@ -1,9 +1,8 @@
 import Fragment from './Fragment';
 import PageWrapper from './PageWrapper';
 import SrOnly from './SrOnly';
-import StyleWrapper from './StyleWrapper';
 import { JSXNode } from '../jsx/jsx-runtime';
-import PageBase from '../PageBase';
+import PageBase, { fullPath } from '../PageBase';
 import ContentDefinition from '../types/ContentDefinition';
 import classes from './Feed.module.css';
 
@@ -25,7 +24,7 @@ function Pagination({toPath, page, pages}: PaginationProps): JSX.Element | null 
 	} else {
 		children.push(
 			<li><span>...</span></li>
-		)
+		);
 		for(let i = page - 3; i < page; i++) {
 			children.push(
 				<li><a data-instant href={toPath(i === 1 ? '' : `${i}`)}><SrOnly>page </SrOnly>{i}</a></li>
@@ -34,7 +33,7 @@ function Pagination({toPath, page, pages}: PaginationProps): JSX.Element | null 
 	}
 	children.push(
 		<li><a data-instant href={toPath(page === 1 ? '' : `${page}`)} aria-current="page"><SrOnly>page </SrOnly>{page}</a></li>
-	)
+	);
 	if (page > pages - 4) {
 		for(let i = page + 1; i <= pages; i++) {
 			children.push(
@@ -49,13 +48,13 @@ function Pagination({toPath, page, pages}: PaginationProps): JSX.Element | null 
 		}
 		children.push(
 			<li><span>...</span></li>
-		)
+		);
 	}
 	return (
 		<Fragment>
 			{children}
 		</Fragment>
-	)
+	);
 }
 
 interface Props {
@@ -74,15 +73,26 @@ interface Props {
 }
 
 export default function Feed({ base: oldBase, page, pages, title, children, slice, toPath, next, previous, first, last, pagination }: Props) {
-	const base = {
+	const base: PageBase = {
 		...oldBase,
 		link: pages === 1 || first ? oldBase.link : {
 			...oldBase.link,
-			first: first ? first : toPath(''),
-			previous: previous ? previous : page === 1 ? null : page === 2 ? toPath('') : toPath(`${page - 1}`),
-			next: next ? next : page === pages ? null : toPath(`${page + 1}`),
-			last: last ? last : toPath(`${pages}`),
-			'og:url': toPath(''),
+			first:
+				first ? first :
+				fullPath(oldBase, toPath('')),
+			previous:
+				previous ? previous :
+				page === 1 ? null :
+				page === 2 ? fullPath(oldBase, toPath('')) :
+				fullPath(oldBase, toPath(`${page - 1}`)),
+			next:
+				next ? next :
+				page === pages ? null :
+				fullPath(oldBase, toPath(`${page + 1}`)),
+			last:
+				last ? last :
+				fullPath(oldBase, toPath(`${pages}`)),
+			'og:url': fullPath(oldBase, toPath('')),
 		},
 	};
 	return (
@@ -93,41 +103,40 @@ export default function Feed({ base: oldBase, page, pages, title, children, slic
 			inner='base'
 			bottomOuter='secondary'
 			bottomInner='base'
+			includeWrapper
 		>
-			<StyleWrapper top="secondary" topInner='base' bottom="secondary" bottomInner='base'>
-				{children ? (
-					children
-				) : (
-					<h1>{title} - Page ${page}</h1>
-				)}
-				<h2 id="articles">Articles</h2>
-				{slice.map(e => (
-					<article>
-						<h1>{e.title}</h1>
+			{children ? (
+				children
+			) : (
+				<h1>{title} - Page ${page}</h1>
+			)}
+			<h2 id="articles">Articles</h2>
+			{slice.map(e => (
+				<article>
+					<h1>{e.title}</h1>
 
-					</article>
-				))}
-				{base.link.first || base.link.previous || base.link.next || base.link.last && (
-					<nav aria-label="pagination" className={classes.pagination}>
-						<ul>
-							{base.link.first && <li><a data-instant href={base.link.first}>
-								<span aria-hidden="true">«</span>
-								<SrOnly>first page</SrOnly>
-							</a></li>}
-							{base.link.previous && <li><a data-instant href={base.link.previous}>
-								<span aria-hidden="true">&lt;</span>
-								<SrOnly>previous page</SrOnly>
-							</a></li>}
-							{pagination ?? <Pagination
-								toPath={toPath}
-								page={page}
-								pages={page}
-							/>}
-							
-						</ul>
-					</nav>
-				)}
-			</StyleWrapper>
+				</article>
+			))}
+			{base.link.first || base.link.previous || base.link.next || base.link.last && (
+				<nav aria-label="pagination" className={classes.pagination}>
+					<ul>
+						{base.link.first && <li><a data-instant href={base.link.first}>
+							<span aria-hidden="true">«</span>
+							<SrOnly>first page</SrOnly>
+						</a></li>}
+						{base.link.previous && <li><a data-instant href={base.link.previous}>
+							<span aria-hidden="true">&lt;</span>
+							<SrOnly>previous page</SrOnly>
+						</a></li>}
+						{pagination ?? <Pagination
+							toPath={toPath}
+							page={page}
+							pages={page}
+						/>}
+						
+					</ul>
+				</nav>
+			)}
 		</PageWrapper>
-	)
+	);
 }

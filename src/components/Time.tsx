@@ -1,4 +1,4 @@
-import { DateTime } from 'luxon'
+import { DateTime } from 'luxon';
 import assertNever from '../utils/assert-never';
 
 interface Props {
@@ -25,5 +25,5 @@ export default function Time({ dateTime, format }: Props) {
 		<time dateTime={digital} title={digital}>
 			{formatted}
 		</time>
-	)
+	);
 }

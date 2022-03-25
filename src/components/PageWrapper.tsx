@@ -27,7 +27,7 @@ export default function PageWrapper({
 			<TopBar/>
 			<StyleWrapper height="short" top='primary' bottom={outer} bottomInner={inner}/>
 			{includeWrapper ? (
-				<StyleWrapper as="main" top="secondary" topInner='base' bottom="secondary" bottomInner='base'>
+				<StyleWrapper as="main" top="secondary" topInner='base' bottom="secondary" bottomInner='base' className={classes.main}>
 					{children}
 				</StyleWrapper>
 			) : (
@@ -38,5 +38,5 @@ export default function PageWrapper({
 			<StyleWrapper height="short" top={bottomOuter} topInner={bottomInner} bottom='tertiary'/>
 			<PageFooter/>
 		</RootWrapper>
-	)
+	);
 }

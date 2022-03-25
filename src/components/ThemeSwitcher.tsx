@@ -15,5 +15,5 @@ export default function ThemeSwitcher({ className }: Props) {
 				<button className={classes.dark} data-theme="dark" title="Use dark theme">dark</button>
 			</div>
 		</div>
-	)
+	);
 }

@@ -16,5 +16,5 @@ export default function JobTitle({ className }: Props) {
 				<span className={classes.titleThird}> developer!</span>
 			</span>
 		</p>
-	)
+	);
 }

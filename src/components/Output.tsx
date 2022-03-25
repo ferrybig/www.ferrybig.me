@@ -17,13 +17,13 @@ export default function Output({
 			start: '<!DOCTYPE html>\n',
 			end: '',
 			mode: 'html',
-		}, children)
+		}, children);
 	case 'xml':
 		return createElement(RAW_TAG_MARKER, {
 			start: '<?xml version="1.0" encoding="utf-8"?>\n',
 			end: '',
 			mode: 'xml',
-		}, children)
+		}, children);
 	default:
 		return assertNever(type);
 	}

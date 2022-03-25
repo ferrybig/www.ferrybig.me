@@ -2,7 +2,7 @@ import classNames from 'classnames';
 import face from '../images/face.jpg';
 import Link from './Link';
 import { home } from '../pages';
-import classes from './Logo.module.css'
+import classes from './Logo.module.css';
 import SrOnly from './SrOnly';
 
 interface Props {
@@ -15,5 +15,5 @@ export default function Logo({ className }: Props) {
 			<img src={face} width={135} height={185} alt=""/>
 			<SrOnly>Go back to the homepage</SrOnly>
 		</Link>
-	)
+	);
 }

@@ -10,11 +10,11 @@ const colors: Record<Colors, string> = {
 	primary: 'Primary',
 	secondary: 'Secondary',
 	tertiary: 'Tertiary',
-}
+};
 const heights = {
 	short: classes.heightShort,
 	absent: undefined
-}
+};
 
 interface Props extends HTMLAttributes<HTMLElement> {
 	top: Colors,

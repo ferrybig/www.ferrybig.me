@@ -13,7 +13,12 @@ interface Props {
 export default function Home(props: Props) {
 	return (
 		<Feed 
-			base={props.base}
+			base={{
+				...props.base,
+				link: {
+					
+				}
+			}}
 			title="Fernando's Development website"
 			page={props.page}
 			pages={props.pages}

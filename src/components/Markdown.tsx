@@ -15,5 +15,5 @@ export default function Markdown({ content, title, children }: Props) {
 			{children}
 			<div className={classes.markdown} dangerouslySetInnerHTML={{__html: content}}/>
 		</Fragment>
-	)
+	);
 }

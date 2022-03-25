@@ -5,7 +5,7 @@ const translateMap: Partial<Record<string, string>> = {
 	className: 'class',
 	htmlFor: 'for',
 	dateTime: 'datetime',
-}
+};
 const selfClosing: Partial<Record<string, true>> = {
 	link: true,
 	meta: true,
@@ -13,7 +13,7 @@ const selfClosing: Partial<Record<string, true>> = {
 	img: true,
 	input: true,
 	base: true,
-}
+};
 
 export function escape(input: unknown): string {
 	switch(typeof input) {
@@ -64,7 +64,7 @@ export default function renderElement(
 	if (elm.type instanceof Function) {
 		let newTag;
 		try {
-			newTag = elm.type(elm.props)
+			newTag = elm.type(elm.props);
 		} catch(err) {
 			const e = err instanceof Error ? err : new Error(`${err}`);
 			e.message += '\nThis error happened in ' + renderStack;
@@ -79,8 +79,8 @@ export default function renderElement(
 	const newMode = elm.type === RAW_TAG_MARKER ? elm.props.mode ?? mode : mode; 
 	const childHTML =
 		dangerouslySetInnerHTML && '__html' in dangerouslySetInnerHTML ? dangerouslySetInnerHTML.__html :
-			children ? renderElement(children, newMode, [...renderStack, elm.type]) :
-				''
+		children ? renderElement(children, newMode, [...renderStack, elm.type]) :
+		'';
 	if (elm.type === RAW_TAG_MARKER) {
 		return elm.props.start + childHTML + elm.props.end;
 	} else if (mode === 'html') {

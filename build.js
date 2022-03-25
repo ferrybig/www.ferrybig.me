@@ -313,7 +313,7 @@ function main(watchMode = false) {
 				fs.copySync('./tmp', './dist', { filter: (name) => !name.endsWith('bundle.js') && !name.endsWith('bundle.js.map') });
 				const newAssets = {
 					...assets,
-				}
+				};
 				//console.log(stats.toJson('all').chunks);
 				for (const asset of stats.toJson('all').assets) {
 					if (asset.name.startsWith('static/')) {
@@ -339,7 +339,7 @@ function main(watchMode = false) {
 				assets[f] = `${f}?v=${md5(fileContents).substring(0, 20)}`;
 				console.log(`${`dist/${f}:`.padEnd(40)} ${fileContents.length}\t bytes copied`);
 			}
-		})))
+		})));
 		const clean = false;
 		Promise.resolve()
 			.then(() => clean && Promise.all(fs.rm('./tmp', { recursive: true, force: true }), fs.rm('./dist', { recursive: true, force: true })))

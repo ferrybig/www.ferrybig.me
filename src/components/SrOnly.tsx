@@ -10,5 +10,5 @@ export default function SrOnly({children}:Props) {
 		<span className={globalClasses.visuallyHidden}>
 			{children}
 		</span>
-	)
+	);
 }

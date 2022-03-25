@@ -29,14 +29,19 @@ rules:
     indent:
         - warn
         - tab
+        - flatTernaryExpressions: true
     react/forbid-component-props:
         - error
         - forbid:
             - key
     "@typescript-eslint/no-explicit-any":
         - off
+    semi:
+        - warn
+        - always
 env:
     browser: true
 settings:
     react:
         pragma: React
+        version: '17.0'

@@ -11,7 +11,7 @@ export default function Home({ base }: Props) {
 		(grouped[entry.renderedBy] ??= []).push(entry);
 	}
 	return (
-		<PageWrapper base={base} title="Fernando's Development area">
+		<PageWrapper base={base} title="Fernando's Development area" includeWrapper>
 			<ul>
 				{Object.entries(grouped).map(([key, entries]) => (
 					<li>
