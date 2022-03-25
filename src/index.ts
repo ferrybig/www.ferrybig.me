@@ -99,7 +99,9 @@ export default function render(assets: Record<string, string>) {
 		js,
 		css: Object.keys(assets).filter(e => e.endsWith('.css')).map(e => `/${e}`),
 		link: {},
-		meta: {},
+		meta: {
+			author: 'Fernando van Loenhout',
+		},
 	};
 	for (const factory of Object.values(allRenderers).flatMap(a => a)) {
 		const [file, loc, jsx] = factory(applicationBase);

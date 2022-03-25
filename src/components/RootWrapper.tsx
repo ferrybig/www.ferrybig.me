@@ -29,11 +29,11 @@ export default function RootWrapper({
 						<link href={js} rel="preload" as="script"/>
 					))}
 					<meta name="viewport" content="width=device-width, initial-scale=1"/>
-					<meta name="author" content="Fernando van Loenhout"/>
 					<meta name="color-scheme" content="light dark"/>
-					{Object.entries(base.link).filter((e): e is [string, string] => !!e[1]).map(([name, value]) => ['og:url'].includes(name) ? (
+					{Object.entries(base.meta).filter((e): e is [string, string] => !!e[1]).map(([name, value]) => (
 						<meta property={name} content={value}/>
-					) : (
+					))}
+					{Object.entries(base.link).filter((e): e is [string, string] => !!e[1]).map(([name, value]) => (
 						<link rel={name} href={value}/>
 					))}
 					{base.css.map(css => (

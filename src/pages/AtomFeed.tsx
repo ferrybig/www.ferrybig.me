@@ -23,9 +23,9 @@ export default function AtomFeed({ base, slice, title, linkMain, linkSelf }: Pro
 				createElement('title', {}, title),
 				createElement('link', { href: fullPath(base, linkSelf), rel: 'self'}),
 				createElement('link', { href:  fullPath(base, linkMain), rel: 'alternative', type: 'text/html'}),
-				createElement('author', {}, [
-					createElement('name', {}, 'Fernando van Loenhout')
-				]),
+				base.meta.author ? createElement('author', {}, [
+					createElement('name', {}, base.meta.author)
+				]) : null,
 				createElement('updated', {}, slice.reduce((a, b) => a < b.updated ? b.updated : a, DateTime.fromMillis(0)).toISO()),
 				slice.map(content => createElement('entry', {}, [
 					createElement('id', {}, content.slug),
