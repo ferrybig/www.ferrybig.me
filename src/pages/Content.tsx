@@ -46,7 +46,7 @@ export default function Content({ content, base }: Props) {
 					</p>
 				</header>
 				<Markdown
-					title={content.titleHTML}
+					title={content.title}
 					content={content.body}
 				/>
 			</article>

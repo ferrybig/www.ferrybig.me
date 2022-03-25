@@ -1,3 +1,5 @@
+import { JSXNode } from './jsx/jsx-runtime';
+
 export interface SitemapEntry {
 	loc: string,
 	file: string,
@@ -14,6 +16,7 @@ export default interface PageBase {
 	css: string[],
 	link: Record<string, string | null>,
 	meta: Record<string, string | null>,
+	head: JSXNode[],
 	// eslint-disable-next-line semi
 }
 export function writeLinkToAsset(base: PageBase, resource: string) {

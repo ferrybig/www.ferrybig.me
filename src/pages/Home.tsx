@@ -12,12 +12,13 @@ interface Props {
 
 export default function Home(props: Props) {
 	return (
-		<Feed 
+		<Feed
 			base={{
 				...props.base,
-				link: {
-					
-				}
+				head: [
+					...props.base.head,
+					<link href={routes.homeAtom.toPath({})} rel="alternate" type="application/atom+xml"/>
+				]
 			}}
 			title="Fernando's Development website"
 			page={props.page}

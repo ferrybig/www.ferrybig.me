@@ -24,12 +24,37 @@ function decodeEntities(encodedString: string) {
 	});
 }
 
-function split(body: string, slug: string): { title: string, titleHTML: string, body: string} {
-	const match = body.match(/<h[1-6](?: [^=>]+(?:=[^=>]+))*?>(.*?)<\/h[1-6]>/m);
+function split(html: string, slug: string): { title: string, summary: string, body: string} {
+	const regex = /<(h[1-6])(?:\W[^=>]+(?:=[^=>]+))*?>(.*?)<\/\1>/mg;
+	const match = regex.exec(html);
 	if (!match) {
-		return { titleHTML: slug, title: slug, body };
+		return { title: slug, body: html, summary: ''};
 	}
-	return { title: decodeEntities(match[1].replace(/<\/?[^>]+(>|$)/g, '')), titleHTML: match[1], body: body.substring(match[0].length) };
+	const title = decodeEntities(match[2].replace(/<\/?[^>]+(>|$)/g, ''));
+	const bodyIndex = regex.lastIndex;
+	const body = html.substring(bodyIndex);
+	const match1 = regex.exec(html);
+	const summary = !match1 ? body : html.substring(bodyIndex, regex.lastIndex - match1[0].length);
+	if (summary.length < 1024) {
+		return { title, body, summary };
+	}
+	const elementMatcher = /[^<]*?<([^>\W]*)(?:\W[^=>]+(?:=[^=>]+))*?>(.*?)<\/\1>/g;
+	let newSummary = '';
+	let match2;
+	while((match2 = elementMatcher.exec(summary))) {
+		console.log(match2[0].length, newSummary.length, newSummary);
+		if (match2[0].length + newSummary.length < 256) {
+			newSummary += match2[0];
+		} else if (match2[0].length < 1024 && newSummary.length === 0) {
+			return { title, body, summary: match2[0] };
+		} else if (newSummary.length > 10) {
+			return { title, body, summary: newSummary };
+		}
+	}
+	if (newSummary.length > 10) {
+		return { title, body, summary: newSummary };
+	}
+	return { title, body, summary: summary.replace(/<\/?[^>]+(>|$)/g, '').substring(0, 1024) };
 }
 
 function mdToContentDefinition({default: body, endDate, date, created, updated, hidden, ...rest}: typeof import('*.md')): ContentDefinition {

@@ -76,7 +76,7 @@ export default function renderElement(
 		throw new Error('Unknown tag type: ' + JSON.stringify({ elm, renderStack}, (_, e) => typeof e === 'function' ? `${e}`.split('\n')[0] : e));
 	}
 	const { children, dangerouslySetInnerHTML, ...props } = elm.props ?? {};
-	const newMode = elm.type === RAW_TAG_MARKER ? elm.props.mode ?? mode : mode; 
+	const newMode = elm.type === RAW_TAG_MARKER ? elm.props.mode ?? mode : mode;
 	const childHTML =
 		dangerouslySetInnerHTML && '__html' in dangerouslySetInnerHTML ? dangerouslySetInnerHTML.__html :
 		children ? renderElement(children, newMode, [...renderStack, elm.type]) :

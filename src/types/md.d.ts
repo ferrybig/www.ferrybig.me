@@ -1,7 +1,7 @@
 declare module '*.md' {
 	const defaultExport: string;
 	export default defaultExport;
-	
+
 	export const created: string;
 	export const updated: string;
 	export const date: string;

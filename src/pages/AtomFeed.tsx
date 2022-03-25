@@ -1,5 +1,5 @@
 import { DateTime } from 'luxon';
-import { DOMParser } from 'xmldom';
+import { DOMParser, XMLSerializer } from 'xmldom';
 import { blog } from '.';
 import Output from '../components/Output';
 import { createElement } from '../jsx/jsx-runtime';
@@ -20,7 +20,7 @@ export default function AtomFeed({ base, slice, title, linkMain, linkSelf }: Pro
 			{createElement('feed', {
 				xmlns: 'http://www.w3.org/2005/Atom',
 			}, [
-				createElement('title', {}, title),
+				createElement('title', { type: "text" }, title),
 				createElement('link', { href: fullPath(base, linkSelf), rel: 'self'}),
 				createElement('link', { href:  fullPath(base, linkMain), rel: 'alternative', type: 'text/html'}),
 				base.meta.author ? createElement('author', {}, [
@@ -29,18 +29,16 @@ export default function AtomFeed({ base, slice, title, linkMain, linkSelf }: Pro
 				createElement('updated', {}, slice.reduce((a, b) => a < b.updated ? b.updated : a, DateTime.fromMillis(0)).toISO()),
 				slice.map(content => createElement('entry', {}, [
 					createElement('id', {}, content.slug),
-					createElement('title', {}, content.title),
+					createElement('title', { type: "text" }, content.title),
 					createElement('link', { href: fullPath(base, blog.toPath({slug: content.slug }))}),
 					createElement('published', {}, content.created.toISO()),
 					createElement('updated', {}, content.updated.toISO()),
-					createElement('summary', { type: 'xhtml'}, [
-						createElement('div', { xmlns: 'http://www.w3.org/1999/xhtml', dangerouslySetInnerHTML: {
-							__html: new XMLSerializer().serializeToString(new DOMParser().parseFromString(
-								content.body,
-								'text/html',
-							)),
-						}}),
-					]),
+					createElement('summary', { type: 'xhtml', dangerouslySetInnerHTML: {
+						__html: new XMLSerializer().serializeToString(new DOMParser({ errorHandler: () => null}).parseFromString(
+							`<div>${content.summary}</div>`,
+							'text/html',
+						)),
+					}}),
 				])),
 			])}
 		</Output>

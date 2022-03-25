@@ -19,7 +19,7 @@ function Pagination({toPath, page, pages}: PaginationProps): JSX.Element | null 
 		for(let i = 1; i < page; i++) {
 			children.push(
 				<li><a data-instant href={toPath(i === 1 ? '' : `${i}`)}><SrOnly>page </SrOnly>{i}</a></li>
-			); 
+			);
 		}
 	} else {
 		children.push(
@@ -28,7 +28,7 @@ function Pagination({toPath, page, pages}: PaginationProps): JSX.Element | null 
 		for(let i = page - 3; i < page; i++) {
 			children.push(
 				<li><a data-instant href={toPath(i === 1 ? '' : `${i}`)}><SrOnly>page </SrOnly>{i}</a></li>
-			); 
+			);
 		}
 	}
 	children.push(
@@ -38,13 +38,13 @@ function Pagination({toPath, page, pages}: PaginationProps): JSX.Element | null 
 		for(let i = page + 1; i <= pages; i++) {
 			children.push(
 				<li><a data-instant href={toPath(i === 1 ? '' : `${i}`)}><SrOnly>page </SrOnly>{i}</a></li>
-			); 
+			);
 		}
 	} else {
 		for(let i = page + 1; i < page + 4; i++) {
 			children.push(
 				<li><a data-instant href={toPath(i === 1 ? '' : `${i}`)}><SrOnly>page </SrOnly>{i}</a></li>
-			); 
+			);
 		}
 		children.push(
 			<li><span>...</span></li>
@@ -133,7 +133,7 @@ export default function Feed({ base: oldBase, page, pages, title, children, slic
 							page={page}
 							pages={page}
 						/>}
-						
+
 					</ul>
 				</nav>
 			)}

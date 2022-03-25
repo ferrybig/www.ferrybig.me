@@ -39,6 +39,8 @@ rules:
     semi:
         - warn
         - always
+    no-trailing-spaces:
+        - warn
 env:
     browser: true
 settings:

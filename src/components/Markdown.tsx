@@ -11,7 +11,7 @@ interface Props {
 export default function Markdown({ content, title, children }: Props) {
 	return (
 		<Fragment>
-			{typeof title === 'string' ? <h1 dangerouslySetInnerHTML={{__html: title}}/> : null}
+			{typeof title === 'string' ? <h1>{title}</h1> : null}
 			{children}
 			<div className={classes.markdown} dangerouslySetInnerHTML={{__html: content}}/>
 		</Fragment>

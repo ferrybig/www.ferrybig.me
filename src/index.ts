@@ -53,6 +53,7 @@ function renderRoute<P, I>(
 	};
 	const file =
 		parsedPath.endsWith('.xml') ? `${parsedPath}` :
+		parsedPath.endsWith('.atom') ? `${parsedPath}` :
 		parsedPath.endsWith('/') ? `${parsedPath}index.html` :
 		`${parsedPath}.html`;
 	const renderFunction = route.tryRender(parsedPath);
@@ -102,6 +103,7 @@ export default function render(assets: Record<string, string>) {
 		meta: {
 			author: 'Fernando van Loenhout',
 		},
+		head: [],
 	};
 	for (const factory of Object.values(allRenderers).flatMap(a => a)) {
 		const [file, loc, jsx] = factory(applicationBase);

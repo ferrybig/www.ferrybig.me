@@ -3,7 +3,7 @@ import { DateTime } from 'luxon';
 interface ContentDefinition {
 	body: string,
 	title: string,
-	titleHTML: string,
+	summary: string,
 	date: DateTime
 	created: DateTime
 	updated: DateTime
