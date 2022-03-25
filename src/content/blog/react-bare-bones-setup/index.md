@@ -1,7 +1,7 @@
 ---
 date: "2022-03-23"
 tags: ["blog", "react", "webpack"]
-extraTags: []
+extraTags: ["bare-bones"]
 ---
 # React bare bones setup
 
@@ -31,7 +31,7 @@ containing the following content:
 
 You can get the react development file by going to
 [the React releases overview](https://github.com/facebook/react/releases) and
-then following [the link to the version of react that is the latest](https://unpkg.com/react@17.0.2/umd)
+then following [the link to the version of react that is the latest](https://unpkg.com/react@17.0.2/umd).
 
 We can now start working on a main.js file. Since we are working without
 transpilers, we need to use plain JavaScript modules or plain code only,
