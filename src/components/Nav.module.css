@@ -1,6 +1,5 @@
 .root {
 	display: flex;
-	flex: 1;
 	position: relative;
 }
 .root ul {
@@ -8,11 +7,14 @@
 	flex: 1;
 	list-style: none;
 	padding: 0;
+	flex-wrap: wrap;
+	white-space: nowrap;
+	margin: 0;
 }
 .root ul li {
 	margin: 0;
 }
-.link {
+.link:link, .link:visited {
 	position: relative;
 	font-size: 24px;
 	text-decoration: none;
@@ -20,7 +22,8 @@
 	border: 2px solid var(--text-primary-color);
 	color: var(--text-primary-color);
 	background-color: var(--background-primary-color);
-	margin: 0 8px;
+	margin: 8px;
+	display: inline-block;
 }
 .link:focus-visible, .link:hover {
 	text-decoration: underline;
@@ -32,4 +35,14 @@
 	color: var(--text-tertiary-color);
 	background-color: var(--background-tertiary-color);
 	border-color: var(--text-tertiary-color);
+}
+
+@media only screen and (max-width: 600px) {
+	.root ul {
+		margin-bottom: 4px;
+	}
+	.link {
+		margin: 4px;
+		padding: 4px;
+	}
 }

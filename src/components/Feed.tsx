@@ -4,7 +4,13 @@ import SrOnly from './SrOnly';
 import { JSXNode } from '../jsx/jsx-runtime';
 import PageBase, { fullPath } from '../PageBase';
 import ContentDefinition from '../types/ContentDefinition';
+import atomFeedIcon from '../icons/feed.svg';
 import classes from './Feed.module.css';
+import SrHidden from './SrHidden';
+import Markdown from './Markdown';
+import Link from './Link';
+import { blog } from '../pages';
+import Breadcrumb from './Breadcrumb';
 
 interface PaginationProps {
 	page: number,
@@ -12,42 +18,41 @@ interface PaginationProps {
 	toPath: (page: string) => string,
 }
 
-// https://mdn.github.io/css-examples/css-cookbook/pagination.html
 function Pagination({toPath, page, pages}: PaginationProps): JSX.Element | null {
 	const children: JSX.Element[] = [];
 	if (page < 4) {
 		for(let i = 1; i < page; i++) {
 			children.push(
-				<li><a data-instant href={toPath(i === 1 ? '' : `${i}`)}><SrOnly>page </SrOnly>{i}</a></li>
+				<li className={classes.paginationNumbers}><a data-instant href={toPath(i === 1 ? '' : `${i}`)}><SrOnly>page </SrOnly>{i}</a></li>
 			);
 		}
 	} else {
 		children.push(
-			<li><span>...</span></li>
+			<li className={classes.paginationNumbers}><span>…</span></li>
 		);
 		for(let i = page - 3; i < page; i++) {
 			children.push(
-				<li><a data-instant href={toPath(i === 1 ? '' : `${i}`)}><SrOnly>page </SrOnly>{i}</a></li>
+				<li className={classes.paginationNumbers}><a data-instant href={toPath(i === 1 ? '' : `${i}`)}><SrOnly>page </SrOnly>{i}</a></li>
 			);
 		}
 	}
 	children.push(
-		<li><a data-instant href={toPath(page === 1 ? '' : `${page}`)} aria-current="page"><SrOnly>page </SrOnly>{page}</a></li>
+		<li className={classes.paginationNumbers}><a data-instant href={toPath(page === 1 ? '' : `${page}`)} aria-current="page"><SrOnly>page </SrOnly>{page}</a></li>
 	);
 	if (page > pages - 4) {
 		for(let i = page + 1; i <= pages; i++) {
 			children.push(
-				<li><a data-instant href={toPath(i === 1 ? '' : `${i}`)}><SrOnly>page </SrOnly>{i}</a></li>
+				<li className={classes.paginationNumbers}><a data-instant href={toPath(i === 1 ? '' : `${i}`)}><SrOnly>page </SrOnly>{i}</a></li>
 			);
 		}
 	} else {
 		for(let i = page + 1; i < page + 4; i++) {
 			children.push(
-				<li><a data-instant href={toPath(i === 1 ? '' : `${i}`)}><SrOnly>page </SrOnly>{i}</a></li>
+				<li className={classes.paginationNumbers}><a data-instant href={toPath(i === 1 ? '' : `${i}`)}><SrOnly>page </SrOnly>{i}</a></li>
 			);
 		}
 		children.push(
-			<li><span>...</span></li>
+			<li className={classes.paginationNumbers}><span>…</span></li>
 		);
 	}
 	return (
@@ -70,70 +75,103 @@ interface Props {
 	previous?: string | null,
 	first?: string | null,
 	last?: string | null,
+	atomFeed?: string | null,
 }
 
-export default function Feed({ base: oldBase, page, pages, title, children, slice, toPath, next, previous, first, last, pagination }: Props) {
+export default function Feed({ base: oldBase, page, pages, title, children, slice, toPath, next, previous, first, last, pagination, atomFeed }: Props) {
 	const base: PageBase = {
 		...oldBase,
 		link: pages === 1 || first ? oldBase.link : {
 			...oldBase.link,
 			first:
 				first ? first :
-				fullPath(oldBase, toPath('')),
+				toPath(''),
 			previous:
 				previous ? previous :
 				page === 1 ? null :
-				page === 2 ? fullPath(oldBase, toPath('')) :
-				fullPath(oldBase, toPath(`${page - 1}`)),
+				page === 2 ? toPath('') :
+				toPath(`${page - 1}`),
 			next:
 				next ? next :
 				page === pages ? null :
-				fullPath(oldBase, toPath(`${page + 1}`)),
+				toPath(`${page + 1}`),
 			last:
 				last ? last :
-				fullPath(oldBase, toPath(`${pages}`)),
+				toPath(`${pages}`),
 			'og:url': fullPath(oldBase, toPath('')),
 		},
+		head: [
+			...oldBase.head,
+			...(atomFeed ? [
+				<link href={atomFeed} rel="alternate" type="application/atom+xml"/>
+			] : [])
+		]
 	};
+	const self = toPath(page === 1 ? '' : `${page}`);
 	return (
 		<PageWrapper
 			base={base}
-			title={page === 1 ? title : `${title} - page ${page}`}
+			title={page === 1 ? title : `${title} - Page ${page}`}
 			outer='secondary'
 			inner='base'
 			bottomOuter='secondary'
 			bottomInner='base'
 			includeWrapper
 		>
-			{children ? (
-				children
-			) : (
-				<h1>{title} - Page ${page}</h1>
-			)}
-			<h2 id="articles">Articles</h2>
+			<Breadcrumb links={[
+				[title, base.link.first ?? ''],
+				page === 1 ? null : [`Page ${page}`, toPath(`${page}`)],
+			]}/>
+			<h1>{title}{page === 1 ? '' : ` - Page ${page}`}</h1>
+			{children}
+			<h2 id="articles">
+				Articles
+				{atomFeed && (
+					<a href={atomFeed} target="_blank" rel="noopener noreferrer" className={classes.feed}>
+						<SrOnly>, view articles via an atom feed</SrOnly>
+					</a>
+				)}
+			</h2>
 			{slice.map(e => (
 				<article>
 					<h1>{e.title}</h1>
-
+					<Markdown content={e.summary}/>
+					<p>
+						<Link route={blog} props={{ slug: e.slug }}>
+							<SrHidden>
+								{e.body === e.summary ? 'View' : 'Read more...'}
+							</SrHidden>
+							<SrOnly>
+								{(e.body === e.summary ? 'View article about ' : 'Read more about ') + e.title}
+							</SrOnly>
+						</Link>
+					</p>
 				</article>
 			))}
-			{base.link.first || base.link.previous || base.link.next || base.link.last && (
+			{(base.link.first || base.link.previous || base.link.next || base.link.last) && (
 				<nav aria-label="pagination" className={classes.pagination}>
 					<ul>
-						{base.link.first && <li><a data-instant href={base.link.first}>
-							<span aria-hidden="true">«</span>
+						{base.link.first && base.link.first != self && <li><a data-instant href={base.link.first}>
+							<SrHidden>«</SrHidden>
 							<SrOnly>first page</SrOnly>
 						</a></li>}
 						{base.link.previous && <li><a data-instant href={base.link.previous}>
-							<span aria-hidden="true">&lt;</span>
+							<SrHidden>&lt;</SrHidden>
 							<SrOnly>previous page</SrOnly>
 						</a></li>}
 						{pagination ?? <Pagination
 							toPath={toPath}
 							page={page}
-							pages={page}
+							pages={pages}
 						/>}
-
+						{base.link.next && <li><a data-instant href={base.link.next}>
+							<SrHidden>&gt;</SrHidden>
+							<SrOnly>next page</SrOnly>
+						</a></li>}
+						{base.link.last && base.link.first != last && <li><a data-instant href={base.link.last}>
+							<SrHidden>»</SrHidden>
+							<SrOnly>last page</SrOnly>
+						</a></li>}
 					</ul>
 				</nav>
 			)}

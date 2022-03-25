@@ -42,7 +42,6 @@ function split(html: string, slug: string): { title: string, summary: string, bo
 	let newSummary = '';
 	let match2;
 	while((match2 = elementMatcher.exec(summary))) {
-		console.log(match2[0].length, newSummary.length, newSummary);
 		if (match2[0].length + newSummary.length < 256) {
 			newSummary += match2[0];
 		} else if (match2[0].length < 1024 && newSummary.length === 0) {
@@ -79,7 +78,7 @@ const content: ContentDefinition[] = [...blog, ...carriers]
 
 
 type PaginatedContent = ContentDefinition[][];
-function makeOverview(posts: ContentDefinition[], paginateSize = 12): {
+function makeOverview(posts: ContentDefinition[], paginateSize = 1): {
 	homePage: PaginatedContent,
 	perPeriod: {
 		year: number,

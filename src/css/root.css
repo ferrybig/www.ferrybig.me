@@ -7,7 +7,6 @@
     font-style: normal;
     font-display: swap;
 }
-
 @font-face {
     font-family: 'Ubuntu';
     src: local('Ubuntu Bold Italic'), local('Ubuntu-BoldItalic'), local('Ubuntu BI'), local('Ubuntu-BI'),
@@ -17,7 +16,6 @@
     font-style: italic;
     font-display: swap;
 }
-
 @font-face {
     font-family: 'Ubuntu';
     src: local('Ubuntu Italic'), local('Ubuntu-Italic'), local('Ubuntu I'), local('Ubuntu-I'),
@@ -27,7 +25,6 @@
     font-style: italic;
     font-display: swap;
 }
-
 @font-face {
     font-family: 'Ubuntu';
     src: local('Ubuntu Regular'), local('Ubuntu-Regular'), local('Ubuntu R'), local('Ubuntu-R'), local('Ubuntu'),
@@ -37,7 +34,6 @@
     font-style: normal;
     font-display: swap;
 }
-
 @font-face {
     font-family: 'Ubuntu';
     src: local('Ubuntu Light Italic'), local('Ubuntu-LightItalic'), local('Ubuntu LI'), local('Ubuntu-LI'),
@@ -47,7 +43,6 @@
     font-style: italic;
     font-display: swap;
 }
-
 @font-face {
     font-family: 'Ubuntu';
     src: local('Ubuntu Medium'), local('Ubuntu-Medium'), local('Ubuntu M'), local('Ubuntu-M'),
@@ -57,7 +52,6 @@
     font-style: normal;
     font-display: swap;
 }
-
 @font-face {
     font-family: 'Ubuntu';
     src: local('Ubuntu Light'), local('Ubuntu-Light'), local('Ubuntu L'), local('Ubuntu-L'),
@@ -67,7 +61,6 @@
     font-style: normal;
     font-display: swap;
 }
-
 @font-face {
     font-family: 'Ubuntu';
     src: local('Ubuntu Medium Italic'), local('Ubuntu-MediumItalic'), local('Ubuntu MI'), local('Ubuntu-MI'),
@@ -76,4 +69,25 @@
     font-weight: 500;
     font-style: italic;
     font-display: swap;
+}
+html, body {
+	display: flex;
+	flex-direction: column;
+	height: 100%;
+}
+body {
+	background-color: var(--background-color);
+	color: var(--text-color);
+	font-family: "Ubuntu";
+	margin: 0;
+	padding: 0;
+}
+a:link {
+	color: var(--text-link-idle-color);
+}
+a:visited {
+	color: var(--text-link-visited-color);
+}
+a:hover, a:focus-visible {
+	color: var(--text-link-focus-color);
 }

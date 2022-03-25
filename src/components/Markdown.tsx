@@ -1,19 +1,11 @@
 import classes from './Markdown.module.css';
-import { JSXNode } from '../jsx/jsx-runtime';
-import Fragment from './Fragment';
 
 interface Props {
-	title?: string
 	content: string,
-	children?: JSXNode,
 }
 
-export default function Markdown({ content, title, children }: Props) {
+export default function Markdown({ content }: Props) {
 	return (
-		<Fragment>
-			{typeof title === 'string' ? <h1>{title}</h1> : null}
-			{children}
-			<div className={classes.markdown} dangerouslySetInnerHTML={{__html: content}}/>
-		</Fragment>
+		<div className={classes.markdown} dangerouslySetInnerHTML={{__html: content}}/>
 	);
 }

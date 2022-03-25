@@ -10,23 +10,36 @@
     margin: 0;
     padding: 0;
     display: flex;
+	flex-wrap: wrap;
 }
-
-
-.pagination a, .pagination span {
-	display: block;
-	padding: .5em 1em;
-	border: 1px solid #999;
-	border-radius: .2em;
+.pagination a, .pagination li > span {
+	display: inline-block;
+	padding: 4px 8px;
+	border-radius: 4px;
 	text-decoration: none;
+	color: var(--text-color)
 }
-
+.pagination a {
+	border: 1px solid #999;
+}
 .pagination a[aria-current="page"] {
 	background-color: #333;
 	color: #fff;
 }
-        
 .pagination li {
     margin: 0 1px;
 }
-    
+.feed {
+	display: inline-block;
+	background: url(../icons/feed.svg);
+	background-size: 100% 100%;
+	width: 16px;
+	height: 16px;
+}
+.paginationNumbers:first-of-type {
+	flex: 1;
+	text-align: right;
+}
+.paginationNumbers:last-of-type {
+	flex: 1;
+}

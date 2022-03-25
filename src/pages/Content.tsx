@@ -20,7 +20,7 @@ interface Props {
 
 export default function Content({ content, base }: Props) {
 	return (
-		<PageWrapper base={base} title={content.title}>
+		<PageWrapper base={base} title={content.title} includeWrapper>
 			<Breadcrumb links={[
 				[`${content.date.year}`, byYear.toPath({
 					year: `${content.date.year}`,
@@ -45,8 +45,8 @@ export default function Content({ content, base }: Props) {
 						{content.created !== content.updated && <span>Updated: <Time dateTime={content.updated} format="date-time"/></span>}
 					</p>
 				</header>
+				<h1>{content.title}</h1>
 				<Markdown
-					title={content.title}
 					content={content.body}
 				/>
 			</article>

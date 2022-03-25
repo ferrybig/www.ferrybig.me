@@ -13,6 +13,10 @@
 	--button-color: hsl(200, 10%, 80%);
 	--button-active-color: hsl(200, 10%, 70%);
 
+	--text-link-idle-color: rgb(26, 13, 171);
+	--text-link-visited-color: #6c00a2;
+	--text-link-focus-color: rgb(13, 113, 171);
+
 	--hljs-color: #24292e;
 	--hljs-background-color: #ffffff;
 	--hljs-0-color: #d73a49;
@@ -33,7 +37,7 @@
 	--hljs-13-background-color: #ffeef0;
 }
 .themeDark {
-	--text-color: white;
+	--text-color: #eee;
 	--text-primary-color: hsl(200, 90%, 40%);
 	--text-secondary-color: hsl(80, 90%, 40%);
 	--text-tertiary-color: hsl(320, 90%, 40%);
@@ -43,6 +47,10 @@
 	--background-tertiary-color: hsl(320, 90%, 20%);
 	--button-color: hsl(200, 10%, 20%);
 	--button-active-color: hsl(200, 10%, 30%);
+
+	--text-link-idle-color: rgb(123, 118, 177);
+	--text-link-visited-color: #b697c5;
+	--text-link-focus-color: rgb(146, 177, 196);
 
 	--hljs-color: #c9d1d9;
 	--hljs-background-color: #0d1117;

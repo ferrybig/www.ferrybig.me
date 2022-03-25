@@ -2,7 +2,7 @@ import classes from './Breadcrumb.module.css';
 import {home} from '../pages';
 
 interface Props {
-	links: [string, string][];
+	links: ([string, string] | null)[];
 }
 
 export default function Breadcrumb({ links }: Props) {
@@ -14,7 +14,7 @@ export default function Breadcrumb({ links }: Props) {
 						Home
 					</a>
 				</li>
-				{links.map(([title, url], index) => (
+				{links.filter((e): e is [string, string] => !!e).map(([title, url], index) => (
 					<li>
 						<a href={url} data-instant aria-current={index === links.length - 1 ? 'location': undefined}>
 							{title}

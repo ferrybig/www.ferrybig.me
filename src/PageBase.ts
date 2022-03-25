@@ -28,3 +28,9 @@ export function writeLinkToAsset(base: PageBase, resource: string) {
 export function fullPath(base: PageBase, link: string) {
 	return base.site + base.publicPath.substring(1) + link.substring(1);
 }
+export function tryFullPath(base: PageBase, link: string) {
+	if (link.startsWith('//') || link.startsWith("http://") || link.startsWith("https://")) {
+		return link;
+	}
+	return base.site + base.publicPath.substring(1) + link.substring(1);
+}

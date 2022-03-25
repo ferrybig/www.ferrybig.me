@@ -2,11 +2,12 @@ import Feed from '../components/Feed';
 import PageBase from '../PageBase';
 import ContentDefinition from '../types/ContentDefinition';
 import * as routes from '.';
+import Markdown from '../components/Markdown';
 
 interface Props {
 	base: PageBase,
 	pages: number,
-	page: number,
+	page: string,
 	slice: ContentDefinition[],
 	tag: string,
 	tagContent: ContentDefinition | null,
@@ -15,20 +16,19 @@ interface Props {
 export default function Home(props: Props) {
 	return (
 		<Feed
-			base={{
-				...props.base,
-				head: [
-					...props.base.head,
-					<link href={routes.tagAtom.toPath({ tag: props.tag})} rel="alternate" type="application/atom+xml"/>
-				]
-			}}
-			title={'Tag page of ' + (props.tagContent?.title ?? props.tag)}
-			page={props.page}
+			base={props.base}
+			title={props.tagContent?.title ?? `Tag page of '${props.tag}`}
+			page={props.page === '' ? 1 : Number(props.page)}
 			pages={props.pages}
 			slice={props.slice}
 			toPath={(page) => routes.tag.toPath({ tag: props.tag, page })}
+			atomFeed={routes.tagAtom.toPath({ tag: props.tag})}
 		>
-			<a href={routes.tagAtom.toPath({ tag: props.tag })}>View in atom feed reader</a>
+			{props.tagContent ? (
+				<Markdown
+					content={props.tagContent.body}
+				/>
+			) : null}
 		</Feed>
 	);
 }

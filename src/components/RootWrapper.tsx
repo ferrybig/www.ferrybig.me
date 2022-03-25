@@ -1,8 +1,9 @@
-import PageBase from '../PageBase';
+import PageBase, { tryFullPath } from '../PageBase';
 import Output from './Output';
 import themeClasses from '../theme.module.css';
-import './RootWrapper.module.css';
 import { JSXNode } from '../jsx/jsx-runtime';
+
+const urlLinksNames = ["last", "previous", "next", "last", "cannocial"];
 
 interface Props {
 	children: JSXNode;
@@ -34,7 +35,7 @@ export default function RootWrapper({
 						<meta property={name} content={value}/>
 					))}
 					{Object.entries(base.link).filter((e): e is [string, string] => !!e[1]).map(([name, value]) => (
-						<link rel={name} href={value}/>
+						<link rel={name} href={urlLinksNames.includes(name) ? tryFullPath(base, value) : value}/>
 					))}
 					{base.css.map(css => (
 						<link href={css} rel="stylesheet"/>

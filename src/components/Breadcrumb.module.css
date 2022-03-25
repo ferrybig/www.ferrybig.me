@@ -3,13 +3,16 @@
 	margin: 0;
 	padding: 0;
 	display: flex;
+	flex-wrap: wrap;
 }
 .breadcrumb a {
-	padding: .5em 1em;
+	padding: 8px 0;
 }	
 .breadcrumb li::before {
 	content: "→";
+	padding: 0 8px;
 }	
 .breadcrumb li:first-child::before {
 	content: "";
+	padding: 0;
 }
