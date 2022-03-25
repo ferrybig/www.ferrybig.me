@@ -127,8 +127,12 @@ function main(watchMode = false) {
 						},
 					},
 					{
-						test: /\.(png|jpg|jpeg|gif|svg|ttf|woff|woff2|zip|jar|tar)$/i,
+						test: /\.(png|jpg|jpeg|gif|svg|ttf|woff|woff2|zip|jar|tar|stl)$/i,
 						type: 'asset',
+					},
+					{
+						test: /favicon.*\.(png|jpg|jpeg|gif|svg|ttf|woff|woff2|zip|jar|tar|stl)$/i,
+						type: 'asset/resource',
 					},
 					{
 						test: /\.md$/,
@@ -196,12 +200,12 @@ function main(watchMode = false) {
 															attribute: 'href',
 															type: 'src',
 															filter: (tag, attribute, attributes) => {
-																const attributeInstance = attributes.find(a => a.name === attribute);
+																const attributeInstance = attributes.find(a => a.name === 'href');
 																if (!attributeInstance) {
 																	return false;
 																}
 																return attributeInstance.value
-																	&& attributeInstance.value.endsWith('.zip')
+																	&& attributes.find(a => a.name === 'download')
 																	&& attributeInstance.value.startsWith('.')
 																	|| false;
 															}

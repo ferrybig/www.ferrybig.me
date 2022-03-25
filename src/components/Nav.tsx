@@ -15,7 +15,7 @@ export default function Nav({ className }: Props) {
 				<LiLink linkClassName={classes.link} route={routes.tag} props={{ tag: 'tech-demo', page: '' }}>Tech-Demo</LiLink>
 				<LiLink linkClassName={classes.link} route={routes.tag} props={{ tag: 'things', page: '' }}>Things</LiLink>
 				<LiLink linkClassName={classes.link} route={routes.tag} props={{ tag: 'electronics', page: '' }}>Electronics</LiLink>
-				<LiLink linkClassName={classes.link} route={routes.tag} props={{ tag: 'carriers', page: '' }}>Carriers</LiLink>
+				<LiLink linkClassName={classes.link} route={routes.tag} props={{ tag: 'career', page: '' }}>Career</LiLink>
 			</ul>
 		</nav>
 	);

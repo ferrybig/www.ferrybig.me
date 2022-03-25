@@ -1,0 +1,25 @@
+.root span {
+	font-weight: bold;
+}
+.root a:link, .root a:visited {
+	position: relative;
+	font-size: 16px;
+	text-decoration: none;
+	padding: 2px;
+	border: 2px solid var(--text-primary-color);
+	color: var(--text-primary-color);
+	background-color: var(--background-primary-color);
+	margin: 0 1px;
+	display: inline-block;
+}
+.root a:focus-visible, .root a:hover {
+	text-decoration: underline;
+	color: var(--text-secondary-color);
+	background-color: var(--background-secondary-color);
+	border-color: var(--text-secondary-color);
+}
+.root a:active {
+	color: var(--text-tertiary-color);
+	background-color: var(--background-tertiary-color);
+	border-color: var(--text-tertiary-color);
+}

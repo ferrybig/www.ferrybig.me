@@ -1,6 +1,6 @@
-import * as carriers from './carriers.md';
+import * as career from './career.md';
 import * as blog from './blog.md';
-import * as _3dModels from './3d-models.md';
+import * as things from './things.md';
 import * as openscad from './openscad.md';
 
 function namedTag(name: string, input: typeof import('*.md')) {
@@ -12,7 +12,7 @@ function namedTag(name: string, input: typeof import('*.md')) {
 
 export default [
 	namedTag('blog', blog),
-	namedTag('carriers', carriers),
-	namedTag('3d-models', _3dModels),
+	namedTag('career', career),
+	namedTag('things', things),
 	namedTag('openscad', openscad),
 ];

@@ -4,13 +4,13 @@ import SrOnly from './SrOnly';
 import { JSXNode } from '../jsx/jsx-runtime';
 import PageBase, { fullPath } from '../PageBase';
 import ContentDefinition from '../types/ContentDefinition';
-import atomFeedIcon from '../icons/feed.svg';
 import classes from './Feed.module.css';
 import SrHidden from './SrHidden';
 import Markdown from './Markdown';
 import Link from './Link';
-import { blog } from '../pages';
+import { blog, tag as tagRoute } from '../pages';
 import Breadcrumb from './Breadcrumb';
+import TagList from './TagList';
 
 interface PaginationProps {
 	page: number,
@@ -30,7 +30,7 @@ function Pagination({toPath, page, pages}: PaginationProps): JSX.Element | null 
 		children.push(
 			<li className={classes.paginationNumbers}><span>…</span></li>
 		);
-		for(let i = page - 3; i < page; i++) {
+		for(let i = page - 2; i < page; i++) {
 			children.push(
 				<li className={classes.paginationNumbers}><a data-instant href={toPath(i === 1 ? '' : `${i}`)}><SrOnly>page </SrOnly>{i}</a></li>
 			);
@@ -39,14 +39,14 @@ function Pagination({toPath, page, pages}: PaginationProps): JSX.Element | null 
 	children.push(
 		<li className={classes.paginationNumbers}><a data-instant href={toPath(page === 1 ? '' : `${page}`)} aria-current="page"><SrOnly>page </SrOnly>{page}</a></li>
 	);
-	if (page > pages - 4) {
+	if (page > pages - 3) {
 		for(let i = page + 1; i <= pages; i++) {
 			children.push(
 				<li className={classes.paginationNumbers}><a data-instant href={toPath(i === 1 ? '' : `${i}`)}><SrOnly>page </SrOnly>{i}</a></li>
 			);
 		}
 	} else {
-		for(let i = page + 1; i < page + 4; i++) {
+		for(let i = page + 1; i < page + 3; i++) {
 			children.push(
 				<li className={classes.paginationNumbers}><a data-instant href={toPath(i === 1 ? '' : `${i}`)}><SrOnly>page </SrOnly>{i}</a></li>
 			);
@@ -119,7 +119,7 @@ export default function Feed({ base: oldBase, page, pages, title, children, slic
 			includeWrapper
 		>
 			<Breadcrumb links={[
-				[title, base.link.first ?? ''],
+				base.link.first === '/' ? null : [title, base.link.first ?? self],
 				page === 1 ? null : [`Page ${page}`, toPath(`${page}`)],
 			]}/>
 			<h1>{title}{page === 1 ? '' : ` - Page ${page}`}</h1>
@@ -133,8 +133,15 @@ export default function Feed({ base: oldBase, page, pages, title, children, slic
 				)}
 			</h2>
 			{slice.map(e => (
-				<article>
-					<h1>{e.title}</h1>
+				<article className={classes.feedArticle}>
+					<h1>
+						<Link route={blog} props={{ slug: e.slug }}>
+							{e.title}
+						</Link>
+					</h1>
+					<p>
+						<TagList tags={[...e.tags, ...e.extraTags]} />
+					</p>
 					<Markdown content={e.summary}/>
 					<p>
 						<Link route={blog} props={{ slug: e.slug }}>
@@ -168,7 +175,7 @@ export default function Feed({ base: oldBase, page, pages, title, children, slic
 							<SrHidden>&gt;</SrHidden>
 							<SrOnly>next page</SrOnly>
 						</a></li>}
-						{base.link.last && base.link.first != last && <li><a data-instant href={base.link.last}>
+						{base.link.last && base.link.last != self && <li><a data-instant href={base.link.last}>
 							<SrHidden>»</SrHidden>
 							<SrOnly>last page</SrOnly>
 						</a></li>}

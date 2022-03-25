@@ -1,7 +1,7 @@
 ---
 date: "2022-03-23"
 tags: ["blog", "react", "webpack"]
-extraTags: ["bare-bones"]
+extraTags: ["bare-bones", "from-scratch"]
 ---
 # React bare bones setup
 

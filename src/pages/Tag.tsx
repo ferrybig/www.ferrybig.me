@@ -17,7 +17,7 @@ export default function Home(props: Props) {
 	return (
 		<Feed
 			base={props.base}
-			title={props.tagContent?.title ?? `Tag page of '${props.tag}`}
+			title={props.tagContent?.title ?? `Tag page of '${props.tag}'`}
 			page={props.page === '' ? 1 : Number(props.page)}
 			pages={props.pages}
 			slice={props.slice}

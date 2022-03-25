@@ -3,7 +3,7 @@ import Output from './Output';
 import themeClasses from '../theme.module.css';
 import { JSXNode } from '../jsx/jsx-runtime';
 
-const urlLinksNames = ["last", "previous", "next", "last", "cannocial"];
+const urlLinksNames = ['last', 'previous', 'next', 'last', 'cannocial'];
 
 interface Props {
 	children: JSXNode;
