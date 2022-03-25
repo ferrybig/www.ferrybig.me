@@ -2,24 +2,11 @@ import { DateTime } from "luxon"
 import assertNever from "../utils/assert-never";
 
 interface Props {
-	dateTime: string,
-	from: 'iso' | 'rfc'
+	dateTime: DateTime,
 	format: 'date' | 'date-time'
 }
 
-export default function Time({ dateTime: input, from, format }: Props) {
-	let dateTime;
-	switch(from) {
-		case 'iso':
-			dateTime = DateTime.fromISO(input);
-			break;
-		case 'rfc':
-			dateTime = DateTime.fromRFC2822(input);
-			break;
-		default:
-			dateTime = assertNever(from);
-	}
-	dateTime.setLocale('en_NL');
+export default function Time({ dateTime, format }: Props) {
 	let formatted;
 	let digital;
 	switch (format) {

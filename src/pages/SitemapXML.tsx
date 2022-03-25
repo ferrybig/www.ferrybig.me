@@ -1,4 +1,4 @@
-import Doctype from "../components/Doctype";
+import Output from "../components/Output";
 import { createElement } from "../jsx/jsx-runtime";
 import { PartialBase } from "../PageBase";
 
@@ -8,7 +8,7 @@ interface Props {
 
 export default function SitemapXML({ base }: Props) {
 	return (
-		<Doctype type="xml">
+		<Output format="xml">
 			{createElement(
 				'urlset',
 				{
@@ -21,6 +21,6 @@ export default function SitemapXML({ base }: Props) {
 					e.lastmod && createElement('lastmod', {}, e.lastmod),
 				]))
 			)}
-		</Doctype>
+		</Output>
 	);
 }

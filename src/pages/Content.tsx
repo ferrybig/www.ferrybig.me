@@ -1,4 +1,3 @@
-import { DateTime } from "luxon";
 import { byYear, byMonth, blog } from ".";
 import Breadcrumb from "../components/Breadcrumb";
 import Markdown from "../components/Markdown";
@@ -23,12 +22,14 @@ export default function Content({ content, base }: Props) {
 	return (
 		<PageWrapper base={base} title={content.title}>
 			<Breadcrumb links={[
-				[content.date.substring(0, 4), byYear.toPath({
-					year: content.date.substring(0, 4)
+				[`${content.date.year}`, byYear.toPath({
+					year: `${content.date.year}`,
+					page: '',
 				})],
-				[monthNames[Number.parseInt(content.date.substring(5, 7), 10) - 1], byMonth.toPath({
-					year: content.date.substring(0, 4),
-					month: content.date.substring(5, 7),
+				[monthNames[content.date.month - 1], byMonth.toPath({
+					year: `${content.date.year}`,
+					month: `${content.date.month}`,
+					page: '',
 				})],
 				[content.title, blog.toPath({
 					slug: content.slug
@@ -38,10 +39,10 @@ export default function Content({ content, base }: Props) {
 			<article>
 				<header>
 					<p>
-						<span>Created: <Time dateTime={content.date} from="iso" format="date"/><br/></span>
-						{content.endDate && <span>Ended: <Time dateTime={content.endDate} from="iso" format="date"/><br/></span>}
-						<span>Published: <Time dateTime={content.created} from="rfc" format="date-time"/><br/></span>
-						{content.created !== content.updated && <span>Updated: <Time dateTime={content.updated} from="rfc" format="date-time"/></span>}
+						<span>Created: <Time dateTime={content.date} format="date"/><br/></span>
+						{content.endDate && <span>Ended: <Time dateTime={content.endDate} format="date"/><br/></span>}
+						<span>Published: <Time dateTime={content.created} format="date-time"/><br/></span>
+						{content.created !== content.updated && <span>Updated: <Time dateTime={content.updated} format="date-time"/></span>}
 					</p>
 				</header>
 				<Markdown

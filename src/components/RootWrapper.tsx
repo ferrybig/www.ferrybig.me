@@ -1,5 +1,5 @@
 import PageBase from "../PageBase";
-import Doctype from "./Doctype";
+import Output from "./Output";
 import themeClasses from '../theme.module.css';
 import './RootWrapper.module.css';
 import { JSXNode } from "../jsx/jsx-runtime";
@@ -18,7 +18,7 @@ export default function RootWrapper({
 	lang = 'en',
 }: Props) {
 	return (
-		<Doctype type="html">
+		<Output format="html">
 			<html data-theme-light={themeClasses.themeLight} data-theme-dark={themeClasses.themeDark} lang={lang}>
 				<head>
 					<title>{title}</title>
@@ -52,6 +52,6 @@ export default function RootWrapper({
 					))}
 				</body>
 			</html>
-		</Doctype>
+		</Output>
 	)
 }

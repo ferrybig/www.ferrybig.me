@@ -10,7 +10,7 @@ export default function Breadcrumb({ links }: Props) {
 		<nav aria-label="Breadcrumb" className={classes.breadcrumb}>
 			<ul>
 				<li>
-					<a href={home.toPath({})} data-instant aria-current={links.length === 0 ? 'location': undefined}>
+					<a href={home.toPath({ page: '' })} data-instant aria-current={links.length === 0 ? 'location': undefined}>
 						Home
 					</a>
 				</li>

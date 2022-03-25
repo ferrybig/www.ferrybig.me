@@ -5,6 +5,7 @@ import sortByKey from '../utils/sortByKey';
 import importedTags from './tags';
 import blog from './blog';
 import carriers from './carriers';
+import { DateTime } from 'luxon';
 
 function decodeEntities(encodedString: string) {
 	const translate_re = /&(nbsp|amp|quot|lt|gt);/g;
@@ -31,10 +32,13 @@ function split(body: string, slug: string): { title: string, titleHTML: string, 
 	return { title: decodeEntities(match[1].replace(/<\/?[^>]+(>|$)/g, "")), titleHTML: match[1], body: body.substring(match[0].length) };
 }
 
-function mdToContentDefinition({default: body, endDate, hidden, ...rest}: typeof import('*.md')): ContentDefinition {
+function mdToContentDefinition({default: body, endDate, date, created, updated, hidden, ...rest}: typeof import('*.md')): ContentDefinition {
 	return {
 		...rest,
-		endDate: endDate ?? null,
+		date: DateTime.fromISO(date),
+		endDate: endDate ? DateTime.fromISO(endDate) : null,
+		created: created ? DateTime.fromRFC2822(created) : DateTime.now(),
+		updated: updated ? DateTime.fromRFC2822(updated) : DateTime.now(),
 		hidden: hidden ?? false,
 		...split(body, rest.slug),
 	};
@@ -51,38 +55,21 @@ const content: ContentDefinition[] = [...blog, ...carriers]
 
 type PaginatedContent = ContentDefinition[][];
 function makeOverview(posts: ContentDefinition[], paginateSize = 12): {
-	everything: PaginatedContent,
+	homePage: PaginatedContent,
 	perPeriod: {
-		year: string,
-		month: string,
+		year: number,
+		month: number,
 		content: ContentDefinition[],
 	}[],
 	perTag: {
 		tag: string,
+		tagContent: ContentDefinition | null,
 		content: PaginatedContent,
 	}[],
 } {
-	const perYear: {
-		year: string,
-		next: null | {
-			year: string,
-		},
-		previous: null | {
-			year: string,
-		},
-		content: ContentDefinition[],
-	}[] = [];
 	const perPeriod: {
-		year: string,
-		month: string,
-		next: null | {
-			year: string,
-			month: string,
-		},
-		previous: null | {
-			year: string,
-			month: string,
-		},
+		year: number,
+		month: number,
 		content: ContentDefinition[],
 	}[] = [];
 	const perTag: {
@@ -94,18 +81,12 @@ function makeOverview(posts: ContentDefinition[], paginateSize = 12): {
 	for (const post of posts) {
 		if (!post.hidden) {
 			everything.push(post);
-			findOrCreate(perYear, i => i.year === post.date.substring(0, 4), () => ({
-				year: post.date.substring(0, 4),
-				content: [],
-				next: null,
-				previous: null,
-			})).content.push(post);
 			findOrCreate(
 				perPeriod,
-				i => i.year === post.date.substring(0, 4) && i.month === post.date.substring(5, 7),
+				i => i.year === post.date.year && i.month === post.date.month,
 				() => ({
-					year: post.date.substring(0, 4),
-					month: post.date.substring(5, 7),
+					year: post.date.year,
+					month: post.date.month,
 					content: [],
 					next: null,
 					previous: null,
@@ -121,14 +102,10 @@ function makeOverview(posts: ContentDefinition[], paginateSize = 12): {
 		}
 	}
 	return {
-		everything: paginate(everything, paginateSize),
-		perYear: perYear.map(data => ({
-			...data,
-			content: paginate(data.content, paginateSize)
-		})),
+		homePage: paginate(everything, paginateSize),
 		perPeriod: perPeriod.map(data => ({
 			...data,
-			content: paginate(data.content, paginateSize)
+			content: data.content
 		})),
 		perTag: perTag.map(data => ({
 			...data,
@@ -138,10 +115,9 @@ function makeOverview(posts: ContentDefinition[], paginateSize = 12): {
 }
 
 export const {
-	everything,
+	homePage,
 	perPeriod,
 	perTag,
-	perYear,
 } = makeOverview(content);
 
 export default content;

@@ -1,5 +1,4 @@
 import Fragment from "./Fragment";
-import Markdown from "./Markdown";
 import PageWrapper from "./PageWrapper";
 import SrOnly from "./SrOnly";
 import StyleWrapper from "./StyleWrapper";
@@ -25,7 +24,7 @@ function Pagination({toPath, page, pages}: PaginationProps): JSX.Element | null 
 		}
 	} else {
 		children.push(
-			<li>...</li>
+			<li><span>...</span></li>
 		)
 		for(let i = page - 3; i < page; i++) {
 			children.push(
@@ -34,25 +33,47 @@ function Pagination({toPath, page, pages}: PaginationProps): JSX.Element | null 
 		}
 	}
 	children.push(
-		<li><a data-instant href={toPath(page === 1 ? '' : `${page}`)} aria-current="page"><SrOnly>page </SrOnly>{i}</a></li>
+		<li><a data-instant href={toPath(page === 1 ? '' : `${page}`)} aria-current="page"><SrOnly>page </SrOnly>{page}</a></li>
+	)
+	if (page > pages - 4) {
+		for(let i = page + 1; i <= pages; i++) {
+			children.push(
+				<li><a data-instant href={toPath(i === 1 ? '' : `${i}`)}><SrOnly>page </SrOnly>{i}</a></li>
+			); 
+		}
+	} else {
+		for(let i = page + 1; i < page + 4; i++) {
+			children.push(
+				<li><a data-instant href={toPath(i === 1 ? '' : `${i}`)}><SrOnly>page </SrOnly>{i}</a></li>
+			); 
+		}
+		children.push(
+			<li><span>...</span></li>
+		)
+	}
+	return (
+		<Fragment>
+			{children}
+		</Fragment>
 	)
 }
 
 interface Props {
 	base: PageBase,
 	slice: ContentDefinition[],
+	pagination?: JSXNode,
 	page: number,
 	pages: number,
 	toPath: (page: string) => string,
-	children: JSXNode
+	children?: JSXNode
 	title: string,
-	next: string | null,
-	previous: string | null,
-	first: string | null,
-	last: string | null,
+	next?: string | null,
+	previous?: string | null,
+	first?: string | null,
+	last?: string | null,
 }
 
-export default function Feed({ base: oldBase, page, pages, title, children, slice, toPath, next, previous, first, last }: Props) {
+export default function Feed({ base: oldBase, page, pages, title, children, slice, toPath, next, previous, first, last, pagination }: Props) {
 	const base = {
 		...oldBase,
 		link: pages === 1 || first ? oldBase.link : {
@@ -87,7 +108,7 @@ export default function Feed({ base: oldBase, page, pages, title, children, slic
 					</article>
 				))}
 				{base.link.first || base.link.previous || base.link.next || base.link.last && (
-					<nav aria-label="pagination">
+					<nav aria-label="pagination" className={classes.pagination}>
 						<ul>
 							{base.link.first && <li><a data-instant href={base.link.first}>
 								<span aria-hidden="true">«</span>
@@ -97,7 +118,12 @@ export default function Feed({ base: oldBase, page, pages, title, children, slic
 								<span aria-hidden="true">&lt;</span>
 								<SrOnly>previous page</SrOnly>
 							</a></li>}
-							<Pagination/>
+							{pagination ?? <Pagination
+								toPath={toPath}
+								page={page}
+								pages={page}
+							/>}
+							
 						</ul>
 					</nav>
 				)}
