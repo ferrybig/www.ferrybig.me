@@ -6,7 +6,7 @@ export type AnyValidType = keyof JSX.IntrinsicElements | typeof RAW_TAG_MARKER |
 export type ComponentProps<T extends keyof JSX.IntrinsicElements | typeof RAW_TAG_MARKER | ((params: any) => JSXNode)> =
 	T extends (params: infer P) => JSXNode ? P :
 	T extends keyof JSX.IntrinsicElements ? JSX.IntrinsicElements[T]
-	: {};
+	: Record<string, unknown>;
 
 export function createElement(type: string | ((props?: any) => JSXNode), props?: any, children?: any): JSX.Element {
 	return {

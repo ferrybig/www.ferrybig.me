@@ -8,22 +8,34 @@ import classes from './PageWrapper.module.css';
 interface Props extends ComponentProps<typeof RootWrapper> {
 	outer?: 'primary' | 'secondary' | 'tertiary' | 'base',
 	inner?: 'primary' | 'secondary' | 'tertiary' | 'base',
+	bottomOuter?: 'primary' | 'secondary' | 'tertiary' | 'base',
+	bottomInner?: 'primary' | 'secondary' | 'tertiary' | 'base',
+	includeWrapper?: boolean,
 }
 
 export default function PageWrapper({
 	children,
 	outer = 'secondary',
 	inner = 'base',
+	bottomOuter = outer,
+	bottomInner = inner,
+	includeWrapper = false,
 	...rest
 }: Props) {
 	return (
 		<RootWrapper {...rest}>
 			<TopBar/>
 			<StyleWrapper height="short" top='primary' bottom={outer} bottomInner={inner}/>
-			<StyleWrapper as="main" top="secondary" topInner='base' bottom="secondary" bottomInner='base' className={classes.main}>
-				{children}
-			</StyleWrapper>
-			<StyleWrapper height="short" top={outer} topInner={inner} bottom='tertiary'/>
+			{includeWrapper ? (
+				<StyleWrapper as="main" top="secondary" topInner='base' bottom="secondary" bottomInner='base'>
+					{children}
+				</StyleWrapper>
+			) : (
+				<main>
+					{children}
+				</main>
+			)}
+			<StyleWrapper height="short" top={bottomOuter} topInner={bottomInner} bottom='tertiary'/>
 			<PageFooter/>
 		</RootWrapper>
 	)

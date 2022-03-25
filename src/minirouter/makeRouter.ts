@@ -29,7 +29,7 @@ export default function makeRouter<R>(routes: RouteDefinition<R, any>[], options
 	const newRoutes = finalOptions.autoSort ? sortRoutes(routes) : routes;
 	return function Router(props: R): JSX.Element | null {
 		if (finalOptions.debug && process.env.NODE_ENV === 'development') {
-			// eslint-disable-next-line react-hooks/rules-of-hooks
+			// eslint -disable-next-line react-hooks/rules-of-hooks
 			useMemo(() => newRoutes, []); // Show debug values in componentEditor
 		}
 		const currentLocation = finalOptions.locationService.useLocationService();

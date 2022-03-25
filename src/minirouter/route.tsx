@@ -23,6 +23,7 @@ export class RouteDefinitionDefiner<P, I> {
 		function doRender(extraProps: Pick<C, Exclude<keyof C, keyof P>>) {
 			return render({
 				...extraProps,
+				// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 				...matchedProps!,
 			} as unknown as C);
 		}

@@ -1,5 +1,7 @@
+import { DateTime } from 'luxon';
+
 type BaseObject<K extends string | symbol | number> = {
-	[K1 in K]: string | number;
+	[K1 in K]: string | number | DateTime;
 }
 
 export default function sortByKey<K extends string | symbol | number, P = unknown>(

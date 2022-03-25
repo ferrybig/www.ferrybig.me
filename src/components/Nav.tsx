@@ -9,12 +9,13 @@ interface Props {
 
 export default function Nav({ className }: Props) {
 	return (
-		<nav className={classNames(classes.root, className)}>
+		<nav aria-label="Primary" className={classNames(classes.root, className)}>
 			<ul>
-				<LiLink linkClassName={classes.link} children={'Blog'} route={routes.home} props={{}}/>
-				<LiLink linkClassName={classes.link} children={'Tech-Demo'} route={routes.home} props={{}}/>
-				<LiLink linkClassName={classes.link} children={'Electronics'} route={routes.home} props={{}}/>
-				<LiLink linkClassName={classes.link} children={'Carriers'} route={routes.home} props={{}}/>
+				<LiLink linkClassName={classes.link} route={routes.tag} props={{ tag: 'blog', page: '' }}>Blog</LiLink>
+				<LiLink linkClassName={classes.link} route={routes.tag} props={{ tag: 'tech-demo', page: '' }}>Tech-Demo</LiLink>
+				<LiLink linkClassName={classes.link} route={routes.tag} props={{ tag: 'things', page: '' }}>Things</LiLink>
+				<LiLink linkClassName={classes.link} route={routes.tag} props={{ tag: 'electronics', page: '' }}>Electronics</LiLink>
+				<LiLink linkClassName={classes.link} route={routes.tag} props={{ tag: 'carriers', page: '' }}>Carriers</LiLink>
 			</ul>
 		</nav>
 	);
