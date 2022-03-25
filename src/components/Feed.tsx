@@ -8,7 +8,7 @@ import classes from './Feed.module.css';
 import SrHidden from './SrHidden';
 import Markdown from './Markdown';
 import Link from './Link';
-import { blog, tag as tagRoute } from '../pages';
+import { blog } from '../pages';
 import Breadcrumb from './Breadcrumb';
 import TagList from './TagList';
 

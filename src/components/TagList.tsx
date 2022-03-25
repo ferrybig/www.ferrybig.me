@@ -1,8 +1,8 @@
-import SrOnly from "./SrOnly"
-import {tag as tagRoute} from '../pages'
-import Link from "./Link";
-import classes from "./TagList.module.css";
-import SrHidden from "./SrHidden";
+import SrOnly from './SrOnly';
+import {tag as tagRoute} from '../pages';
+import Link from './Link';
+import classes from './TagList.module.css';
+import SrHidden from './SrHidden';
 
 interface Props {
 	tags: string[]

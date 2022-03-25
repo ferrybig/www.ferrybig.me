@@ -1,20 +1,11 @@
-import { byPeriod, blog, tag as tagRoute } from '.';
+import { byPeriod, blog } from '.';
 import Breadcrumb from '../components/Breadcrumb';
-import Link from '../components/Link';
 import Markdown from '../components/Markdown';
 import PageWrapper from '../components/PageWrapper';
-import SrOnly from '../components/SrOnly';
 import TagList from '../components/TagList';
 import Time from '../components/Time';
 import PageBase from '../PageBase';
 import ContentDefinition from '../types/ContentDefinition';
-
-const monthNames = [
-	'January', 'February', 'March',
-	'April', 'May', 'June',
-	'July', 'August', 'September',
-	'October', 'November', 'December'
-];
 
 interface Props {
 	base: PageBase,
