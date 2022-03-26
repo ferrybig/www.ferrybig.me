@@ -52,6 +52,7 @@ interface Props {
 	content: ContentDefinition[],
 	year: string,
 	month: string,
+	count: number
 	all: {
 		content: ContentDefinition[],
 		year: number,
@@ -59,7 +60,7 @@ interface Props {
 	}[]
 }
 
-export default function PeriodItem({ base, year: yearString, month: monthString, content, all }: Props) {
+export default function PeriodItem({ base, year: yearString, month: monthString, content, all, count }: Props) {
 	const year = Number(yearString);
 	const month = Number(monthString);
 	const last = all[0];
@@ -82,6 +83,7 @@ export default function PeriodItem({ base, year: yearString, month: monthString,
 			pagination={() => <Pagination year={year} all={all} month={month}/>}
 			slice={content}
 			toPath={() => ''}
+			count={count}
 			first={byPeriod.toPath({ month: first.month, year: first.year })}
 			last={byPeriod.toPath({ month: last.month, year: last.year })}
 			next={next ? byPeriod.toPath({ month: next.month, year: next.year }) : null}

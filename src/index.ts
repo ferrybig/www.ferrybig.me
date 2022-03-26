@@ -69,7 +69,12 @@ export default function render(assets: Record<string, string>) {
 		[K in keyof typeof routes]: ((partialBase: PageBase) => [string, string, JSX.Element | null])[];
 	} = {
 		blog: everyPost.map(content => base => renderRoute(base, routes.blog, { content, slug: content.slug})),
-		home: homePage.map((slice, page, { length: pages }) => base => renderRoute(base, routes.home, {slice, page: page === 0 ? '' : page + 1, pages})),
+		home: homePage.map((slice, page, { length: pages }) => base => renderRoute(base, routes.home, {
+			slice,
+			page: page === 0 ? '' : page + 1,
+			pages,
+			count: homePage.reduce((a, b) => a + b.length, 0),
+		})),
 		homeAtom: [base => renderRoute(base, routes.homeAtom, {
 			slice: homePage[0],
 			title: 'All blog posts',
@@ -77,7 +82,14 @@ export default function render(assets: Record<string, string>) {
 			linkSelf: routes.homeAtom.toPath({}),
 		})],
 		tag: perTag.flatMap(({tag, content, tagContent}) => content.map(
-			(slice, page, { length: pages }) => base => renderRoute(base, routes.tag, {slice, page: page === 0 ? '' : page + 1, pages, tag, tagContent})
+			(slice, page, { length: pages }) => base => renderRoute(base, routes.tag, {
+				slice,
+				page: page === 0 ? '' : page + 1,
+				pages,
+				tag,
+				tagContent,
+				count: content.reduce((a, b) => a + b.length, 0),
+			})
 		)),
 		tagAtom: perTag.map(({tag, content}) => base => renderRoute(base, routes.tagAtom, {
 			tag,
@@ -91,6 +103,7 @@ export default function render(assets: Record<string, string>) {
 			month,
 			content,
 			all: perPeriod,
+			count: content.length,
 		})),
 		period: [base => renderRoute(base, routes.period, {})],
 		sitemap: [base => renderRoute(base, routes.sitemap, {})],

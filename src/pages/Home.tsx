@@ -8,6 +8,7 @@ interface Props {
 	base: PageBase,
 	pages: number,
 	page: string,
+	count: number,
 	slice: ContentDefinition[],
 }
 
@@ -19,13 +20,14 @@ export default function Home(props: Props) {
 			page={props.page === '' ? 1 : Number(props.page)}
 			pages={props.pages}
 			slice={props.slice}
+			count={props.count}
 			toPath={(page) => routes.home.toPath({ page })}
 			atomFeed={routes.homeAtom.toPath({})}
 		>
 			{props.page === '' ? (
 				<Fragment>
 					<p>Hi, I am Fernando, a Full Stack developer, an electronic specialist and a hobbyist.</p>
-					<h2>My contributions</h2>
+					{/*<h2>My contributions</h2>*/}
 				</Fragment>
 			) : null}
 		</Feed>

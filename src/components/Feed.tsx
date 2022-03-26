@@ -103,6 +103,7 @@ interface Props {
 	pagination?: () => JSXNode,
 	page: number,
 	pages: number,
+	count?: number,
 	toPath: (page: string) => string,
 	children?: JSXNode
 	title: string,
@@ -113,7 +114,7 @@ interface Props {
 	atomFeed?: string | null,
 }
 
-export default function Feed({ base: oldBase, page, pages, title, children, slice, toPath, next, previous, first, last, pagination, atomFeed }: Props) {
+export default function Feed({ base: oldBase, page, pages, title, children, slice, toPath, next, previous, first, last, pagination, atomFeed, count }: Props) {
 	const base: PageBase = {
 		...oldBase,
 		link: pages === 1 && !first ? oldBase.link : {
@@ -161,7 +162,7 @@ export default function Feed({ base: oldBase, page, pages, title, children, slic
 			{children}
 			<section>
 				<h1 id="articles">
-					Articles
+					Articles{count ? ` (${count})` : ''}
 					{atomFeed && (
 						<a href={atomFeed} target="_blank" rel="noopener noreferrer" className={classes.feed}>
 							<SrOnly> (view articles via an atom feed)</SrOnly>

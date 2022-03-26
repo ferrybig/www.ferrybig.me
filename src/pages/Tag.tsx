@@ -11,6 +11,7 @@ interface Props {
 	slice: ContentDefinition[],
 	tag: string,
 	tagContent: ContentDefinition | null,
+	count: number
 }
 
 export default function Home(props: Props) {
@@ -21,6 +22,7 @@ export default function Home(props: Props) {
 			page={props.page === '' ? 1 : Number(props.page)}
 			pages={props.pages}
 			slice={props.slice}
+			count={props.count}
 			toPath={(page) => routes.tag.toPath({ tag: props.tag, page })}
 			atomFeed={routes.tagAtom.toPath({ tag: props.tag})}
 		>
