@@ -1,14 +1,28 @@
-.root a:link, .root a:visited {
+.root a {
 	position: relative;
-	font-size: 16px;
+	font-size: 14px;
 	text-decoration: none;
-	padding: 2px;
+	padding: 2px 4px;
 	border: 2px solid var(--text-primary-color);
-	color: var(--text-primary-color);
+	border-left-width: 1px;
+	border-right-width: 1px;
 	background-color: var(--background-primary-color);
-	margin: 0 1px;
+	margin: 0;
 	display: inline-block;
-	font-weight: bold;
+	font-weight: 500;
+}
+.root a:first-of-type {
+	border-top-left-radius: 8px;
+	border-bottom-left-radius: 8px;
+	border-left-width: 2px;
+}
+.root a:last-of-type {
+	border-top-right-radius: 8px;
+	border-bottom-right-radius: 8px;
+	border-right-width: 2px;
+}
+.root a:link, .root a:visited {
+	color: var(--text-primary-color);
 }
 .root a:focus-visible, .root a:hover {
 	color: var(--text-secondary-color);
@@ -21,5 +35,5 @@
 	border-color: var(--text-tertiary-color);
 }
 a.extra:link {
-	font-weight: normal;
+	font-weight: 100;
 }
