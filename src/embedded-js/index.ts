@@ -1,4 +1,4 @@
-import instantClick from './instantclick.content.js';
+import instantClick from './instantClick.content.js';
 import main from './main.content.js';
 
 export default [

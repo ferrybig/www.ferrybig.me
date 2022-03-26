@@ -19,7 +19,6 @@ export default function Content({ content, base }: Props) {
 				[content.date.toLocaleString({ year: 'numeric', month: 'long' }), byPeriod.toPath({
 					year: `${content.date.year}`,
 					month: `${content.date.month}`,
-					page: '',
 				})],
 				[content.title, blog.toPath({
 					slug: content.slug

@@ -14,6 +14,6 @@ export const blog = route`/${'slug'}`({ lastOptional: true, tokenDoesMatchSlash:
 export const tag = route`/${'tag'}/${'page'}`({ lastOptional: true }).component(Tag);
 export const tagAtom = route`/${'tag'}/atom.xml`({ lastOptional: true }).component(AtomFeed);
 export const period = route`/period/`().component(Period);
-export const byPeriod = route`/period/${'year'}-${'month'}/${'page'}`({ lastOptional: true }).component(PeriodItem);
+export const byPeriod = route`/period/${'year'}-${'month'}`({ lastOptional: true }).component(PeriodItem);
 export const sitemap = route`/sitemap`().component(Sitemap);
 export const sitemapXML = route`/sitemap.xml`().component(SitemapXML);

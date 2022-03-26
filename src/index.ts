@@ -4,7 +4,7 @@ import mkdirs from 'mkdirs';
 import md5 from 'md5';
 import './css';
 import js from './embedded-js';
-import everyPost, { homePage, perTag, tagCloudHits } from './content';
+import everyPost, { homePage, perPeriod, perTag, tagCloudHits } from './content';
 import * as routes from './pages';
 import PageBase from './PageBase';
 import renderElement from './utils/jsx-to-html';
@@ -86,7 +86,12 @@ export default function render(assets: Record<string, string>) {
 			linkMain: routes.tag.toPath({ page: '', tag }),
 			linkSelf: routes.tagAtom.toPath({ tag }),
 		})),
-		byPeriod: [],
+		byPeriod: perPeriod.map(({year, month, content}) => base => renderRoute(base, routes.byPeriod, {
+			year,
+			month,
+			content,
+			all: perPeriod,
+		})),
 		period: [base => renderRoute(base, routes.period, {})],
 		sitemap: [base => renderRoute(base, routes.sitemap, {})],
 		sitemapXML: [base => renderRoute(base, routes.sitemapXML, {})],

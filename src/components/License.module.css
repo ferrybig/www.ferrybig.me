@@ -1,3 +1,9 @@
+.cc {
+	margin: 0;
+}
+.cc:last-child {
+	margin-bottom: 8px;
+}
 .cc a {
 	display: inline-block;
 }

@@ -67,12 +67,13 @@ interface FullPaginationProps {
 	base: PageBase,
 	self: string,
 	children: JSXNode,
+	className: string,
 	'aria-hidden'?: boolean,
 }
 
-function FullPagination({base, self, children, 'aria-hidden': ariaHidden = false}: FullPaginationProps) {
+function FullPagination({base, self, children, 'aria-hidden': ariaHidden = false, className}: FullPaginationProps) {
 	return (base.link.first || base.link.previous || base.link.next || base.link.last) ? (
-		<nav aria-hidden={ariaHidden} className={classes.pagination}>
+		<nav aria-hidden={ariaHidden} className={className}>
 			<ul>
 				{base.link.first && base.link.first != self && <li><a data-instant href={base.link.first}>
 					<SrHidden>«</SrHidden>
@@ -99,7 +100,7 @@ function FullPagination({base, self, children, 'aria-hidden': ariaHidden = false
 interface Props {
 	base: PageBase,
 	slice: ContentDefinition[],
-	pagination?: JSXNode,
+	pagination?: () => JSXNode,
 	page: number,
 	pages: number,
 	toPath: (page: string) => string,
@@ -115,7 +116,7 @@ interface Props {
 export default function Feed({ base: oldBase, page, pages, title, children, slice, toPath, next, previous, first, last, pagination, atomFeed }: Props) {
 	const base: PageBase = {
 		...oldBase,
-		link: pages === 1 || first ? oldBase.link : {
+		link: pages === 1 && !first ? oldBase.link : {
 			...oldBase.link,
 			first:
 				first ? first :
@@ -167,8 +168,8 @@ export default function Feed({ base: oldBase, page, pages, title, children, slic
 						</a>
 					)}
 				</h1>
-				<FullPagination base={base} self={self} aria-hidden>
-					{pagination ?? <Pagination
+				<FullPagination base={base} self={self} aria-hidden className={classes.pagination}>
+					{pagination ? pagination() : <Pagination
 						toPath={toPath}
 						page={page}
 						pages={pages}
@@ -203,8 +204,8 @@ export default function Feed({ base: oldBase, page, pages, title, children, slic
 						</article>
 					))}
 				</div>
-				<FullPagination base={base} self={self}>
-					{pagination ?? <Pagination
+				<FullPagination base={base} self={self} className={classes.paginationBorder}>
+					{pagination ? pagination() : <Pagination
 						toPath={toPath}
 						page={page}
 						pages={pages}
