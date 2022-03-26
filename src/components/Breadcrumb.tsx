@@ -6,6 +6,10 @@ interface Props {
 }
 
 export default function Breadcrumb({ links }: Props) {
+	const filteredLinks = links.filter((e): e is [string, string] => !!e);
+	if(filteredLinks.length === 0) {
+		return null;
+	}
 	return (
 		<nav aria-label="Breadcrumb" className={classes.breadcrumb}>
 			<ul>
@@ -14,7 +18,7 @@ export default function Breadcrumb({ links }: Props) {
 						Home
 					</a>
 				</li>
-				{links.filter((e): e is [string, string] => !!e).map(([title, url], index) => (
+				{filteredLinks.map(([title, url], index) => (
 					<li>
 						<a href={url} data-instant aria-current={index === links.length - 1 ? 'location': undefined}>
 							{title}

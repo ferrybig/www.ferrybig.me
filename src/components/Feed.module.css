@@ -67,7 +67,8 @@
 	font-size: 20px;
 }
 .feedArticle h1 a {
-	color: var(--text-primary-color)
+	color: var(--text-primary-color);
+	text-decoration: none;	
 }
 .feedArticle h1 a:hover, .feedArticle h1 a:focus-visible {
 	color: var(--text-secondary-color)

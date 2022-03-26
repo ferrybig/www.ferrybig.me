@@ -154,7 +154,7 @@ export default function Feed({ base: oldBase, page, pages, title, children, slic
 			includeWrapper
 		>
 			<Breadcrumb links={[
-				base.link.first === '/' ? null : [title, base.link.first ?? self],
+				toPath('') === '/' ? null : [title, base.link.first ?? self],
 				page === 1 ? null : [`Page ${page}`, toPath(`${page}`)],
 			]}/>
 			<h1>{title}{page === 1 ? '' : ` - Page ${page}`}</h1>

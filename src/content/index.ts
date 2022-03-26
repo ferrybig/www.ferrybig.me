@@ -79,7 +79,7 @@ const content: ContentDefinition[] = [...blog, ...career, ...things]
 
 
 type PaginatedContent = ContentDefinition[][];
-function makeOverview(posts: ContentDefinition[], paginateSize = 3): {
+function makeOverview(posts: ContentDefinition[], paginateSize = 12): {
 	homePage: PaginatedContent,
 	perPeriod: {
 		year: number,
