@@ -53,6 +53,10 @@
 }
 .feedArticle {
 	border-top: 1px solid var(--text-primary-color);
+	margin-bottom: 24px;
+}
+.feedArticle:first-child {
+	border-top: none;
 }
 .feedArticle h1 {
 	margin: 10px 0 2px;

@@ -13,7 +13,7 @@
 	--button-color: hsl(200, 10%, 80%);
 	--button-active-color: hsl(200, 10%, 70%);
 
-	--text-link-idle-color: rgb(13, 68, 187);
+	--text-link-idle-color: rgb(0, 47, 150);
 	--text-link-visited-color: #600091;
 	--text-link-focus-color: rgb(10, 75, 112);
 
@@ -23,7 +23,7 @@
 	--hljs-1-color: #6f42c1;
 	--hljs-2-color: #005cc5;
 	--hljs-3-color: #032f62;
-	--hljs-4-color: #e36209;
+	--hljs-4-color: #c25309;
 	--hljs-5-color: #6a737d;
 	--hljs-6-color: #22863a;
 	--hljs-7-color: #24292e;

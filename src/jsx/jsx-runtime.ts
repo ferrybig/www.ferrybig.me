@@ -8,12 +8,15 @@ export type ComponentProps<T extends keyof JSX.IntrinsicElements | typeof RAW_TA
 	T extends keyof JSX.IntrinsicElements ? JSX.IntrinsicElements[T]
 	: Record<string, unknown>;
 
-export function createElement(type: string | ((props?: any) => JSXNode), props?: any, ...children: any): JSX.Element {
+export function createElement(type: string | ((props?: any) => JSXNode), props: any = {}, ...children: any): JSX.Element {
 	return {
 		type,
 		props: {
-			children: children ?? undefined,
-			...(props ?? {}),
+			children:
+				children.length > 1 ? children :
+				children.length === 1 ? children[0] :
+				undefined,
+			...props,
 		},
 		key: null,
 	};

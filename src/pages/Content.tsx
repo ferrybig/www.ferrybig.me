@@ -25,24 +25,21 @@ export default function Content({ content, base }: Props) {
 					slug: content.slug
 				})]
 			]}/>
-			{/*<pre>{JSON.stringify(content, null, 4)}</pre>*/}
-			<article>
-				<header>
-					<p>
-						<span>Created: <Time dateTime={content.date} format="date"/><br/></span>
-						{content.endDate && <span>Ended: <Time dateTime={content.endDate} format="date"/><br/></span>}
-						<span>Published: <Time dateTime={content.created} format="date-time"/><br/></span>
-						{content.created !== content.updated && <span>Updated: <Time dateTime={content.updated} format="date-time"/></span>}
-					</p>
-					<p>
-						<TagList tags={[...content.tags, ...content.extraTags]} />
-					</p>
-				</header>
-				<h1>{content.title}</h1>
-				<Markdown
-					content={content.body}
-				/>
-			</article>
+			<header>
+				<p>
+					<span>Created: <Time dateTime={content.date} format="date"/><br/></span>
+					{content.endDate && <span>Ended: <Time dateTime={content.endDate} format="date"/><br/></span>}
+					<span>Published: <Time dateTime={content.created} format="date-time"/><br/></span>
+					{content.created !== content.updated && <span>Updated: <Time dateTime={content.updated} format="date-time"/></span>}
+				</p>
+				<p>
+					<TagList tags={content.tags} extraTags={content.extraTags} />
+				</p>
+			</header>
+			<h1>{content.title}</h1>
+			<Markdown
+				content={content.body}
+			/>
 		</PageWrapper>
 	);
 }

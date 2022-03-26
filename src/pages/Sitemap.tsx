@@ -5,7 +5,7 @@ interface Props {
 	base: PageBase,
 }
 
-export default function Home({ base }: Props) {
+export default function Sitemap({ base }: Props) {
 	const grouped: Record<string, SitemapEntry[]> = {};
 	for (const entry of base.urls) {
 		(grouped[entry.renderedBy] ??= []).push(entry);

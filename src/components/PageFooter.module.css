@@ -1,0 +1,16 @@
+.root > div {
+	display: grid;
+	grid-template-columns: 1fr 300px 1fr;
+	grid-template-rows: auto;
+	padding: 0 8px;
+	align-items: flex-end;
+}
+.sectionNavigation ul {
+	margin: 0 0 8px;
+}
+.sectionTags {
+	text-align: center;
+}
+.sectionLicense {
+	text-align: right;
+}

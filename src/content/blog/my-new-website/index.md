@@ -7,8 +7,10 @@ extraTags: ["webpack-loader", "jsx"]
 # My new website
 
 If you read this quickly after publication, the chance is high you are on my
-newly build website. The are multiple techniques used on this website to
-archive my goals. This was quite a technical challenge to do, but I managed this.
+newly build website. There are multiple techniques used on this website to
+archive my goals. Doing this mix with a static website vs easy to add content
+was quite the technical challenge, but looking at this website shows I succeeded
+in my goals.
 
 ## Goals
 

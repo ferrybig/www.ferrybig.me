@@ -11,6 +11,7 @@ import Link from './Link';
 import { blog } from '../pages';
 import Breadcrumb from './Breadcrumb';
 import TagList from './TagList';
+import Time from './Time';
 
 interface PaginationProps {
 	page: number,
@@ -60,6 +61,39 @@ function Pagination({toPath, page, pages}: PaginationProps): JSX.Element | null 
 			{children}
 		</Fragment>
 	);
+}
+
+interface FullPaginationProps {
+	base: PageBase,
+	self: string,
+	children: JSXNode,
+	'aria-hidden'?: boolean,
+}
+
+function FullPagination({base, self, children, 'aria-hidden': ariaHidden = false}: FullPaginationProps) {
+	return (base.link.first || base.link.previous || base.link.next || base.link.last) ? (
+		<nav aria-hidden={ariaHidden} className={classes.pagination}>
+			<ul>
+				{base.link.first && base.link.first != self && <li><a data-instant href={base.link.first}>
+					<SrHidden>«</SrHidden>
+					<SrOnly>first page</SrOnly>
+				</a></li>}
+				{base.link.previous && <li><a data-instant href={base.link.previous}>
+					<SrHidden>&lt;</SrHidden>
+					<SrOnly>previous page</SrOnly>
+				</a></li>}
+				{children}
+				{base.link.next && <li><a data-instant href={base.link.next}>
+					<SrHidden>&gt;</SrHidden>
+					<SrOnly>next page</SrOnly>
+				</a></li>}
+				{base.link.last && base.link.last != self && <li><a data-instant href={base.link.last}>
+					<SrHidden>»</SrHidden>
+					<SrOnly>last page</SrOnly>
+				</a></li>}
+			</ul>
+		</nav>
+	) : null;
 }
 
 interface Props {
@@ -124,64 +158,59 @@ export default function Feed({ base: oldBase, page, pages, title, children, slic
 			]}/>
 			<h1>{title}{page === 1 ? '' : ` - Page ${page}`}</h1>
 			{children}
-			<h2 id="articles">
-				Articles
-				{atomFeed && (
-					<a href={atomFeed} target="_blank" rel="noopener noreferrer" className={classes.feed}>
-						<SrOnly>, view articles via an atom feed</SrOnly>
-					</a>
-				)}
-			</h2>
-			{slice.map(e => (
-				<article className={classes.feedArticle}>
-					<h1>
-						<Link route={blog} props={{ slug: e.slug }}>
-							{e.title}
-						</Link>
-					</h1>
-					<p>
-						<TagList tags={[...e.tags, ...e.extraTags]} />
-					</p>
-					<Markdown content={e.summary}/>
-					<p>
-						<Link route={blog} props={{ slug: e.slug }}>
-							<SrHidden>
-								{e.body === e.summary ? 'View' : 'Read more...'}
-							</SrHidden>
-							<SrOnly>
-								{(e.body === e.summary ? 'View article about ' : 'Read more about ') + e.title}
-							</SrOnly>
-						</Link>
-					</p>
-				</article>
-			))}
-			{(base.link.first || base.link.previous || base.link.next || base.link.last) && (
-				<nav aria-label="pagination" className={classes.pagination}>
-					<ul>
-						{base.link.first && base.link.first != self && <li><a data-instant href={base.link.first}>
-							<SrHidden>«</SrHidden>
-							<SrOnly>first page</SrOnly>
-						</a></li>}
-						{base.link.previous && <li><a data-instant href={base.link.previous}>
-							<SrHidden>&lt;</SrHidden>
-							<SrOnly>previous page</SrOnly>
-						</a></li>}
-						{pagination ?? <Pagination
-							toPath={toPath}
-							page={page}
-							pages={pages}
-						/>}
-						{base.link.next && <li><a data-instant href={base.link.next}>
-							<SrHidden>&gt;</SrHidden>
-							<SrOnly>next page</SrOnly>
-						</a></li>}
-						{base.link.last && base.link.last != self && <li><a data-instant href={base.link.last}>
-							<SrHidden>»</SrHidden>
-							<SrOnly>last page</SrOnly>
-						</a></li>}
-					</ul>
-				</nav>
-			)}
+			<section>
+				<h1 id="articles">
+					Articles
+					{atomFeed && (
+						<a href={atomFeed} target="_blank" rel="noopener noreferrer" className={classes.feed}>
+							<SrOnly> (view articles via an atom feed)</SrOnly>
+						</a>
+					)}
+				</h1>
+				<FullPagination base={base} self={self} aria-hidden>
+					{pagination ?? <Pagination
+						toPath={toPath}
+						page={page}
+						pages={pages}
+					/>}
+				</FullPagination>
+				<div>
+					{slice.map(content => (
+						<article className={classes.feedArticle}>
+							<h1>
+								<Link route={blog} props={{ slug: content.slug }}>
+									{content.title}
+								</Link>
+							</h1>
+							<header>
+								<p>
+									<SrOnly>Dated: </SrOnly><Time dateTime={content.date} format="date"/>
+									<br/>
+									<TagList tags={content.tags} extraTags={content.extraTags}  />
+								</p>
+							</header>
+							<Markdown content={content.summary}/>
+							<p>
+								<Link route={blog} props={{ slug: content.slug }}>
+									<SrHidden>
+										{content.body === content.summary ? 'View' : 'Read more...'}
+									</SrHidden>
+									<SrOnly>
+										{(content.body === content.summary ? 'View article about ' : 'Read more about ') + content.title}
+									</SrOnly>
+								</Link>
+							</p>
+						</article>
+					))}
+				</div>
+				<FullPagination base={base} self={self}>
+					{pagination ?? <Pagination
+						toPath={toPath}
+						page={page}
+						pages={pages}
+					/>}
+				</FullPagination>
+			</section>
 		</PageWrapper>
 	);
 }

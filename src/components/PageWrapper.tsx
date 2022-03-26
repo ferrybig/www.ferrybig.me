@@ -37,7 +37,7 @@ export default function PageWrapper({
 				</main>
 			)}
 			<StyleWrapper height="short" top={bottomOuter} topInner={bottomInner} bottom='tertiary'/>
-			<PageFooter/>
+			<PageFooter base={base}/>
 		</RootWrapper>
 	);
 }
