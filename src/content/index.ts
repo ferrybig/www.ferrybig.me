@@ -91,6 +91,7 @@ function makeOverview(posts: ContentDefinition[], paginateSize = 1): {
 		tagContent: ContentDefinition | null,
 		content: PaginatedContent,
 	}[],
+	tagCloudHits: [string, number][],
 } {
 	const perPeriod: {
 		year: number,
@@ -136,6 +137,7 @@ function makeOverview(posts: ContentDefinition[], paginateSize = 1): {
 			...data,
 			content: paginate(data.content, paginateSize)
 		})),
+		tagCloudHits: perTag.map((t): [string, number] => [t.tag, t.content.length]).sort(sortByKey(1, false))
 	};
 }
 
@@ -143,6 +145,7 @@ export const {
 	homePage,
 	perPeriod,
 	perTag,
+	tagCloudHits,
 } = makeOverview(content);
 
 export default content;

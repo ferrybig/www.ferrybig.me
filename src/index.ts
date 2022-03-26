@@ -4,7 +4,7 @@ import mkdirs from 'mkdirs';
 import md5 from 'md5';
 import './css';
 import js from './embedded-js';
-import everyPost, { homePage, perTag } from './content';
+import everyPost, { homePage, perTag, tagCloudHits } from './content';
 import * as routes from './pages';
 import PageBase from './PageBase';
 import renderElement from './utils/jsx-to-html';
@@ -103,6 +103,7 @@ export default function render(assets: Record<string, string>) {
 			author: 'Fernando van Loenhout',
 		},
 		head: [],
+		tagCloudHits,
 	};
 	for (const factory of Object.values(allRenderers).flatMap(a => a)) {
 		const [file, loc, jsx] = factory(applicationBase);

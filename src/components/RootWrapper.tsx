@@ -3,7 +3,7 @@ import Output from './Output';
 import themeClasses from '../theme.module.css';
 import { JSXNode } from '../jsx/jsx-runtime';
 
-const urlLinksNames = ['last', 'previous', 'next', 'last', 'cannocial'];
+const urlLinksNames = ['last', 'previous', 'next', 'last', 'canonical'];
 
 interface Props {
 	children: JSXNode;
@@ -20,7 +20,7 @@ export default function RootWrapper({
 }: Props) {
 	return (
 		<Output format="html">
-			<html data-theme-light={themeClasses.themeLight} data-theme-dark={themeClasses.themeDark} lang={lang}>
+			<html data-theme-light={themeClasses.themeLight} data-theme-dark={themeClasses.themeDark} lang={lang} data-no-instant>
 				<head>
 					<title>{title}</title>
 					{base.css.map(css => (
@@ -47,10 +47,10 @@ export default function RootWrapper({
 					<link rel="icon" type="image/png" sizes="194x194" href={require('../images/favicon-194x194.png')}/>
 					<link rel="icon" href="/favicon.ico"/>
 				</head>
-				<body data-no-instant>
+				<body>
 					{children}
 					{base.js.map(js => (
-						<script defer src={js} data-no-instant/>
+						<script defer src={js}/>
 					))}
 				</body>
 			</html>

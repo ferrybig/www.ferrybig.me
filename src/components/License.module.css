@@ -1,0 +1,25 @@
+.cc a {
+	display: inline-block;
+}
+.cc a[rel*="license"]::after {
+	content: '';
+	display: inline-block;
+	height: 22px;
+	width: 50px;
+	vertical-align: text-bottom;
+	background-position: 3px 0, 28px 0;
+	background-repeat: no-repeat, no-repeat;
+	background-size: 22px 22px, 22px 22px;
+}
+.ccBy {
+	composes: cc;
+}
+.ccBy a::after {
+	background-image: url(../icons/cc.svg), url(../icons/by.svg);
+}
+.ccZero {
+	composes: cc;
+}
+.ccZero a::after {
+	background-image: url(../icons/cc.svg), url(../icons/zero.svg);
+}

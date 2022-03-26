@@ -20,10 +20,11 @@ export default function PageWrapper({
 	bottomOuter = outer,
 	bottomInner = inner,
 	includeWrapper = false,
-	...rest
+	base,
+	title,
 }: Props) {
 	return (
-		<RootWrapper {...rest}>
+		<RootWrapper base={base} title={title}>
 			<TopBar/>
 			<StyleWrapper height="short" top='primary' bottom={outer} bottomInner={inner}/>
 			{includeWrapper ? (

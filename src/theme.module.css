@@ -13,9 +13,9 @@
 	--button-color: hsl(200, 10%, 80%);
 	--button-active-color: hsl(200, 10%, 70%);
 
-	--text-link-idle-color: rgb(26, 13, 171);
-	--text-link-visited-color: #6c00a2;
-	--text-link-focus-color: rgb(13, 113, 171);
+	--text-link-idle-color: rgb(13, 68, 187);
+	--text-link-visited-color: #600091;
+	--text-link-focus-color: rgb(10, 75, 112);
 
 	--hljs-color: #24292e;
 	--hljs-background-color: #ffffff;
@@ -37,7 +37,7 @@
 	--hljs-13-background-color: #ffeef0;
 }
 .themeDark {
-	--text-color: #eee;
+	--text-color: #ddd;
 	--text-primary-color: hsl(200, 90%, 35%);
 	--text-secondary-color: hsl(80, 90%, 35%);
 	--text-tertiary-color: hsl(320, 90%, 35%);
@@ -74,7 +74,7 @@
 
 @media (prefers-color-scheme: dark) {
 	:root {
-		--text-color: white;
+		--text-color: #ddd;
 		--text-primary-color: hsl(200, 90%, 35%);
 		--text-secondary-color: hsl(80, 90%, 35%);
 		--text-tertiary-color: hsl(320, 90%, 35%);

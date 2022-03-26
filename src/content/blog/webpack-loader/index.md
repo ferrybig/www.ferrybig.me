@@ -1,6 +1,6 @@
 ---
 date: "2022-03-25"
-tags: ["blog", "webpack", "loader"]
+tags: ["blog", "tech-demo", "webpack", "loader"]
 extraTags: ["from-scratch"]
 ---
 # Writing your own webpack loader
