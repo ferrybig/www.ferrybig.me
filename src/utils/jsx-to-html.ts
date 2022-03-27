@@ -13,6 +13,7 @@ const selfClosing: Partial<Record<string, true>> = {
 	img: true,
 	input: true,
 	base: true,
+	source: true,
 };
 
 export function escape(input: unknown): string {

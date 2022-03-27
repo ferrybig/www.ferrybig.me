@@ -16,6 +16,7 @@
 		"openscad",
 		"optipng",
 		"posthtml",
-		"udoc"
+		"udoc",
+		"Webp"
 	]
 }
