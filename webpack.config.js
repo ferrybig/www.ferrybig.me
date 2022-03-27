@@ -242,7 +242,8 @@ module.exports = {
 													}
 												);
 											},
-											(tree) => {
+											/*(tree) => {
+
 												const promises = [];
 												tree.match(
 													{
@@ -259,7 +260,7 @@ module.exports = {
 													}
 												);
 												return Promise.all(promises);
-											}
+											}*/
 										]
 									}
 								},
