@@ -50,7 +50,7 @@ export default function RootWrapper({
 				<body>
 					{children}
 					{base.js.map(js => (
-						<script defer src={js}/>
+						<script data-no-instant defer src={js}/>
 					))}
 				</body>
 			</html>
