@@ -153,11 +153,13 @@ export default function Feed({ base: oldBase, page, pages, title, children, slic
 			bottomOuter='secondary'
 			bottomInner='base'
 			includeWrapper
+			topWrapper={
+				<Breadcrumb links={[
+					toPath('') === '/' ? null : [title, base.link.first ?? self],
+					page === 1 ? null : [`Page ${page}`, toPath(`${page}`)],
+				]}/>
+			}
 		>
-			<Breadcrumb links={[
-				toPath('') === '/' ? null : [title, base.link.first ?? self],
-				page === 1 ? null : [`Page ${page}`, toPath(`${page}`)],
-			]}/>
 			<h1>{title}{page === 1 ? '' : ` - Page ${page}`}</h1>
 			{children}
 			<section>

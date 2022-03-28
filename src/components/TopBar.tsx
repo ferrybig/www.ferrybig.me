@@ -8,6 +8,7 @@ import classes from './TopBar.module.css';
 export default function TopBar() {
 	return (
 		<StyleWrapper as="header" top="primary" bottom="primary" className={classes.root}>
+			<a href="#main" className={classes.skip}>Skip to main content</a>
 			<Logo className={classes.logo}/>
 			<JobTitle className={classes.jobTitle}/>
 			<Nav className={classes.nav}/>

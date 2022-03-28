@@ -6,6 +6,7 @@ import TagList from '../components/TagList';
 import Time from '../components/Time';
 import PageBase from '../PageBase';
 import ContentDefinition from '../types/ContentDefinition';
+import classes from './Content.module.css';
 
 interface Props {
 	base: PageBase,
@@ -14,7 +15,7 @@ interface Props {
 
 export default function Content({ content, base }: Props) {
 	return (
-		<PageWrapper base={base} title={content.title} includeWrapper>
+		<PageWrapper base={base} title={content.title} includeWrapper topWrapper={
 			<Breadcrumb links={[
 				[content.date.toLocaleString({ year: 'numeric', month: 'long' }), byPeriod.toPath({
 					year: `${content.date.year}`,
@@ -24,8 +25,9 @@ export default function Content({ content, base }: Props) {
 					slug: content.slug
 				})]
 			]}/>
+		}>
 			<header>
-				<p>
+				<p className={classes.pageInfo}>
 					<span>Created: <Time dateTime={content.date} format="date"/><br/></span>
 					{content.endDate && <span>Ended: <Time dateTime={content.endDate} format="date"/><br/></span>}
 					<span>Published: <Time dateTime={content.created} format="date-time"/><br/></span>

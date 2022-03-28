@@ -14,16 +14,18 @@
 .root ul li {
 	margin: 0;
 }
-.link:link, .link:visited {
+.link {
 	position: relative;
 	font-size: 24px;
 	text-decoration: none;
 	padding: 12px;
 	border: 2px solid var(--text-primary-color);
-	color: var(--text-primary-color);
-	background-color: var(--background-primary-color);
 	margin: 8px;
 	display: inline-block;
+}
+.link:link, .link:visited {
+	background-color: var(--background-primary-color);
+	color: var(--text-primary-color);
 }
 .link:focus-visible, .link:hover {
 	text-decoration: underline;
@@ -38,11 +40,29 @@
 }
 
 @media only screen and (max-width: 600px) {
+	.root.root {
+		justify-self: stretch;
+	}
 	.root ul {
 		margin-bottom: 4px;
+		flex-direction: column;
+		justify-items: stretch;
+		margin: 6px 0;
 	}
 	.link {
-		margin: 4px;
+		display: block;
+		margin:  0 4px;
 		padding: 4px;
+		border-top-width: 1px;
+		border-bottom-width: 1px;
+	}
+	.link::before {
+		content: '* '
+	}
+	.root ul li:first-child .link {
+		border-top-width: 2px;
+	}
+	.root ul li:last-child .link {
+		border-bottom-width: 2px;
 	}
 }
