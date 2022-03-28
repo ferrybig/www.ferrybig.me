@@ -243,7 +243,7 @@ module.exports = {
 												);
 											},
 											(tree) => {
-												const promises = [];
+												//const promises = [];
 												tree.match(
 													{
 														tag: 'img',
@@ -258,7 +258,7 @@ module.exports = {
 														return node;
 													}
 												);
-												return Promise.all(promises);
+												//return Promise.all(promises);
 											}
 										]
 									}
