@@ -25,19 +25,21 @@ export default function PageWrapper({
 }: Props) {
 	return (
 		<RootWrapper base={base} title={title}>
-			<TopBar/>
-			<StyleWrapper height="short" top='primary' bottom={outer} bottomInner={inner}/>
-			{includeWrapper ? (
-				<StyleWrapper as="main" top="secondary" topInner='base' bottom="secondary" bottomInner='base' className={classes.main}>
-					{children}
-				</StyleWrapper>
-			) : (
-				<main>
-					{children}
-				</main>
-			)}
-			<StyleWrapper height="short" top={bottomOuter} topInner={bottomInner} bottom='tertiary'/>
-			<PageFooter base={base}/>
+			<div className={classes.scrollWrapper}>
+				<TopBar/>
+				<StyleWrapper height="short" top='primary' bottom={outer} bottomInner={inner}/>
+				{includeWrapper ? (
+					<StyleWrapper as="main" top={outer} topInner={inner} bottom={bottomOuter} bottomInner={bottomInner} className={classes.main}>
+						{children}
+					</StyleWrapper>
+				) : (
+					<main>
+						{children}
+					</main>
+				)}
+				<StyleWrapper height="short" top={bottomOuter} topInner={bottomInner} bottom='tertiary'/>
+				<PageFooter base={base}/>
+			</div>
 		</RootWrapper>
 	);
 }

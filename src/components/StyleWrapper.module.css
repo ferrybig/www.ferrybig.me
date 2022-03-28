@@ -10,6 +10,7 @@
 	background: linear-gradient(var(--inner-start-bg), var(--inner-stop-bg));
 	border-image: linear-gradient(var(--outer-start-line), var(--outer-stop-line)) 1 100%;
 	box-sizing: border-box;
+	position: relative;
 }
 .topInnerPrimary {
 	--inner-start-bg: var(--background-primary-color);
@@ -64,9 +65,9 @@
 	--inner-stop-bg: var(--background-color);
 }
 .bottomOuterBase {
-	--outer-stop-bg: var(--text-color);
-	--outer-stop-line: var(--background-color);
+	--outer-stop-bg: var(--background-color);
+	--outer-stop-line: var(--text-color);
 }
 .heightShort > div {
-	height: 8px;
+	height: 24px;
 }
