@@ -164,7 +164,7 @@ export default function Feed({ base: oldBase, page, pages, title, children, slic
 				<h1 id="articles">
 					Articles{count ? ` (${count})` : ''}
 					{atomFeed && (
-						<a href={atomFeed} target="_blank" rel="noopener noreferrer" className={classes.feed}>
+						<a href={atomFeed} target="_blank" rel="noopener noreferrer" type="application/atom+xml" className={classes.feed}>
 							<SrOnly> (view articles via an atom feed)</SrOnly>
 						</a>
 					)}

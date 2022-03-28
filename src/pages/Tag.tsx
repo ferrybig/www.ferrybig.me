@@ -14,7 +14,7 @@ interface Props {
 	count: number
 }
 
-export default function Home(props: Props) {
+export default function Tag(props: Props) {
 	return (
 		<Feed
 			base={props.base}
