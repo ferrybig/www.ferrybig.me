@@ -1,3 +1,4 @@
+import Breadcrumb from '../components/Breadcrumb';
 import PageWrapper from '../components/PageWrapper';
 import PageBase from '../PageBase';
 
@@ -7,8 +8,12 @@ interface Props {
 
 export default function Period({ base }: Props) {
 	return (
-		<PageWrapper base={base} title="Fernando's Development area" includeWrapper>
-			<pre>{base.tagCloudHits}</pre>
+		<PageWrapper base={base} title="Fernando's Development area" includeWrapper topWrapper={
+			<Breadcrumb links={[
+				['Periods', base.link.canonical ?? '']
+			]}/>
+		}>
+			<p>TODO: Make this page with a calender widget</p>
 		</PageWrapper>
 	);
 }

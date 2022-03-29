@@ -2,6 +2,7 @@ import route from '../minirouter/route';
 import Home from './Home';
 import Content from './Content';
 import Sitemap from './Sitemap';
+import Credits from './Credits';
 import SitemapXML from './SitemapXML';
 import Tag from './Tag';
 import AtomFeed from './AtomFeed';
@@ -15,5 +16,6 @@ export const tag = route`/${'tag'}/${'page'}`({ lastOptional: true }).component(
 export const tagAtom = route`/${'tag'}/atom.xml`({ lastOptional: true }).component(AtomFeed);
 export const period = route`/period/`().component(Period);
 export const byPeriod = route`/period/${'year'}-${'month'}`({ lastOptional: true }).component(PeriodItem);
+export const credits = route`/credits`().component(Credits);
 export const sitemap = route`/sitemap`().component(Sitemap);
 export const sitemapXML = route`/sitemap.xml`().component(SitemapXML);

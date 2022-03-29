@@ -1,3 +1,4 @@
+import Breadcrumb from '../components/Breadcrumb';
 import PageWrapper from '../components/PageWrapper';
 import PageBase, { SitemapEntry } from '../PageBase';
 
@@ -11,7 +12,11 @@ export default function Sitemap({ base }: Props) {
 		(grouped[entry.renderedBy] ??= []).push(entry);
 	}
 	return (
-		<PageWrapper base={base} title="Fernando's Development area" includeWrapper>
+		<PageWrapper base={base} title="Fernando's Development area" includeWrapper topWrapper={
+			<Breadcrumb links={[
+				['Sitemap', base.link.canonical ?? '']
+			]}/>
+		}>
 			<ul>
 				{Object.entries(grouped).map(([key, entries]) => (
 					<li>

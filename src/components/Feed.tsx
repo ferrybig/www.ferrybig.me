@@ -114,7 +114,7 @@ interface Props {
 	atomFeed?: string | null,
 }
 
-export default function Feed({ base: oldBase, page, pages, title, children, slice, toPath, next, previous, first, last, pagination, atomFeed, count }: Props) {
+export default function Feed({ base: oldBase, page, pages, title, children, slice, toPath, next, previous, first, last, pagination, atomFeed }: Props) {
 	const base: PageBase = {
 		...oldBase,
 		link: pages === 1 && !first ? oldBase.link : {
@@ -164,13 +164,15 @@ export default function Feed({ base: oldBase, page, pages, title, children, slic
 			{children}
 			<section>
 				<h1 id="articles">
-					Articles{count ? ` (${count})` : ''}
-					{atomFeed && (
-						<a href={atomFeed} target="_blank" rel="noopener noreferrer" type="application/atom+xml" className={classes.feed}>
-							<SrOnly> (view articles via an atom feed)</SrOnly>
-						</a>
-					)}
+					Articles
 				</h1>
+				{atomFeed && (
+					<p>
+						<a href={atomFeed} target="_blank" rel="noopener noreferrer" type="application/atom+xml" className={classes.feed}>
+							View articles via an atom feed reader
+						</a>
+					</p>
+				)}
 				<FullPagination base={base} self={self} aria-hidden className={classes.pagination}>
 					{pagination ? pagination() : <Pagination
 						toPath={toPath}

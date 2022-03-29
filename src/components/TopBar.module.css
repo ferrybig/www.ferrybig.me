@@ -13,28 +13,6 @@
 	position: relative;
 }
 
-.root > div::before {
-	content: '';
-	grid-area: 2 / 1 / 2 / 5;
-	height: 2px;
-	background: var(--text-primary-color);
-}
-.root > div::after {
-	content: '';
-	grid-area: icon;
-	height: 18px;
-	width: 18px;
-	background: var(--text-primary-color);
-	align-self: center;
-	justify-self: center;
-	-webkit-mask-position: center center;
-	mask-position: center center;
-	-webkit-mask-repeat: no-repeat;
-	mask-repeat: no-repeat;
-    -webkit-mask-image: url(../icons/diode.svg);
-	mask-image: url(../icons/diode.svg);
-}
-
 .logo {
 	grid-area: logo;
 }
@@ -66,6 +44,19 @@
 	pointer-events: initial;
 	opacity: 1;
 }
+.decorativeBackground {
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background: var(--text-primary-color);
+	opacity: 0.08;
+	mask-image: url(../images/header-background.svg);
+	mask-position: bottom;
+	mask-size: 600px;
+	pointer-events: none;
+}
 
 @media only screen and (max-width: 900px) {
 	.root > div {
@@ -76,12 +67,6 @@
 			"logo _ jobTitle"
 			"nav nav nav";
 		height: auto;
-	}
-	.root > div::before {
-		grid-area: nav;
-	}
-	.root > div::after {
-		display: none;
 	}
 	.nav {
 		justify-self: center;
@@ -106,7 +91,7 @@
 	.themeSwitcher {
 		align-self: start;
 	}
-	.root > div::before {
-		align-self: flex-end;
+	.decorativeBackground {
+		mask-size: 300px;
 	}
 }

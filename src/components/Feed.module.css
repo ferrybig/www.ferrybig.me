@@ -42,11 +42,16 @@
 	margin: 0 1px;
 }
 .feed {
+	font-size: 0.8em;
+}
+.feed::before {
+	content: '';
 	display: inline-block;
 	background: url(../icons/feed.svg);
 	background-size: 100% 100%;
 	width: 16px;
 	height: 16px;
+	margin-right: 4px;
 }
 .paginationNumbers:first-of-type {
 	flex: 1;
