@@ -1,0 +1,15 @@
+.pageInfo {
+	font-weight: bold;
+	display: flex;
+	flex-wrap: wrap;
+}
+.pageInfo br {
+	display: none;
+}
+.pageInfo time {
+	font-weight: normal;
+}
+.pageInfo span {
+	margin-right: 4px;
+	white-space: nowrap;
+}

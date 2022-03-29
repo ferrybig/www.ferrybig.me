@@ -1,3 +1,27 @@
+.scrollWrapper {
+	display: flex;
+	flex-direction: column;
+	flex: 1;
+	position: relative;
+}
+.scrollWrapper::before {
+	content: '';
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	pointer-events: none;
+	background: var(--text-color);
+	-webkit-mask-image: url(../images/bg.svg);
+	mask-image: url(../images/bg.svg);
+	opacity: 0.2;
+}
+.flex {
+	display: flex;
+	flex-direction: column;
+	flex: 1;
+}
 .main {
 	display: flex;
 	flex-direction: row;
@@ -6,5 +30,5 @@
 .main > div {
 	flex: 1;
 	width: 100%;
-	padding: 0 8px;
+	padding: 0 var(--content-padding);
 }

@@ -50,7 +50,8 @@
   "version": "1.0.0",
   "main": "",
   "scripts": {
-    "start": "node build.js",
+    "start": "node build.js --watch",
+    "build": "node build.js --clean",
     "lint": "eslint ."
   },
   "author": "",
@@ -63,6 +64,7 @@
     "> 0.5%, last 2 versions, Firefox ESR, not dead, not IE 11"
   ],
   "dependencies": {
-    "mkdirs": "^0.0.3"
+    "mkdirs": "^0.0.3",
+    "yargs": "^17.4.0"
   }
 }

@@ -1,7 +1,6 @@
 import Link from './Link';
 import classes from './TagCloud.module.css';
 import {tag as tagRoute} from '../pages';
-import Fragment from './Fragment';
 
 function classForCount(count: number) {
 	return count <= 1 ? classes.tag1 :

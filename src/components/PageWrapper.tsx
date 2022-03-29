@@ -1,4 +1,4 @@
-import { ComponentProps } from '../jsx/jsx-runtime';
+import { ComponentProps, JSXNode } from '../jsx/jsx-runtime';
 import StyleWrapper from './StyleWrapper';
 import RootWrapper from './RootWrapper';
 import TopBar from './TopBar';
@@ -11,6 +11,8 @@ interface Props extends ComponentProps<typeof RootWrapper> {
 	bottomOuter?: 'primary' | 'secondary' | 'tertiary' | 'base',
 	bottomInner?: 'primary' | 'secondary' | 'tertiary' | 'base',
 	includeWrapper?: boolean,
+	topWrapper?: JSXNode,
+	bottomWrapper?: JSXNode,
 }
 
 export default function PageWrapper({
@@ -20,24 +22,30 @@ export default function PageWrapper({
 	bottomOuter = outer,
 	bottomInner = inner,
 	includeWrapper = false,
+	topWrapper,
+	bottomWrapper,
 	base,
 	title,
 }: Props) {
 	return (
 		<RootWrapper base={base} title={title}>
-			<TopBar/>
-			<StyleWrapper height="short" top='primary' bottom={outer} bottomInner={inner}/>
-			{includeWrapper ? (
-				<StyleWrapper as="main" top="secondary" topInner='base' bottom="secondary" bottomInner='base' className={classes.main}>
-					{children}
-				</StyleWrapper>
-			) : (
-				<main>
-					{children}
+			<div className={classes.scrollWrapper}>
+				<TopBar/>
+				<main className={classes.flex}>
+					<StyleWrapper height="short" top='primary' bottom={outer} bottomInner={inner}>
+						{topWrapper}
+					</StyleWrapper>
+					{includeWrapper ? (
+						<StyleWrapper id="main" top={outer} topInner={inner} bottom={bottomOuter} bottomInner={bottomInner} className={classes.main}>
+							{children}
+						</StyleWrapper>
+					) : children}
+					<StyleWrapper height="short" top={bottomOuter} topInner={bottomInner} bottom='tertiary'>
+						{bottomWrapper}
+					</StyleWrapper>
 				</main>
-			)}
-			<StyleWrapper height="short" top={bottomOuter} topInner={bottomInner} bottom='tertiary'/>
-			<PageFooter base={base}/>
+				<PageFooter base={base}/>
+			</div>
 		</RootWrapper>
 	);
 }

@@ -6,8 +6,10 @@ const fs = require('fs-extra');
 const browserSync = require('browser-sync');
 const md5 = require('md5');
 const webpackConfig = require('./webpack.config');
+const yargs = require('yargs');
+const package = require('./package.json');
 
-function main(watchMode = false) {
+function main({ clean, watch, open, port }) {
 	return new Promise((doResolve, doReject) => {
 		const assets = {};
 		const compiler = webpack(webpackConfig);
@@ -47,9 +49,10 @@ function main(watchMode = false) {
 								extensions: ['html'],
 							},
 						},
-						open: false,
+						open,
 						online: false,
 						startPath: '/sitemap',
+						port,
 					});
 				} else {
 					console.log('-----------------------------------------------------------');
@@ -97,13 +100,15 @@ function main(watchMode = false) {
 				console.log(`${`dist/${f}:`.padEnd(40)} ${fileContents.length}\t bytes copied`);
 			}
 		})));
-		const clean = false;
 		Promise.resolve()
-			.then(() => clean && Promise.all(fs.rm('./tmp', { recursive: true, force: true }), fs.rm('./dist', { recursive: true, force: true })))
+			.then(() => clean && Promise.all([
+				fs.rm('./tmp', { recursive: true, force: true }),
+				fs.rm('./dist', { recursive: true, force: true })
+			]))
 			.then(() => fs.copy('./public', './dist'))
 			.then(() => readAssetsPromise)
 			.then(() => {
-				if (watchMode) {
+				if (watch) {
 					watching = compiler.watch({
 						aggregateTimeout: 300,
 						poll: undefined
@@ -116,8 +121,43 @@ function main(watchMode = false) {
 	});
 }
 
-main(true).then(() => {
-	console.log('success');
+const argv = yargs(process.argv.slice(2))
+	.usage('Usage: $0 [options]')
+	.option('clean', {
+		description: 'Clean fils before build',
+		alias: 'c',
+		type: 'boolean',
+	})
+	.option('watch', {
+		alias: 'w',
+		description: 'Watch the folder',
+		type: 'boolean',
+	})
+	.option('port', {
+		alias: 'p',
+		description: 'The HTTP server port used to serve the files in watch mode',
+		type: 'number'
+	})
+	.implies('port', 'watch')
+	.option('open', {
+		alias: 'o',
+		description: 'Opens the http server once the app starts',
+		type: 'boolean'
+	})
+	.implies('open', 'watch')
+	.help()
+	.version('version', 'display version information', package.version)
+	.alias('version', 'v')
+	.showHelpOnFail(false, 'whoops, something went wrong! run with --help')
+	.argv;
+console.log(argv);
+main({
+	clean: !!argv.clean,
+	watch: !!argv.watch,
+	open: !!argv.open,
+	port: argv.port ?? 3000,
+}).then(() => {
+	console.log('Finished building!');
 }, (e) => {
 	console.error(e);
 	process.exit(1);

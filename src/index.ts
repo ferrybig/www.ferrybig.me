@@ -37,18 +37,17 @@ function renderRoute<P, I>(
 	route: RouteDefinition<P, I>,
 	props: Omit<P, 'base'> & I): [string, string, JSX.Element | null] {
 	const parsedPath = route.toPath(props);
-	const site = partialBase.site?.endsWith('/') ? partialBase.site.substring(0, partialBase.site.length - 1) : partialBase.site;
 	const publicPath = partialBase.publicPath?.endsWith('/') ? partialBase.publicPath.substring(0, partialBase.publicPath.length - 1) : partialBase.publicPath;
 
 	const base: PageBase = {
 		...partialBase,
 		link: {
 			...partialBase.link,
-			canonical: site ? `${site}${publicPath}${parsedPath}` : null,
+			canonical: `${publicPath}${parsedPath}`,
 		},
 		meta: {
 			...partialBase.meta,
-			'og:url': site ? `${site}${publicPath}${parsedPath}` : null,
+			'og:url': `${publicPath}${parsedPath}`,
 		}
 	};
 	const file =
@@ -106,6 +105,7 @@ export default function render(assets: Record<string, string>) {
 			count: content.length,
 		})),
 		period: [base => renderRoute(base, routes.period, {})],
+		credits: [base => renderRoute(base, routes.credits, {})],
 		sitemap: [base => renderRoute(base, routes.sitemap, {})],
 		sitemapXML: [base => renderRoute(base, routes.sitemapXML, {})],
 	};

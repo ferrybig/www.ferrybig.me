@@ -4,7 +4,7 @@ import PageBase from '../PageBase';
 import ContentDefinition from '../types/ContentDefinition';
 import {byPeriod} from '.';
 import Link from '../components/Link';
-import classes from './PeriodItem.module.css'
+import classes from './PeriodItem.module.css';
 
 interface PaginationProps {
 	year: number,
@@ -44,7 +44,7 @@ function Pagination({ year, month: currentMonth, all }: PaginationProps) {
 			<p>{year}</p>
 			<p>{months}</p>
 		</li>
-	)
+	);
 }
 
 interface Props {

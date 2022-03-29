@@ -13,33 +13,6 @@
 	position: relative;
 }
 
-.root > div::before {
-	content: '';
-	position: absolute;
-	bottom: 44px;
-	left: 0;
-	right: 0;
-	height: 2px;
-	background: var(--text-primary-color);
-}
-.root > div::after {
-	content: '';
-	position: static;
-	grid-area: icon;
-	height: 18px;
-	width: 18px;
-	background: var(--text-primary-color);
-	align-self: end;
-	margin-bottom: 36px;
-	justify-self: end;
-	-webkit-mask-position: center center;
-	mask-position: center center;
-	-webkit-mask-repeat: no-repeat;
-	mask-repeat: no-repeat;
-    -webkit-mask-image: url(../icons/diode.svg);
-	mask-image: url(../icons/diode.svg);
-}
-
 .logo {
 	grid-area: logo;
 }
@@ -52,20 +25,48 @@
 .themeSwitcher {
 	grid-area: themeSwitcher;
 	justify-self: end;
+	margin-right: 8px;
+}
+.skip {
+	position: fixed;
+	top: 0;
+	left: 0;
+	pointer-events: none;
+	opacity: 0;
+	padding: 4px;
+	background: var(--background-color);
+	color: var(--text-color);
+	border-right: 1px solid var(--text-color);
+	border-bottom: 1px solid var(--text-color);
+	z-index: 1;
+}
+.skip:focus {
+	pointer-events: initial;
+	opacity: 1;
+}
+.decorativeBackground {
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background: var(--text-primary-color);
+	opacity: 0.08;
+	mask-image: url(../images/header-background.svg);
+	mask-position: bottom;
+	mask-size: 600px;
+	pointer-events: none;
 }
 
 @media only screen and (max-width: 900px) {
 	.root > div {
-		grid-template-columns: auto 1fr;
+		grid-template-columns: auto 32px 1fr;
 		grid-template-rows: auto;
 		grid-template-areas:
-			"logo themeSwitcher"
-			"logo jobTitle"
-			"nav nav";
+			"logo _ themeSwitcher"
+			"logo _ jobTitle"
+			"nav nav nav";
 		height: auto;
-	}
-	.root > div::after {
-		display: none;
 	}
 	.nav {
 		justify-self: center;
@@ -83,10 +84,14 @@
 			"nav nav";
 		height: auto;
 	}
+	.jobTitle {
+		margin-left: var(--content-padding);
+		text-align: center;
+	}
 	.themeSwitcher {
 		align-self: start;
 	}
-	.root > div::before {
-		bottom: 0;
+	.decorativeBackground {
+		mask-size: 300px;
 	}
 }

@@ -189,11 +189,11 @@ function makeRouteMatcher<K extends string>(
 	).setDebugValue(options.generateDebugValue ? debugValue : '');
 }
 
-interface RouteFinaliser<P, I> {
+interface RouteFinalizer<P, I> {
 	(options?: RouteMatherOptions<keyof P>): RouteDefinitionDefiner<P, I>;
 }
 
-export default function route<K extends string>(templatePath: TemplateStringsArray, ...args: K[]): RouteFinaliser<
+export default function route<K extends string>(templatePath: TemplateStringsArray, ...args: K[]): RouteFinalizer<
 { [K1 in K]: string },
 { [K1 in K]: string | number | { toString(): string }}
 > {
