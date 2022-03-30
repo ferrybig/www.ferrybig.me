@@ -6,7 +6,7 @@ const hljs = require('highlight.js');
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const ImageMinimizerPlugin = require('image-minimizer-webpack-plugin');
-const {noopener: noOpener} = require('posthtml-noopener');
+const { noopener: noOpener } = require('posthtml-noopener');
 const sharp = require('responsive-loader/sharp');
 
 module.exports = {
@@ -96,7 +96,22 @@ module.exports = {
 							sourceMap: true,
 							esModule: false,
 						}
-					}
+					},
+					{
+						loader: "postcss-loader",
+						options: {
+							postcssOptions: {
+								plugins: [
+									[
+										"postcss-preset-env",
+										{
+											// Options
+										},
+									],
+								],
+							},
+						},
+					},
 				]
 			},
 			{
@@ -235,7 +250,7 @@ module.exports = {
 														const { download, href } = node.attrs;
 
 														if (!download) {
-															node.attrs.download = href.substring(href.lastIndexOf('/')+ 1, href.length);
+															node.attrs.download = href.substring(href.lastIndexOf('/') + 1, href.length);
 														}
 
 														return node;
