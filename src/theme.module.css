@@ -15,6 +15,8 @@
 	--button-color: hsl(200, 10%, 80%);
 	--button-active-color: hsl(200, 10%, 70%);
 
+	--header-opacity: 0.1;
+
 	--text-link-idle-color: rgb(0, 47, 150);
 	--text-link-visited-color: #600091;
 	--text-link-focus-color: rgb(10, 75, 112);
@@ -49,6 +51,8 @@
 	--background-tertiary-color: hsl(320, 90%, 10%);
 	--button-color: hsl(200, 10%, 20%);
 	--button-active-color: hsl(200, 10%, 30%);
+
+	--header-opacity: 0.2;
 
 	--text-link-idle-color: rgb(123, 118, 177);
 	--text-link-visited-color: #b697c5;
@@ -86,6 +90,8 @@
 		--background-tertiary-color: hsl(320, 90%, 10%);
 		--button-color: hsl(200, 10%, 20%);
 		--button-active-color: hsl(200, 10%, 30%);
+
+		--header-opacity: 0.2;
 	
 		--hljs-color: #c9d1d9;
 		--hljs-background-color: #0d1117;

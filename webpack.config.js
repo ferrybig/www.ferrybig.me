@@ -8,12 +8,13 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const ImageMinimizerPlugin = require('image-minimizer-webpack-plugin');
 const {noopener: noOpener} = require('posthtml-noopener');
 const sharp = require('responsive-loader/sharp');
+const CopyPlugin = require("copy-webpack-plugin");
 
 module.exports = {
 	entry: './src/index.ts',
 	output: {
-		path: path.resolve(__dirname, 'tmp'),
-		filename: 'bundle.js',
+		path: path.resolve(__dirname, 'dist'),
+		filename: 'INTERNAL-bundle.js',
 		libraryTarget: 'umd',
 		publicPath: '/',
 		assetModuleFilename: 'static/[contenthash][ext][query]',
@@ -73,6 +74,11 @@ module.exports = {
 	plugins: [
 		new MiniCssExtractPlugin({
 			filename: 'static/[contenthash].css',
+		}),
+		new CopyPlugin({
+			patterns: [
+				{ from: "public", to: "dist" },
+			],
 		}),
 	],
 	resolve: {

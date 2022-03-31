@@ -4,7 +4,6 @@
 const webpack = require('webpack');
 const fs = require('fs-extra');
 const browserSync = require('browser-sync');
-const md5 = require('md5');
 const webpackConfig = require('./webpack.config');
 const yargs = require('yargs');
 const package = require('./package.json');
@@ -12,6 +11,7 @@ const package = require('./package.json');
 function main({ clean, watch, open, port }) {
 	return new Promise((doResolve, doReject) => {
 		const assets = {};
+		webpackConfig.output.clean = clean;
 		const compiler = webpack(webpackConfig);
 		function reject(e) {
 			compiler.close(() => {
@@ -70,19 +70,18 @@ function main({ clean, watch, open, port }) {
 				if (stats.hasWarnings()) {
 					bs?.notify(stats.toString('errors-warnings'));
 				}
-				fs.copySync('./tmp', './dist', { filter: (name) => !name.endsWith('bundle.js') && !name.endsWith('bundle.js.map') });
 				const newAssets = {
 					...assets,
 				};
 				//console.log(stats.toJson('all').chunks);
 				for (const asset of stats.toJson('all').assets) {
-					if (asset.name.startsWith('static/')) {
-						newAssets[asset.name] = asset.name;
-						console.log(`${`dist/${asset.name}:`.padEnd(40)} ${asset.size}\t bytes emitted (from: ${asset.info.sourceFilename})${asset.isOverSizeLimit ? ' OVERSIZED' : ''}`);
-					}
+					// if (asset.name.startsWith('static/')) {
+					newAssets[asset.info.sourceFilename ?? `output:${asset.name}`] = asset.name;
+					console.log(`${`dist/${asset.name}:`.padEnd(40)} ${asset.size}\t bytes emitted (from: ${asset.info.sourceFilename})${asset.isOverSizeLimit ? ' OVERSIZED' : ''}`);
+					// }
 				}
-				delete require.cache[require.resolve('./tmp/bundle.js')];
-				require('./tmp/bundle.js').default(newAssets);
+				delete require.cache[require.resolve(`./dist/${webpackConfig.output.filename}`)];
+				require(`./dist/${webpackConfig.output.filename}`).default(newAssets);
 				console.log('Done!');
 				bs?.reload();
 				if (!watching) return resolve();
@@ -92,32 +91,14 @@ function main({ clean, watch, open, port }) {
 				if (!watching) return reject(e);
 			}
 		};
-		const readAssetsPromise = fs.readdir('./public').then(l => Promise.all(l.map(async f => {
-			const s = await fs.lstat('./public/' + f);
-			if (s.isFile()) {
-				const fileContents = await fs.readFile('./public/' + f);
-				assets[f] = `${f}?v=${md5(fileContents).substring(0, 20)}`;
-				console.log(`${`dist/${f}:`.padEnd(40)} ${fileContents.length}\t bytes copied`);
-			}
-		})));
-		Promise.resolve()
-			.then(() => clean && Promise.all([
-				fs.rm('./tmp', { recursive: true, force: true }),
-				fs.rm('./dist', { recursive: true, force: true })
-			]))
-			.then(() => fs.copy('./public', './dist'))
-			.then(() => readAssetsPromise)
-			.then(() => {
-				if (watch) {
-					watching = compiler.watch({
-						aggregateTimeout: 300,
-						poll: undefined
-					}, onResult);
-				} else {
-					compiler.run(onResult);
-				}
-			})
-			.catch(e => doReject(e));
+		if (watch) {
+			watching = compiler.watch({
+				aggregateTimeout: 300,
+				poll: undefined
+			}, onResult);
+		} else {
+			compiler.run(onResult);
+		}
 	});
 }
 
@@ -156,9 +137,12 @@ main({
 	watch: !!argv.watch,
 	open: !!argv.open,
 	port: argv.port ?? 3000,
-}).then(() => {
+}).then(() => Promise.all([
+	fs.rm(`./dist/${webpackConfig.output.filename}`),
+	fs.rm(`./dist/${webpackConfig.output.filename}.map`,)
+])).then(() => {
 	console.log('Finished building!');
-}, (e) => {
+}).catch((e) => {
 	console.error(e);
 	process.exit(1);
 });

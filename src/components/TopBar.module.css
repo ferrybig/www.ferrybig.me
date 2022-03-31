@@ -51,7 +51,7 @@
 	right: 0;
 	bottom: 0;
 	background: var(--text-primary-color);
-	opacity: 0.08;
+	opacity: var(--header-opacity);
 	mask-image: url(../images/header-background.svg);
 	mask-position: bottom;
 	mask-size: 600px;

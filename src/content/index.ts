@@ -7,57 +7,125 @@ import importedTags from './tags';
 import blog from './blog';
 import career from './career';
 import things from './things';
+import { parseHtml, EscapedToken, writeHtml } from '../utils/htmlParser';
+import { decodeEntities } from '../utils/htmlUtils';
+import assertNever from '../utils/assertNever';
 
-function decodeEntities(encodedString: string) {
-	const translate_re = /&(nbsp|amp|quot|lt|gt);/g;
-	const translate: Partial<Record<string, string>> = {
-		'nbsp':' ',
-		'amp' : '&',
-		'quot': '"',
-		'lt'  : '<',
-		'gt'  : '>'
-	};
-	return encodedString.replace(translate_re, function(match, entity) {
-		return translate[entity] ?? '';
-	}).replace(/&#(\d+);/gi, function(match, numStr) {
-		const num = parseInt(numStr, 10);
-		return String.fromCharCode(num);
-	});
-}
-
-function split(html: string, slug: string): { title: string, summary: string, body: string} {
+function split(html: string, slug: string): Pick<ContentDefinition, 'title' | 'body'> {
 	const regex = /<(h[1-6])(?:\W[^=>]+(?:=[^=>]+))*?>(.*?)<\/\1>/mg;
 	const match = regex.exec(html);
 	if (!match) {
-		return { title: slug, body: html, summary: ''};
+		return { title: slug, body: html};
 	}
 	const title = decodeEntities(match[2].replace(/<\/?[^>]+(>|$)/g, ''));
 	const bodyIndex = regex.lastIndex;
 	const body = html.substring(bodyIndex);
-	const match1 = regex.exec(html);
-	const summary = !match1 ? body : html.substring(bodyIndex, regex.lastIndex - match1[0].length);
-	if (summary.length < 1024) {
-		return { title, body, summary };
-	}
-	const elementMatcher = /[^<]*?<([^>\W]*)(?:\W[^=>]+(?:=[^=>]+))*?>(.*?)<\/\1>/g;
-	let newSummary = '';
-	let match2;
-	while((match2 = elementMatcher.exec(summary))) {
-		if (match2[0].length + newSummary.length < 256) {
-			newSummary += match2[0];
-		} else if (match2[0].length < 1024 && newSummary.length === 0) {
-			return { title, body, summary: match2[0] };
-		} else if (newSummary.length > 10) {
-			return { title, body, summary: newSummary };
-		}
-	}
-	if (newSummary.length > 10) {
-		return { title, body, summary: newSummary };
-	}
-	return { title, body, summary: summary.replace(/<\/?[^>]+(>|$)/g, '').substring(0, 1024) };
+	return { title, body };
 }
 
-function mdToContentDefinition({default: body, endDate, date, created, updated, hidden, ...rest}: typeof import('*.md')): ContentDefinition {
+function *transformBody(parent: Generator<EscapedToken, void, unknown>): Generator<EscapedToken, void, unknown> {
+	let aOpen = false;
+	mainLoop: for (const token of parent) {
+		if (token.type === 'tag') {
+			switch(token.tag) {
+			case 'picture':
+			case 'source':
+			case 'track':
+				continue mainLoop;
+			case 'a':
+				aOpen = !token.end;
+				break;
+			case 'img':
+				if (token.start) {
+					const src = token.attr.find(a => a.name === 'src');
+					const alt = token.attr.find(a => a.name === 'alt');
+					if (alt && alt.value) {
+						if (!aOpen && src) {
+							yield {
+								type: 'tag',
+								start: true,
+								end: false,
+								tag: 'a',
+								attr: [{...src, name: 'href'}],
+							};
+						}
+						yield {
+							type: 'text',
+							text: alt.value + ' (image)',
+						};
+						if (!aOpen && src) {
+							yield {
+								type: 'tag',
+								start: false,
+								end: true,
+								tag: 'a',
+								attr: [],
+							};
+						}
+					}
+				}
+				continue mainLoop;
+			}
+		}
+		yield token;
+	}
+}
+
+function areWeInABreakableTag(stack: Extract<EscapedToken, {type: 'tag'}>[]) {
+	return !!stack.find(e => e.tag === 'p') || !!stack.find(e => e.tag === 'li');
+}
+
+function makeSummary(body: string, targetSummaryLength = 512): Pick<ContentDefinition, 'summary' | 'summaryXml' | 'summaryIsShorterThanBody'> {
+	let contentLength = 0;
+	const tokens: EscapedToken[] = [];
+	const stack: Extract<EscapedToken, {type: 'tag'}>[] = [];
+	//let lastValidBreakToken = 0;
+	let weAreInABreakableTag = true;
+	for (const value of transformBody(parseHtml(body))) {
+		tokens.push(value);
+		switch(value.type) {
+		case 'text':
+			if (contentLength + value.text.length >= targetSummaryLength && weAreInABreakableTag) {
+				tokens.pop();
+				const nextSpace = contentLength > targetSummaryLength ? 0 : value.text.indexOf(' ');
+				tokens.push({
+					type: 'text',
+					text: nextSpace >= 0 ? value.text.substring(0, nextSpace) + (nextSpace !== 0 ? '…' : '') : value.text,
+				});
+				return {
+					summary: writeHtml(tokens, { xhtml: false, balance: true }),
+					summaryXml: writeHtml(tokens, { xhtml: true, balance: true }),
+					summaryIsShorterThanBody: true,
+				};
+			}
+			contentLength += value.text.length;
+			break;
+		case 'tag':
+			if (value.start) {
+				stack.push(value);
+			}
+			if (value.end) {
+				stack.pop();
+			}
+			weAreInABreakableTag = areWeInABreakableTag(stack);
+			break;
+		case 'comment':
+			break;
+		default:
+			return assertNever(value);
+		}
+	}
+	return {
+		summary: writeHtml(tokens, { xhtml: false, balance: true }),
+		summaryXml: writeHtml(tokens, { xhtml: true, balance: true }),
+		summaryIsShorterThanBody: false,
+	};
+}
+
+
+function mdToContentDefinition({default: html, endDate, date, created, updated, hidden, ...rest}: typeof import('*.md')): ContentDefinition {
+	// console.log("Splitting: " + html);
+	const splitResult = split(html, rest.slug);
 	return {
 		...rest,
 		date: DateTime.fromISO(date),
@@ -65,9 +133,11 @@ function mdToContentDefinition({default: body, endDate, date, created, updated, 
 		created: created ? DateTime.fromRFC2822(created) : DateTime.now(),
 		updated: updated ? DateTime.fromRFC2822(updated) : DateTime.now(),
 		hidden: hidden ?? false,
-		...split(body, rest.slug),
+		...splitResult,
+		...makeSummary(splitResult.body),
 	};
 }
+
 const tags: Partial<Record<string, ContentDefinition>> = {};
 for (const tag of importedTags) {
 	tags[tag.slug] = mdToContentDefinition(tag);

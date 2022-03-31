@@ -71,6 +71,6 @@
 .heightShort > div {
 	height: 48px;
 	display: flex;
-	align-items: end;
+	align-items: center;
 	padding: 0 var(--content-padding);
 }

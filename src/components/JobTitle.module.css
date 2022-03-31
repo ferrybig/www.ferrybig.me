@@ -3,6 +3,7 @@
 	flex-direction: column;
 	font-size: 36px;
 	margin: 0;
+	position: relative;
 }
 .root br {
 	display: none;

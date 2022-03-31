@@ -33,12 +33,9 @@ export default function AtomFeed({ base, slice, title, linkMain, linkSelf }: Pro
 					createElement('link', { href: fullPath(base, blog.toPath({slug: content.slug }))}),
 					createElement('published', {}, content.created.toISO()),
 					createElement('updated', {}, content.updated.toISO()),
-					createElement('summary', { type: 'xhtml', dangerouslySetInnerHTML: {
-						__html: new XMLSerializer().serializeToString(new DOMParser({ errorHandler: () => null}).parseFromString(
-							`<div>${content.summary}</div>`,
-							'text/html',
-						)),
-					}}),
+					createElement(content.summaryIsShorterThanBody ? 'summary' : 'content', { type: 'xhtml' }, [
+						createElement('div', { xmlns: 'http://www.w3.org/1999/xhtml', dangerouslySetInnerHTML: { __html: content.summaryXml }})
+					]),
 				])),
 			])}
 		</Output>

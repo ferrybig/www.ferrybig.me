@@ -7,7 +7,7 @@ import js from './embedded-js';
 import everyPost, { homePage, perPeriod, perTag, tagCloudHits } from './content';
 import * as routes from './pages';
 import PageBase from './PageBase';
-import renderElement from './utils/jsx-to-html';
+import renderElement from './utils/jsxToHtml';
 import { RouteDefinition } from './minirouter/route';
 
 function writeFile(file: string, data: string | Buffer) {
@@ -115,7 +115,7 @@ export default function render(assets: Record<string, string>) {
 		site: 'https://www.ferrybig.me/',
 		urls: [],
 		js,
-		css: Object.keys(assets).filter(e => e.endsWith('.css')).map(e => `/${e}`),
+		css: Object.values(assets).filter(e => e.endsWith('.css')).map(e => `/${e}`),
 		link: {},
 		meta: {
 			author: 'Fernando van Loenhout',

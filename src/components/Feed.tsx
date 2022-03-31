@@ -197,13 +197,12 @@ export default function Feed({ base: oldBase, page, pages, title, children, slic
 							</header>
 							<Markdown content={content.summary}/>
 							<p>
-								<Link route={blog} props={{ slug: content.slug }}>
-									<SrHidden>
-										{content.body === content.summary ? 'View' : 'Read more...'}
-									</SrHidden>
-									<SrOnly>
-										{(content.body === content.summary ? 'View article about ' : 'Read more about ') + content.title}
-									</SrOnly>
+								<Link
+									route={blog}
+									props={{ slug: content.slug }}
+									aria-label={(content.summaryIsShorterThanBody ? 'Read more about ' : 'View article about ') + content.title}
+								>
+									{content.summaryIsShorterThanBody ? 'Read more...' : 'View article'}
 								</Link>
 							</p>
 						</article>

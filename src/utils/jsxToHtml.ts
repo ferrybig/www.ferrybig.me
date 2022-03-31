@@ -1,49 +1,6 @@
 import { JSXNode, RAW_TAG_MARKER } from '../jsx/jsx-runtime';
-import assertNever from './assert-never';
-
-const translateMap: Partial<Record<string, string>> = {
-	className: 'class',
-	htmlFor: 'for',
-	dateTime: 'datetime',
-};
-const selfClosing: Partial<Record<string, true>> = {
-	link: true,
-	meta: true,
-	br: true,
-	img: true,
-	input: true,
-	base: true,
-	source: true,
-};
-
-export function escape(input: unknown): string {
-	switch(typeof input) {
-	case 'bigint':
-	case 'boolean':
-	case 'undefined':
-	case 'number':
-		return `${input}`;
-	case 'object':
-	case 'symbol':
-		return escape(JSON.stringify(input));
-	case 'function':
-		return escape(`${input}`);
-	case 'string':
-		return input
-			.replace(/&/g, '&amp;')
-			.replace(/</g, '&lt;')
-			.replace(/>/g, '&gt;');
-	default:
-		throw new Error('Unknown type: ' + typeof input);
-	}
-}
-
-export function escapeArgument([key, value]: [string, unknown]): string {
-	if (value === true) return ` ${escape(translateMap[key] ?? key)}`;
-	if (value === false) return '';
-	if (value === undefined) return '';
-	return ` ${escape(translateMap[key] ?? key)}="${escape(value)}"`;
-}
+import assertNever from './assertNever';
+import { selfClosing, escape, escapeArgument } from './htmlUtils';
 
 export default function renderElement(
 	elm: JSXNode,

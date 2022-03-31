@@ -1,5 +1,5 @@
 import { ReactNode } from 'react';
-import assertNever from '../utils/assert-never';
+import assertNever from '../utils/assertNever';
 import { createElement, RAW_TAG_MARKER } from '../jsx/jsx-runtime';
 
 interface Props {
