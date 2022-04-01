@@ -17,6 +17,12 @@ jobs:
         cache: 'npm'
     - run: npm ci
     - run: npm run build
+    - name: CompressFiles
+      uses: ThiagoJaweb/ghaction-CompressFiles@v1.0.3
+      with:
+        path: dist
+        extensions: '.js,.css,.html,.map,.stl,.xml,.scad,.svg,.txt,.bmp'
+        tools: 'brotli,gzip'
     - name: ssh deploy
       # You may pin to the exact commit or the version.
       # uses: easingthemes/ssh-deploy@v2.2.11
