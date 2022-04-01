@@ -1,5 +1,5 @@
-import assertNever from "./assertNever";
-import { selfClosing } from "./htmlUtils";
+import assertNever from './assertNever';
+import { selfClosing } from './htmlUtils';
 
 export type EscapedToken = {
 	type: 'text'

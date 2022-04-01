@@ -8,7 +8,7 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const ImageMinimizerPlugin = require('image-minimizer-webpack-plugin');
 const { noopener: noOpener } = require('posthtml-noopener');
 const sharp = require('responsive-loader/sharp');
-const CopyPlugin = require("copy-webpack-plugin");
+const CopyPlugin = require('copy-webpack-plugin');
 
 module.exports = {
 	entry: './src/index.ts',
@@ -77,7 +77,7 @@ module.exports = {
 		}),
 		new CopyPlugin({
 			patterns: [
-				{ from: "public", to: "." },
+				{ from: 'public', to: '.' },
 			],
 		}),
 	],
@@ -104,12 +104,12 @@ module.exports = {
 						}
 					},
 					{
-						loader: "postcss-loader",
+						loader: 'postcss-loader',
 						options: {
 							postcssOptions: {
 								plugins: [
 									[
-										"postcss-preset-env",
+										'postcss-preset-env',
 										{
 											// Options
 										},
