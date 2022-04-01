@@ -33,4 +33,5 @@ jobs:
         REMOTE_PORT: ${{ secrets.ssh_port }}
         SOURCE: dist/
         TARGET: ${{ secrets.ssh_target }}
-        ARGS: --checksum --delete-after -a -0 -v
+        EXCLUDE: api
+        ARGS: -a -0 -v --checksum --delete-after
