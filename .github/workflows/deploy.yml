@@ -15,6 +15,7 @@ jobs:
       with:
         node-version: 16
         cache: 'npm'
+    - run: npm ci
     - run: npm run build
     - name: ssh deploy
       # You may pin to the exact commit or the version.
