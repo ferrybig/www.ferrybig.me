@@ -121,6 +121,8 @@ export default function render(assets: Record<string, string>) {
 		link: {},
 		meta: {
 			author: 'Fernando van Loenhout',
+			'og:author': 'https://www.ferrybig.me/',
+			'og:publisher': 'https://www.ferrybig.me/',
 		},
 		head: [],
 	};

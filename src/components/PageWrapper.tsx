@@ -4,6 +4,7 @@ import RootWrapper from './RootWrapper';
 import TopBar from './TopBar';
 import PageFooter from './PageFooter';
 import classes from './PageWrapper.module.css';
+import PageBase from '../PageBase';
 
 interface Props extends ComponentProps<typeof RootWrapper> {
 	outer?: 'primary' | 'secondary' | 'tertiary' | 'base',
@@ -24,9 +25,17 @@ export default function PageWrapper({
 	includeWrapper = false,
 	topWrapper,
 	bottomWrapper,
-	base,
+	base: partialBase,
 	title,
 }: Props) {
+	const base: PageBase = {
+		...partialBase,
+		meta: {
+			'og:site_name': 'The website of Fernando van Loenhout',
+			'og:title': title ?? null,
+			...partialBase.meta,
+		}
+	};
 	return (
 		<RootWrapper base={base} title={(title ? `${title} - ` : '') + 'The website of Fernando van Loenhout'}>
 			<div className={classes.scrollWrapper}>
