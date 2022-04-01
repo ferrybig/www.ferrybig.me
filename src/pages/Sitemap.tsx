@@ -12,7 +12,7 @@ export default function Sitemap({ base }: Props) {
 		(grouped[entry.renderedBy] ??= []).push(entry);
 	}
 	return (
-		<PageWrapper base={base} title="Fernando's Development area" includeWrapper topWrapper={
+		<PageWrapper base={base} title="" includeWrapper topWrapper={
 			<Breadcrumb links={[
 				['Sitemap', base.link.canonical ?? '']
 			]}/>

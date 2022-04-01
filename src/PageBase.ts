@@ -17,7 +17,6 @@ export default interface PageBase {
 	link: Record<string, string | null>,
 	meta: Record<string, string | null>,
 	head: JSXNode[],
-	tagCloudHits: [string, number][],
 	// eslint-disable-next-line semi
 }
 export function writeLinkToAsset(base: PageBase, resource: string) {

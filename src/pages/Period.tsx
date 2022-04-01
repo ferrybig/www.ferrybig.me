@@ -8,7 +8,7 @@ interface Props {
 
 export default function Period({ base }: Props) {
 	return (
-		<PageWrapper base={base} title="Fernando's Development area" includeWrapper topWrapper={
+		<PageWrapper base={base} title="Periods" includeWrapper topWrapper={
 			<Breadcrumb links={[
 				['Periods', base.link.canonical ?? '']
 			]}/>

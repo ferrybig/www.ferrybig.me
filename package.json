@@ -41,6 +41,9 @@
     "responsive-loader": "^3.0.0-2",
     "sharp": "^0.30.3",
     "style-loader": "^3.3.1",
+    "stylelint": "^14.6.1",
+    "stylelint-config-css-modules": "^4.1.0",
+    "stylelint-config-recommended": "^7.0.0",
     "ts-loader": "^9.2.8",
     "typescript": "^4.6.2",
     "url-loader": "^4.1.1",
@@ -55,9 +58,10 @@
   "scripts": {
     "start": "node build.js --watch",
     "build": "node build.js --clean",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "lint-css": "stylelint \"src/**/*.css\""
   },
-  "author": "",
+  "author": "Fernando van Loenhout",
   "license": "ISC",
   "description": "",
   "engines": {

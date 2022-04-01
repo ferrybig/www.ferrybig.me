@@ -24,6 +24,11 @@
 		for (const button of buttons) {
 			button.classList[button.dataset.theme === theme ? 'add' : 'remove'](selectedClass);
 			button.addEventListener('click', () => {
+				const ms = 1000;
+				const style = document.createElement('style');
+				style.innerText = `* { transition: all ${ms}ms; }`
+				const head = document.head;
+				head.appendChild(style);
 				const theme = button.dataset.theme;
 				for (const [key, value] of Object.entries(themeMap)) {
 					document.body.classList[key === theme ? 'add' : 'remove'](value);
@@ -36,6 +41,7 @@
 				} else {
 					localStorage.setItem('theme', theme);
 				}
+				setTimeout(() => head.removeChild(style), ms);
 			})
 		}
 	}

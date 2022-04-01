@@ -16,7 +16,8 @@ jobs:
         node-version: 16
         cache: 'npm'
     - run: npm ci
-    - run: npm run lint
+    - run: npm run lint -- --exit-on-fatal-error
+    - run: npm run lint-css
     - run: npm run build
     - name: CompressFiles
       uses: ferrybig/ghaction-CompressFiles@7339a0a46b8555f8e0e21dd371c97835cbc417a1
@@ -34,4 +35,4 @@ jobs:
         SOURCE: dist/
         TARGET: ${{ secrets.ssh_target }}
         EXCLUDE: api
-        ARGS: -rl -0 -v --checksum --delete-after
+        ARGS: -rl -0 -v --checksum --delete-delay

@@ -50,20 +50,17 @@
 	composes: button;
 }
 .light::after {
-    -webkit-mask-image: url(../icons/light.svg);
 	mask-image: url(../icons/light.svg);
 }
 .auto {
 	composes: button;
 }
 .auto::after {
-    -webkit-mask-image: url(../icons/light-dark.svg);
 	mask-image: url(../icons/light-dark.svg);
 }
 .dark {
 	composes: button;
 }
 .dark::after {
-    -webkit-mask-image: url(../icons/dark.svg);
 	mask-image: url(../icons/dark.svg);
 }

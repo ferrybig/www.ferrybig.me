@@ -8,6 +8,7 @@ import Tag from './Tag';
 import AtomFeed from './AtomFeed';
 import Period from './Period';
 import PeriodItem from './PeriodItem';
+import AllTags from './AllTags';
 
 export const home = route`/${'page'}`({ lastOptional: true }).component(Home);
 export const homeAtom = route`/atom.xml`().component(AtomFeed);
@@ -17,5 +18,6 @@ export const tagAtom = route`/${'tag'}/atom.xml`({ lastOptional: true }).compone
 export const period = route`/period/`().component(Period);
 export const byPeriod = route`/period/${'year'}-${'month'}`({ lastOptional: true }).component(PeriodItem);
 export const credits = route`/credits`().component(Credits);
+export const allTags = route`/all-tags`().component(AllTags);
 export const sitemap = route`/sitemap`().component(Sitemap);
 export const sitemapXML = route`/sitemap.xml`().component(SitemapXML);

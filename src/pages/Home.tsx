@@ -16,7 +16,7 @@ export default function Home(props: Props) {
 	return (
 		<Feed
 			base={props.base}
-			title="The website of Fernando van Loenhout"
+			title=""
 			page={props.page === '' ? 1 : Number(props.page)}
 			pages={props.pages}
 			slice={props.slice}
@@ -26,7 +26,7 @@ export default function Home(props: Props) {
 		>
 			{props.page === '' ? (
 				<Fragment>
-					<p>Hi, I am Fernando, a Full Stack developer, an electronic specialist and a hobbyist.</p>
+					<p>Hi, I am Fernando, a Full Stack developer, an electronic specialist and a hobbyist. I like to talk about many technical things, so be prepared to read everything I want to tell you. </p>
 					{/*<h2>My contributions</h2>*/}
 				</Fragment>
 			) : null}

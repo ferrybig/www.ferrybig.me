@@ -35,7 +35,8 @@ function writeWebFile(partialBase: PageBase, file: string, data: string | Buffer
 function renderRoute<P, I>(
 	partialBase: PageBase,
 	route: RouteDefinition<P, I>,
-	props: Omit<P, 'base'> & I): [string, string, JSX.Element | null] {
+	props: Omit<P, 'base'> & I
+): [string, string, JSX.Element | null] {
 	const parsedPath = route.toPath(props);
 	const publicPath = partialBase.publicPath?.endsWith('/') ? partialBase.publicPath.substring(0, partialBase.publicPath.length - 1) : partialBase.publicPath;
 
@@ -106,6 +107,7 @@ export default function render(assets: Record<string, string>) {
 		})),
 		period: [base => renderRoute(base, routes.period, {})],
 		credits: [base => renderRoute(base, routes.credits, {})],
+		allTags: [base => renderRoute(base, routes.allTags, { tags: tagCloudHits })],
 		sitemap: [base => renderRoute(base, routes.sitemap, {})],
 		sitemapXML: [base => renderRoute(base, routes.sitemapXML, {})],
 	};
@@ -121,7 +123,6 @@ export default function render(assets: Record<string, string>) {
 			author: 'Fernando van Loenhout',
 		},
 		head: [],
-		tagCloudHits,
 	};
 	for (const factory of Object.values(allRenderers).flatMap(a => a)) {
 		const [file, loc, jsx] = factory(applicationBase);

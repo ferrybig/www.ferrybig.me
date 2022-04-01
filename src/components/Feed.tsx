@@ -201,6 +201,7 @@ export default function Feed({ base: oldBase, page, pages, title, children, slic
 									route={blog}
 									props={{ slug: content.slug }}
 									aria-label={(content.summaryIsShorterThanBody ? 'Read more about ' : 'View article about ') + content.title}
+									className={classes.readMore}
 								>
 									{content.summaryIsShorterThanBody ? 'Read more...' : 'View article'}
 								</Link>

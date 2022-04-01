@@ -9,9 +9,9 @@
 	--text-secondary-color: hsl(80, 90%, 20%);
 	--text-tertiary-color: hsl(320, 90%, 20%);
 	--background-color: white;
-	--background-primary-color: hsl(200, 90%, 80%);
-	--background-secondary-color: hsl(80, 90%, 80%);
-	--background-tertiary-color: hsl(320, 90%, 80%);
+	--background-primary-color: hsl(200, 60%, 80%);
+	--background-secondary-color: hsl(80, 60%, 80%);
+	--background-tertiary-color: hsl(320, 60%, 80%);
 	--button-color: hsl(200, 10%, 80%);
 	--button-active-color: hsl(200, 10%, 70%);
 

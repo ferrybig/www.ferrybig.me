@@ -35,6 +35,14 @@ function *transformBody(parent: Generator<EscapedToken, void, unknown>): Generat
 			case 'a':
 				aOpen = !token.end;
 				break;
+			case 'h1':
+			case 'h2':
+			case 'h3':
+			case 'h4':
+			case 'h5':
+			case 'h6':
+				token.attr = token.attr.filter(a => a.name !== 'id');
+				break;
 			case 'img':
 				if (token.start) {
 					const src = token.attr.find(a => a.name === 'src');
@@ -161,7 +169,11 @@ function makeOverview(posts: ContentDefinition[], paginateSize = 12): {
 		tagContent: ContentDefinition | null,
 		content: PaginatedContent,
 	}[],
-	tagCloudHits: [string, number][],
+	tagCloudHits: {
+		name: string,
+		count: number,
+		related: Partial<Record<string, number>>,
+	}[],
 } {
 	const perPeriod: {
 		year: number,
@@ -207,7 +219,18 @@ function makeOverview(posts: ContentDefinition[], paginateSize = 12): {
 			...data,
 			content: paginate(data.content, paginateSize)
 		})),
-		tagCloudHits: perTag.map((t): [string, number] => [t.tag, t.content.length]).sort(sortByKey(1, false))
+		tagCloudHits: perTag.map((t) => ({
+			name: t.tag,
+			count: t.content.length,
+			related: everything
+				.filter(e => e.tags.includes(t.tag) || e.extraTags.includes(t.tag))
+				.flatMap(e => [...e.tags, ...e.extraTags])
+				.filter(e => e !== t.tag)
+				.reduce((acc, tag) => {
+					acc[tag] = (acc[tag] ?? 0) + 1;
+					return acc;
+				}, {} as Partial<Record<string, number>>)
+		})).sort(sortByKey('count', false))
 	};
 }
 

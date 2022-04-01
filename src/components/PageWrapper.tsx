@@ -28,7 +28,7 @@ export default function PageWrapper({
 	title,
 }: Props) {
 	return (
-		<RootWrapper base={base} title={title}>
+		<RootWrapper base={base} title={(title ? `${title} - ` : '') + 'The website of Fernando van Loenhout'}>
 			<div className={classes.scrollWrapper}>
 				<TopBar/>
 				<main className={classes.flex}>
@@ -44,7 +44,7 @@ export default function PageWrapper({
 						{bottomWrapper}
 					</StyleWrapper>
 				</main>
-				<PageFooter base={base}/>
+				<PageFooter/>
 			</div>
 		</RootWrapper>
 	);
