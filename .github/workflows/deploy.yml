@@ -19,7 +19,7 @@ jobs:
     - run: npm run lint
     - run: npm run build
     - name: CompressFiles
-      uses: ThiagoJaweb/ghaction-CompressFiles@v1.0.3
+      uses: ferrybig/ghaction-CompressFiles@7339a0a46b8555f8e0e21dd371c97835cbc417a1
       with:
         path: dist
         extensions: '.js,.css,.html,.map,.stl,.xml,.scad,.svg,.txt,.bmp'
@@ -34,4 +34,4 @@ jobs:
         SOURCE: dist/
         TARGET: ${{ secrets.ssh_target }}
         EXCLUDE: api
-        ARGS: -a -0 -v --checksum --delete-after
+        ARGS: -rl -0 -v --checksum --delete-after
