@@ -1,0 +1,35 @@
+# This workflow will do a clean installation of node dependencies, cache/restore them, build the source code and run tests across different versions of node
+# For more information see: https://help.github.com/actions/language-and-framework-guides/using-nodejs-with-github-actions
+
+name: Deploy app
+on:
+  push:
+    branches: [ master ]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v3
+      with:
+        node-version: 16
+        cache: 'npm'
+    - run: npm ci
+    - run: npm run build
+    - name: CompressFiles
+      uses: ThiagoJaweb/ghaction-CompressFiles@v1.0.3
+      with:
+        path: dist
+        extensions: '.js,.css,.html,.map,.stl,.xml,.scad,.svg,.txt,.bmp'
+        tools: 'brotli,gzip'
+    - name: ssh publish
+      uses: easingthemes/ssh-deploy@c711f2c3391cac2876bf4c833590077f02e4bcb8
+      with:
+        SSH_PRIVATE_KEY: ${{ secrets.ssh_private_key }}
+        REMOTE_HOST: ${{ secrets.ssh_host }}
+        REMOTE_USER: ${{ secrets.ssh_user }}
+        REMOTE_PORT: ${{ secrets.ssh_port }}
+        SOURCE: dist/
+        TARGET: ${{ secrets.ssh_target }}
+        ARGS: --checksum --delete-after -a -0 -v
