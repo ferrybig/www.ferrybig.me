@@ -23,9 +23,7 @@ jobs:
         path: dist
         extensions: '.js,.css,.html,.map,.stl,.xml,.scad,.svg,.txt,.bmp'
         tools: 'brotli,gzip'
-    - name: ssh deploy
-      # You may pin to the exact commit or the version.
-      # uses: easingthemes/ssh-deploy@v2.2.11
+    - name: ssh publish
       uses: easingthemes/ssh-deploy@c711f2c3391cac2876bf4c833590077f02e4bcb8
       with:
         SSH_PRIVATE_KEY: ${{ secrets.ssh_private_key }}
@@ -34,4 +32,4 @@ jobs:
         REMOTE_PORT: ${{ secrets.ssh_port }}
         SOURCE: dist
         TARGET: ${{ secrets.ssh_target }}
-        ARGS: -rltgoDzvO -2 --delete-after --checksum
+        ARGS: --checksum --delete-after -a -0
