@@ -76,12 +76,12 @@
 
 @media only screen and (max-width: 600px) {
 	.root > div {
-		grid-template-columns: auto 1fr;
+		grid-template-columns: 1fr auto 1fr;
 		grid-template-rows: auto;
 		grid-template-areas:
-			"logo themeSwitcher"
-			"jobTitle jobTitle"
-			"nav nav";
+			"_ logo themeSwitcher"
+			"jobTitle jobTitle jobTitle"
+			"nav nav nav";
 		height: auto;
 	}
 	.jobTitle {
