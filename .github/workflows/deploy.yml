@@ -15,11 +15,11 @@ jobs:
       with:
         node-version: 16
         cache: 'npm'
-    - run: npm build
+    - run: npm run build
     - name: ssh deploy
       # You may pin to the exact commit or the version.
-      # uses: easingthemes/ssh-deploy@c711f2c3391cac2876bf4c833590077f02e4bcb8
-      uses: easingthemes/ssh-deploy@v2.2.11
+      # uses: easingthemes/ssh-deploy@v2.2.11
+      uses: easingthemes/ssh-deploy@c711f2c3391cac2876bf4c833590077f02e4bcb8
       with:
         SSH_PRIVATE_KEY: ${{ secrets.ssh_private_key }}
         REMOTE_HOST: ${{ secrets.ssh_host }}
