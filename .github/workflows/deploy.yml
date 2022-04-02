@@ -22,11 +22,12 @@ jobs:
     - run: npm run lint-css
     - run: npm run build
     - name: CompressFiles
-      uses: ferrybig/ghaction-CompressFiles@7339a0a46b8555f8e0e21dd371c97835cbc417a1
+      uses: stefh/ghaction-CompressFiles@v2
       with:
         path: dist
         extensions: '.js,.css,.html,.map,.stl,.xml,.scad,.svg,.txt,.bmp'
         tools: 'brotli,gzip'
+        deterministicCompression: true
     - name: ssh publish
       uses: easingthemes/ssh-deploy@c711f2c3391cac2876bf4c833590077f02e4bcb8
       with:
