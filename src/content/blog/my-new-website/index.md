@@ -1,7 +1,7 @@
 ---
 date: "2022-03-15"
 tags: ["blog", "portfolio", "skills"]
-extraTags: ["webpack-loader", "jsx"]
+extraTags: ["loader", "jsx"]
 ---
 
 # My new website
