@@ -26,6 +26,10 @@
 	margin: 0 0 16px;
 	padding: 0 16px;
 }
+.sectionSocial ul {
+	padding: 0;
+	list-style: none;
+}
 @media only screen and (max-width: 600px) {
 	.root > div {
 		grid-template-columns: 1fr;
