@@ -136,7 +136,7 @@ main({
 	clean: !!argv.clean,
 	watch: !!argv.watch,
 	open: !!argv.open,
-	port: argv.port ?? 3000,
+	port: argv.port ?? 3010,
 }).then(() => Promise.all([
 	fs.rm(`./dist/${webpackConfig.output.filename}`),
 	fs.rm(`./dist/${webpackConfig.output.filename}.map`,)

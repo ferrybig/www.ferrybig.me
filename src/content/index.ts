@@ -156,7 +156,12 @@ const content: ContentDefinition[] = [...blog, ...career, ...things]
 	.sort(sortByKey('date', false, sortByKey('created', false)));
 
 
-type PaginatedContent = ContentDefinition[][];
+export type PaginatedContent = ContentDefinition[][];
+export interface TagCloudHit {
+	name: string,
+	count: number,
+	related: Partial<Record<string, number>>,
+}
 function makeOverview(posts: ContentDefinition[], paginateSize = 12): {
 	homePage: PaginatedContent,
 	perPeriod: {
@@ -169,11 +174,7 @@ function makeOverview(posts: ContentDefinition[], paginateSize = 12): {
 		tagContent: ContentDefinition | null,
 		content: PaginatedContent,
 	}[],
-	tagCloudHits: {
-		name: string,
-		count: number,
-		related: Partial<Record<string, number>>,
-	}[],
+	tagCloudHits: TagCloudHit[],
 } {
 	const perPeriod: {
 		year: number,

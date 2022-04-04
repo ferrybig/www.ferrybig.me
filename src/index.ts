@@ -74,6 +74,7 @@ export default function render(assets: Record<string, string>) {
 			page: page === 0 ? '' : page + 1,
 			pages,
 			count: homePage.reduce((a, b) => a + b.length, 0),
+			tagCloudHits,
 		})),
 		homeAtom: [base => renderRoute(base, routes.homeAtom, {
 			slice: homePage[0],
