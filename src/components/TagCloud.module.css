@@ -67,12 +67,12 @@
 	justify-content: center;
 	z-index: 1;
 }
-.tagCloud a > span:first-child {
+.tagCloud a > span:last-child {
 	top: 5%;
 	left: 0%;
 	right: 0%;
 }
-.tagCloud a > span:last-child {
+.tagCloud a > span:first-child {
 	top: 25%;
 	bottom: 25%;
 	left: -30%;

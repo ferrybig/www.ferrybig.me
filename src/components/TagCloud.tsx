@@ -28,13 +28,14 @@ export default function TagCloud({ tagCloudHits }: Props) {
 				{tagCloudHits.map(({ count, name }) => (
 					<li>
 						<Link route={tagRoute} props={{ tag: name, page: '' }} className={classForCount(count)}>
+							<span>{titleCase(name.replace('-', ''))}</span>
 							<span>
+								<SrOnly>: Used in </SrOnly>
 								{count}
 								{' '}
 								<SrHidden>×</SrHidden>
-								<SrOnly>occurrence{count !== 1 && 's'} of </SrOnly>
+								<SrOnly>article{count !== 1 && 's'}</SrOnly>
 							</span>
-							<span>{titleCase(name.replace('-', ''))}</span>
 						</Link>
 					</li>
 				))}
