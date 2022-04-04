@@ -15,7 +15,7 @@ export default interface PageBase {
 	js: string[],
 	css: string[],
 	link: Record<string, string | null>,
-	meta: Record<string, string | null>,
+	meta: Record<string, string | string[] | null>,
 	head: JSXNode[],
 	// eslint-disable-next-line semi
 }

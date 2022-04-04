@@ -13,7 +13,17 @@ interface Props {
 	content: ContentDefinition,
 }
 
-export default function Content({ content, base }: Props) {
+export default function Content({ content, base: partialBase }: Props) {
+	const base: PageBase = {
+		...partialBase,
+		meta: {
+			'og:type': 'article',
+			'article:published_time': content.created.toISO(),
+			'article:modified_time': content.updated.toISO(),
+			'article:tag': [...content.tags, ...content.extraTags],
+			...partialBase.meta,
+		}
+	};
 	return (
 		<PageWrapper base={base} title={content.title} includeWrapper topWrapper={
 			<Breadcrumb links={[

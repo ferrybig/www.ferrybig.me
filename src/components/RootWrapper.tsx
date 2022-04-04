@@ -31,9 +31,14 @@ export default function RootWrapper({
 					))}
 					<meta name="viewport" content="width=device-width, initial-scale=1"/>
 					<meta name="color-scheme" content="light dark"/>
-					{Object.entries(base.meta).filter((e): e is [string, string] => !!e[1]).map(([name, value]) => (
-						<meta property={name} content={value}/>
-					))}
+					{Object
+						.entries(base.meta)
+						.filter((e): e is [string, string | string[]] => !!e[1])
+						.flatMap(([name, values]): [string, string][] => Array.isArray(values) ? values.map(v => [name, v]) : [[name, values]])
+						.map(([name, value]) => (
+							<meta property={name} content={value}/>
+						))
+					}
 					{Object.entries(base.link).filter((e): e is [string, string] => !!e[1]).map(([name, value]) => (
 						<link rel={name} href={urlLinksNames.includes(name) ? tryFullPath(base, value) : value}/>
 					))}

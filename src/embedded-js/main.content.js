@@ -24,7 +24,7 @@
 		for (const button of buttons) {
 			button.classList[button.dataset.theme === theme ? 'add' : 'remove'](selectedClass);
 			button.addEventListener('click', () => {
-				const ms = 1000;
+				const ms = 200;
 				const style = document.createElement('style');
 				style.innerText = `* { transition: all ${ms}ms; }`
 				const head = document.head;
