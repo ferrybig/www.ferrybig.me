@@ -39,7 +39,7 @@ export default function Home(props: Props) {
 						fellow programmer, they will say making the following hexagon layout is one of the{' '}
 						hardest things to make.
 					</p>
-					<h2><Link route={routes.allTags} props={{}}>All tags</Link></h2>
+					<h2><Link route={routes.allTags} props={{}} plain>All tags</Link></h2>
 					<TagCloud tagCloudHits={props.tagCloudHits}/>
 				</Fragment>
 			) : null}

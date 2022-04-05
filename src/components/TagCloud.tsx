@@ -27,14 +27,15 @@ export default function TagCloud({ tagCloudHits }: Props) {
 			<ul>
 				{tagCloudHits.map(({ count, name }) => (
 					<li>
-						<Link route={tagRoute} props={{ tag: name, page: '' }} className={classForCount(count)}>
+						<Link
+							route={tagRoute}
+							props={{ tag: name, page: '' }}
+							className={classForCount(count)}
+							aria-label={`View ${count} article${count !== 1 ? 's' : ''} under the tag ${name.replace('-', '')}`}
+						>
 							<span>{titleCase(name.replace('-', ''))}</span>
 							<span>
-								<SrOnly>: Used in </SrOnly>
-								{count}
-								{' '}
-								<SrHidden>×</SrHidden>
-								<SrOnly>article{count !== 1 && 's'}</SrOnly>
+								{count} ×
 							</span>
 						</Link>
 					</li>

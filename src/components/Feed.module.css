@@ -70,13 +70,6 @@
 .feedArticle h1 {
 	margin: 10px 0 2px;
 }
-.feedArticle h1 a {
-	color: var(--text-primary-color);
-	text-decoration: none;	
-}
-.feedArticle h1 a:hover, .feedArticle h1 a:focus-visible {
-	color: var(--text-secondary-color)
-}
 .feedArticle p:first-of-type {
 	margin-top: 0;
 }
