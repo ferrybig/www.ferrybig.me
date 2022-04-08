@@ -14,6 +14,8 @@
 	display: flex;
 	align-items: center;
 	justify-content: center;
+	font-size: 16px;
+	--border-size: 1px;
 	min-height: 0;
 }
 .tagCloud a {
@@ -21,11 +23,13 @@
 	width: 30%;
 	position: relative;
 }
-.tagCloud a,
+.tagCloud a:link,
+.tagCloud a:visited,
 .tagCloud a::before,
 .tagCloud a::after {
-	border-top: 2px inset var(--text-primary-color);
-	border-bottom: 2px inset var(--text-primary-color);
+	color: var(--text-primary-color);
+	border-top: var(--border-size) groove var(--text-primary-color);
+	border-bottom: var(--border-size) groove var(--text-primary-color);
 	background: var(--background-primary-color);
 }
 .tagCloud a:hover,
@@ -34,6 +38,7 @@
 .tagCloud a:focus-visible,
 .tagCloud a:focus-visible::before,
 .tagCloud a:focus-visible::after {
+	color: var(--text-secondary-color);
 	border-top-color: var(--text-secondary-color);
 	border-bottom-color: var(--text-secondary-color);
 	background-color: var(--background-secondary-color);
@@ -41,6 +46,7 @@
 .tagCloud a:active,
 .tagCloud a:active::before,
 .tagCloud a:active::after {
+	color: var(--text-secondary-color);
 	border-top-color: var(--text-tertiary-color);
 	border-bottom-color: var(--text-tertiary-color);
 	background-color: var(--background-tertiary-color);
@@ -49,8 +55,8 @@
 .tagCloud a::after {
 	content: '';
 	position: absolute;
-	top: -2px;
-	bottom: -2px;
+	top: calc(var(--border-size) * -1);
+	bottom: calc(var(--border-size) * -1);
 	left: 0;
 	right: 0;
 }
@@ -78,31 +84,31 @@
 	bottom: 25%;
 	left: -30%;
 	right: -30%;
+	overflow-wrap: break-word;
 }
-
 .tag1 {
-	font-size: 0.8em;
+	--border-size: 1px;
 }
 .tag2 {
-	font-size: 0.9em;
+	--border-size: 1.5px;
 }
 .tag3 {
-	font-size: 1em;
+	--border-size: 2px;
 }
 .tag4 {
-	font-size: 1.1em;
+	--border-size: 2.5px;
 }
 .tag5 {
-	font-size: 1.2em;
+	--border-size: 3px;
 }
 .tag6 {
-	font-size: 1.3em;
+	--border-size: 3.5px;
 }
 .tag7 {
-	font-size: 1.4em;
+	--border-size: 4px;
 }
 .tag8 {
-	font-size: 1.5em;
+	--border-size: 4.5px;
 }
 
 @media (min-width:1601px) {

@@ -23,10 +23,10 @@ export default function PageFooter() {
 				<nav aria-label="External social media">
 					<p aria-hidden>Social media</p>
 					<ul>
-						<li><a className={classes.socialKeybase} aria-label="Keybase" href="https://keybase.io/ferrybig">ferrybig</a></li>
-						<li><a className={classes.socialStackOverflow} aria-label="Stack Overflow" href="https://stackoverflow.com/users/1542723/ferrybig">ferrybig</a></li>
-						<li><a className={classes.socialGithub} aria-label="Github" href="https://github.com/ferrybig">ferrybig</a></li>
-						<li><a className={classes.socialTwitter} aria-label="Twitter" href="https://twitter.com/ferrybig3">ferrybig3</a></li>
+						<li><a className={classes.socialKeybase} aria-label="Keybase" title="Keybase" href="https://keybase.io/ferrybig">ferrybig</a></li>
+						<li><a className={classes.socialStackOverflow} aria-label="Stack Overflow" title="Stack Overflow" href="https://stackoverflow.com/users/1542723/ferrybig">ferrybig</a></li>
+						<li><a className={classes.socialGithub} aria-label="Github" title="Github" href="https://github.com/ferrybig">ferrybig</a></li>
+						<li><a className={classes.socialTwitter} aria-label="Twitter" title="Twitter" href="https://twitter.com/ferrybig3">ferrybig3</a></li>
 						{/*<li><a className={classes.socialFacebook} href="https://twitter.com/ferrybig3">Twitter @ferrybig3</a></li>*/}
 					</ul>
 				</nav>

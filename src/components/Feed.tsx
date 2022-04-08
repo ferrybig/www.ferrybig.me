@@ -184,7 +184,7 @@ export default function Feed({ base: oldBase, page, pages, title, children, slic
 					{slice.map(content => (
 						<article className={classes.feedArticle}>
 							<h1>
-								<Link route={blog} props={{ slug: content.slug }}>
+								<Link route={blog} props={{ slug: content.slug }} plain>
 									{content.title}
 								</Link>
 							</h1>
