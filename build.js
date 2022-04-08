@@ -11,7 +11,7 @@ const package = require('./package.json');
 function main({ clean, watch, open, port }) {
 	return new Promise((doResolve, doReject) => {
 		const assets = {};
-		webpackConfig.output.clean = clean;
+		webpackConfig[0].output.clean = clean;
 		const compiler = webpack(webpackConfig);
 		function reject(e) {
 			compiler.close(() => {
@@ -38,6 +38,7 @@ function main({ clean, watch, open, port }) {
 				} else {
 					reject(err instanceof Error ? err : new Error(err));
 				}
+				return;
 			}
 			if (watching) {
 				if (bs === null) {
@@ -74,14 +75,15 @@ function main({ clean, watch, open, port }) {
 					...assets,
 				};
 				//console.log(stats.toJson('all').chunks);
-				for (const asset of stats.toJson('all').assets) {
+				for (const asset of stats.toJson('all').children.flatMap(child => child.assets)) {
 					// if (asset.name.startsWith('static/')) {
 					newAssets[asset.info.sourceFilename ?? `output:${asset.name}`] = asset.name;
 					console.log(`${`dist/${asset.name}:`.padEnd(40)} ${asset.size}\t bytes emitted (from: ${asset.info.sourceFilename})${asset.isOverSizeLimit ? ' OVERSIZED' : ''}`);
 					// }
 				}
-				delete require.cache[require.resolve(`./dist/${webpackConfig.output.filename}`)];
-				require(`./dist/${webpackConfig.output.filename}`).default(newAssets);
+				const module = `./dist/${webpackConfig[1].output.filename.replace('[name]', 'INTERNAL-bundle')}`;
+				delete require.cache[require.resolve(module)];
+				require(module).default(newAssets);
 				console.log('Done!');
 				bs?.reload();
 				if (!watching) return resolve();
@@ -137,10 +139,10 @@ main({
 	watch: !!argv.watch,
 	open: !!argv.open,
 	port: argv.port ?? 3010,
-}).then(() => Promise.all([
-	fs.rm(`./dist/${webpackConfig.output.filename}`),
-	fs.rm(`./dist/${webpackConfig.output.filename}.map`,)
-])).then(() => {
+}).then(() => Promise.all(webpackConfig.flatMap(c => Object.keys(c.entry)).flatMap(entry => [
+	fs.rm(`./dist/${webpackConfig.output.filename.replace('[name]', entry)}`),
+	fs.rm(`./dist/${webpackConfig.output.filename.replace('[name]', entry)}.map`,)
+]))).then(() => {
 	console.log('Finished building!');
 }).catch((e) => {
 	console.error(e);

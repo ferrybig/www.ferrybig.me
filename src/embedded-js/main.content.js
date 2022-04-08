@@ -1,4 +1,4 @@
-"use strict";
+import InstantClick from './instantClick.content'
 (() => {
 	function injectThemeSwitcher() {
 		let theme = localStorage.getItem('theme');
@@ -159,3 +159,5 @@
 	});
 	InstantClick.init();
 })();
+
+console.log('Loaded!');

@@ -3,7 +3,7 @@ import path from 'path';
 import mkdirs from 'mkdirs';
 import md5 from 'md5';
 import './css';
-import js from './embedded-js';
+import mainJs from '../dist/INTERNAL-browser.js';
 import everyPost, { homePage, perPeriod, perTag, tagCloudHits } from './content';
 import * as routes from './pages';
 import PageBase from './PageBase';
@@ -117,7 +117,7 @@ export default function render(assets: Record<string, string>) {
 		publicPath: '/',
 		site: 'https://www.ferrybig.me/',
 		urls: [],
-		js,
+		js: [mainJs],
 		css: Object.values(assets).filter(e => e.endsWith('.css')).map(e => `/${e}`),
 		link: {},
 		meta: {
