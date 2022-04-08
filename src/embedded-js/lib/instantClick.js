@@ -361,7 +361,7 @@ var InstantClick = function(document, location) {
 			parentNode,
 			nextSibling
   
-		for (i = 0, j = scripts.length; i < j; i++) {
+		for (var i = 0, j = scripts.length; i < j; i++) {
 		  script = scripts[i]
 		  if (script.hasAttribute('data-no-instant')) {
 			continue
