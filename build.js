@@ -8,39 +8,68 @@ const webpackConfig = require('./webpack.config');
 const yargs = require('yargs');
 const package = require('./package.json');
 
+function closeAll(compilers) {
+	return Promise.allSettled(compilers.map(c => new Promise((resolve, reject) => c.close((err) => err ? reject(err) : resolve()))));
+}
+
+/**
+ * 
+ * @param {webpack.Compiler[]} compilers 
+ * @param {boolean} watch 
+ * @param {(err: Error, stats: webpack.Stats[]) => void} onResult 
+ */
+function startCompilation(compilers, watch, onResult) {
+	const results = compilers.map(() => [null, null]);
+	let startIndex = -1;
+	function startNext() {
+		const myIndex = ++startIndex;
+		const newOnResult = (e, s) => {
+			results[myIndex] = [e, s];
+			if (!results.find(([err, stats]) => err === null && stats === null)) {
+				const error = results.find(([err]) => !!err)?.[0];
+				if(error) {
+					onResult(error, []);
+				} else {
+					onResult(null, results.map(i => i[1]));
+				}
+			} else {
+				if (startIndex === myIndex) {
+					startNext();
+				}
+			}
+		};
+		const compiler = compilers[myIndex];
+		if (watch) {
+			compiler.watch({
+				aggregateTimeout: 300,
+				poll: undefined
+			}, newOnResult);
+		} else {
+			compiler.run(newOnResult);
+		}
+	}
+	startNext();
+}
+
 function main({ clean, watch, open, port }) {
 	return new Promise((doResolve, doReject) => {
 		const assets = {};
 		webpackConfig[0].output.clean = clean;
-		const compiler = webpack(webpackConfig);
+		const compilers = webpackConfig.map(c => webpack(c));
 		function reject(e) {
-			compiler.close(() => {
-				doReject(e);
-			});
+			closeAll(compilers).then(() => doReject(e), doReject);
 		}
 		function resolve() {
-			compiler.close((closeErr) => {
-				if (closeErr) {
-					return doReject(closeErr);
-				}
-				doResolve();
-			});
+			closeAll(compilers).then(doResolve, doReject);
 		}
-		let watching = null;
 		let bs = null;
-		const onResult = (err, stats) => { // [Stats Object](#stats-object)
+		startCompilation(compilers, watch, (err, stats) => {
 			if (err) {
 				bs?.close();
-				if (watching) {
-					watching.close(() => {
-						reject(err instanceof Error ? err : new Error(err));
-					});
-				} else {
-					reject(err instanceof Error ? err : new Error(err));
-				}
+				reject(err instanceof Error ? err : new Error(err));
 				return;
 			}
-			if (watching) {
+			if (watch) {
 				if (bs === null) {
 					bs = browserSync.create();
 					bs.init({
@@ -60,47 +89,45 @@ function main({ clean, watch, open, port }) {
 				}
 			}
 			// Print watch/build result here...
-			console.log(stats.toString(stats.hasErrors() ? 'errors-only' : 'errors-warnings'));
+			for(const stat of stats) {
+				console.log(stat.toString(stat.hasErrors() ? 'errors-only' : 'errors-warnings'));
+			}
 			try {
-				if (stats.hasErrors()) {
-					const error = stats.toString('errors-only');
-					if (!watching) return reject('Errors during compiling! ' + error);
-					bs?.notify(error);
-					return;
-				}
-				if (stats.hasWarnings()) {
-					bs?.notify(stats.toString('errors-warnings'));
+				for(const stat of stats) {
+					if (stat.hasErrors()) {
+						const error = stat.toString('errors-only');
+						if (!watch) return reject('Errors during compiling! ' + error);
+						bs?.notify(error);
+						return;
+					}
+					if (stat.hasWarnings()) {
+						bs?.notify(stat.toString('errors-warnings'));
+					}
 				}
 				const newAssets = {
 					...assets,
 				};
 				//console.log(stats.toJson('all').chunks);
-				for (const asset of stats.toJson('all').children.flatMap(child => child.assets)) {
-					// if (asset.name.startsWith('static/')) {
-					newAssets[asset.info.sourceFilename ?? `output:${asset.name}`] = asset.name;
-					console.log(`${`dist/${asset.name}:`.padEnd(40)} ${asset.size}\t bytes emitted (from: ${asset.info.sourceFilename})${asset.isOverSizeLimit ? ' OVERSIZED' : ''}`);
-					// }
+				for(const stat of stats) {
+					for (const asset of stat.toJson('all').assets) {
+						// if (asset.name.startsWith('static/')) {
+						newAssets[asset.info.sourceFilename ?? `output:${asset.name}`] = asset.name;
+						console.log(`${`dist/${asset.name}:`.padEnd(40)} ${asset.size}\t bytes emitted (from: ${asset.info.sourceFilename})${asset.isOverSizeLimit ? ' OVERSIZED' : ''}`);
+						// }
+					}
 				}
 				const module = `./dist/${webpackConfig[1].output.filename.replace('[name]', 'INTERNAL-bundle')}`;
 				delete require.cache[require.resolve(module)];
 				require(module).default(newAssets);
 				console.log('Done!');
 				bs?.reload();
-				if (!watching) return resolve();
+				if (!watch) return resolve();
 			} catch (e) {
 				console.error(e);
 				bs?.notify(e);
-				if (!watching) return reject(e);
+				if (!watch) return reject(e);
 			}
-		};
-		if (watch) {
-			watching = compiler.watch({
-				aggregateTimeout: 300,
-				poll: undefined
-			}, onResult);
-		} else {
-			compiler.run(onResult);
-		}
+		});
 	});
 }
 
@@ -139,10 +166,11 @@ main({
 	watch: !!argv.watch,
 	open: !!argv.open,
 	port: argv.port ?? 3010,
-}).then(() => Promise.all(webpackConfig.flatMap(c => Object.keys(c.entry)).flatMap(entry => [
-	fs.rm(`./dist/${webpackConfig.output.filename.replace('[name]', entry)}`),
-	fs.rm(`./dist/${webpackConfig.output.filename.replace('[name]', entry)}.map`,)
-]))).then(() => {
+}).then(() => Promise.all([
+	fs.rm(`./dist/${webpackConfig[0].output.filename.replace('[name]', Object.keys(webpackConfig[0].entry)[0])}`),
+	fs.rm(`./dist/${webpackConfig[1].output.filename.replace('[name]', Object.keys(webpackConfig[1].entry)[0])}`,),
+	fs.rm(`./dist/${webpackConfig[1].output.filename.replace('[name]', Object.keys(webpackConfig[1].entry)[0])}.map`,)
+])).then(() => {
 	console.log('Finished building!');
 }).catch((e) => {
 	console.error(e);

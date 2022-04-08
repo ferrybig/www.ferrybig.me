@@ -31,7 +31,7 @@ module.exports = [
 		plugins: [
 			new webpack.SourceMapDevToolPlugin({
 				append: '\n//# sourceMappingURL=../[url]',
-				filename: 'static/[contenthash:20].map',
+				filename: 'static/[contenthash:20].js.map',
 			})
 		],
 		module: {
