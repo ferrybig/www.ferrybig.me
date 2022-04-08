@@ -34,6 +34,13 @@ module.exports = [
 				filename: 'static/[contenthash:20].js.map',
 			})
 		],
+		resolve: {
+			extensions: [
+				'.tsx',
+				'.ts',
+				'.js'
+			],
+		},
 		module: {
 			rules: [
 				{

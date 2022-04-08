@@ -3,8 +3,6 @@ import classes from './TagCloud.module.css';
 import { tag as tagRoute} from '../pages';
 import { TagCloudHit } from '../content';
 import titleCase from '../utils/titleCase';
-import SrHidden from './SrHidden';
-import SrOnly from './SrOnly';
 
 function classForCount(count: number) {
 	return count <= 1 ? classes.tag1 :

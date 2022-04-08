@@ -757,4 +757,4 @@ var InstantClick = function(document, location) {
   }(document, location);
   
 // Edit by Fernando: export as a module
-module.exports = InstantClick
+export default InstantClick

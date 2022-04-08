@@ -6,7 +6,7 @@ extends:
 ignorePatterns:
     - tmp
     - dist
-    - "*.content.js"
+    - "**/lib/*.js"
 parser: "@typescript-eslint/parser"
 plugins:
     - "@typescript-eslint"

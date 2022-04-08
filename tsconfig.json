@@ -9,6 +9,7 @@
 		"noImplicitAny": true,
 		"noImplicitReturns": true,
 		"strictNullChecks": true,
-		"downlevelIteration": true
+		"downlevelIteration": true,
+		"lib": ["es6"]
 	}
 }

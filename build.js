@@ -13,10 +13,10 @@ function closeAll(compilers) {
 }
 
 /**
- * 
- * @param {webpack.Compiler[]} compilers 
- * @param {boolean} watch 
- * @param {(err: Error, stats: webpack.Stats[]) => void} onResult 
+ *
+ * @param {webpack.Compiler[]} compilers
+ * @param {boolean} watch
+ * @param {(err: Error, stats: webpack.Stats[]) => void} onResult
  */
 function startCompilation(compilers, watch, onResult) {
 	const results = compilers.map(() => [null, null]);
