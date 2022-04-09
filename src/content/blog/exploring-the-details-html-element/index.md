@@ -39,11 +39,6 @@ multiple in each other. This can be done without issues as they can be nested
 just like any HTML tags. We can then style it with the minium of CSS, just to
 make it look a bit better.
 
-```css
-ul {
-    list-style: none
-}
-```
 
 ```html
 <details open>
@@ -76,6 +71,15 @@ ul {
         <li><em>More files...</em></li>
     </ul>
 </details>
+```
+
+```css
+ul {
+    list-style: none;
+    margin: 0;
+    padding: 0 0 0 1.5em;
+}
+summary { font-weight: bold; }
 ```
 
 <code-preview>
