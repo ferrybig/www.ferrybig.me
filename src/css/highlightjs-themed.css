@@ -1,4 +1,4 @@
-.hljs{color:var(--hljs-color);background:var(--hljs-background-color)}
+.hljs{color:var(--hljs-color);/*background:var(--hljs-background-color)*/}
 .hljs-doctag,.hljs-keyword,.hljs-meta .hljs-keyword,.hljs-template-tag,.hljs-template-variable,.hljs-type,.hljs-variable.language_{color:var(--hljs-0-color)}
 .hljs-title,.hljs-title.class_,.hljs-title.class_.inherited__,.hljs-title.function_{color:var(--hljs-1-color)}
 .hljs-attr,.hljs-attribute,.hljs-literal,.hljs-meta,.hljs-number,.hljs-operator,.hljs-selector-attr,.hljs-selector-class,.hljs-selector-id,.hljs-variable{color:var(--hljs-2-color)}

@@ -48,8 +48,8 @@ module.exports = [
 					loader: 'ts-loader',
 					exclude: /node_modules/,
 				},
-			]
-		}
+			],
+		},
 	},
 	{
 		entry: {
@@ -315,7 +315,9 @@ module.exports = [
 										options: {
 											highlight: function (code, lang) {
 												const language = hljs.getLanguage(lang) ? lang : 'plaintext';
-												return hljs.highlight(code, { language }).value;
+												const result = hljs.highlight(code, { language }).value;
+												console.log(result);
+												return result;
 											},
 											langPrefix: 'hljs language-',
 											headerPrefix: 'content-',

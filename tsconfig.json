@@ -1,5 +1,4 @@
 {
-	"target": "esnext",
     "module": "ESNext",
 	"compilerOptions": {
 		"strict": true,
@@ -10,6 +9,8 @@
 		"noImplicitReturns": true,
 		"strictNullChecks": true,
 		"downlevelIteration": true,
-		"lib": ["es6"]
+		"lib": ["es6"],
+		"target": "es2016",
+		"moduleResolution": "node"
 	}
 }

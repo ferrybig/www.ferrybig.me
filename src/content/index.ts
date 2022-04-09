@@ -27,6 +27,14 @@ function *transformBody(parent: Generator<EscapedToken, void, unknown>): Generat
 	let aOpen = false;
 	mainLoop: for (const token of parent) {
 		if (token.type === 'tag') {
+			token.attr = token.attr.map(a => ({
+				...a,
+				name: a.name === 'is' ? 'data-is' : a.name
+			})); // Skip any customs elements replacing others
+			if(token.tag.includes('-')) {
+				token.attr.push({ name: 'data-is', value: token.tag, quote: '"'});
+				token.tag = 'template';
+			}
 			switch(token.tag) {
 			case 'picture':
 			case 'source':

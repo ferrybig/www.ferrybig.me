@@ -11,16 +11,24 @@ const package = require('./package.json');
 function closeAll(compilers) {
 	return Promise.allSettled(compilers.map(c => new Promise((resolve, reject) => c.close((err) => err ? reject(err) : resolve()))));
 }
-
+/**
+ * This callback type is called `requestCallback` and is displayed as a global symbol.
+ *
+ * @callback onResult
+ * @param {Error} err
+ * @param {webpack.Stats[]} stats
+ * @param {(number | null)} compilerId
+ */
 /**
  *
  * @param {webpack.Compiler[]} compilers
  * @param {boolean} watch
- * @param {(err: Error, stats: webpack.Stats[]) => void} onResult
+ * @param {onResult} onResult
  */
 function startCompilation(compilers, watch, onResult) {
 	const results = compilers.map(() => [null, null]);
 	let startIndex = -1;
+	let hasCalledOnresult = false;
 	function startNext() {
 		const myIndex = ++startIndex;
 		const newOnResult = (e, s) => {
@@ -28,10 +36,11 @@ function startCompilation(compilers, watch, onResult) {
 			if (!results.find(([err, stats]) => err === null && stats === null)) {
 				const error = results.find(([err]) => !!err)?.[0];
 				if(error) {
-					onResult(error, []);
+					onResult(error, [], hasCalledOnresult ? myIndex : null);
 				} else {
-					onResult(null, results.map(i => i[1]));
+					onResult(null, results.map(i => i[1]), hasCalledOnresult ? myIndex : null);
 				}
+				hasCalledOnresult = true;
 			} else {
 				if (startIndex === myIndex) {
 					startNext();
@@ -63,7 +72,7 @@ function main({ clean, watch, open, port }) {
 			closeAll(compilers).then(doResolve, doReject);
 		}
 		let bs = null;
-		startCompilation(compilers, watch, (err, stats) => {
+		startCompilation(compilers, watch, (err, stats, compilerId) => {
 			if (err) {
 				bs?.close();
 				reject(err instanceof Error ? err : new Error(err));
@@ -107,6 +116,10 @@ function main({ clean, watch, open, port }) {
 				const newAssets = {
 					...assets,
 				};
+				if (compilerId !== null && compilerId !== compilers.length - 1) {
+					console.log('Skipping build...');
+					return;
+				}
 				//console.log(stats.toJson('all').chunks);
 				for(const stat of stats) {
 					for (const asset of stat.toJson('all').assets) {
