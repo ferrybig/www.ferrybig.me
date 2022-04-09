@@ -35,7 +35,7 @@ function startCompilation(compilers, watch, onResult) {
 			results[myIndex] = [e, s];
 			if (!results.find(([err, stats]) => err === null && stats === null)) {
 				const error = results.find(([err]) => !!err)?.[0];
-				if(error) {
+				if (error) {
 					onResult(error, [], hasCalledOnresult ? myIndex : null);
 				} else {
 					onResult(null, results.map(i => i[1]), hasCalledOnresult ? myIndex : null);
@@ -98,11 +98,11 @@ function main({ clean, watch, open, port }) {
 				}
 			}
 			// Print watch/build result here...
-			for(const stat of stats) {
+			for (const stat of stats) {
 				console.log(stat.toString(stat.hasErrors() ? 'errors-only' : 'errors-warnings'));
 			}
 			try {
-				for(const stat of stats) {
+				for (const stat of stats) {
 					if (stat.hasErrors()) {
 						const error = stat.toString('errors-only');
 						if (!watch) return reject('Errors during compiling! ' + error);
@@ -121,7 +121,7 @@ function main({ clean, watch, open, port }) {
 					return;
 				}
 				//console.log(stats.toJson('all').chunks);
-				for(const stat of stats) {
+				for (const stat of stats) {
 					for (const asset of stat.toJson('all').assets) {
 						// if (asset.name.startsWith('static/')) {
 						newAssets[asset.info.sourceFilename ?? `output:${asset.name}`] = asset.name;

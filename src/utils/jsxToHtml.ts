@@ -23,7 +23,7 @@ export default function renderElement(
 		let newTag;
 		try {
 			newTag = elm.type(elm.props);
-		} catch(err) {
+		} catch (err) {
 			const e = err instanceof Error ? err : new Error(`${err}`);
 			e.message += '\nThis error happened in ' + renderStack;
 			throw e;

@@ -47,6 +47,10 @@ rules:
     space-before-blocks:
         - warn
         - always
+    keyword-spacing:
+        - warn
+        - before: true
+          after: true
 env:
     browser: true
 settings:

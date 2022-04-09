@@ -7,7 +7,7 @@ interface Props {
 
 export default function Breadcrumb({ links }: Props) {
 	const filteredLinks = links.filter((e): e is [string, string] => !!e);
-	if(filteredLinks.length === 0) {
+	if (filteredLinks.length === 0) {
 		return null;
 	}
 	return (

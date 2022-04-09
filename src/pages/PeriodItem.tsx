@@ -18,7 +18,7 @@ interface PaginationProps {
 
 function Pagination({ year, month: currentMonth, all }: PaginationProps) {
 	const months = [];
-	for(let month = 1; month <= 12; month++) {
+	for (let month = 1; month <= 12; month++) {
 		const text = DateTime.fromObject({ month }).toLocaleString({ month: 'short'});
 		const found = all.filter(e => e.year === year && e.month === month).length;
 		months.push(found ? (

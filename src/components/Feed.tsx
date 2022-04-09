@@ -22,7 +22,7 @@ interface PaginationProps {
 function Pagination({toPath, page, pages}: PaginationProps): JSX.Element | null {
 	const children: JSX.Element[] = [];
 	if (page < 4) {
-		for(let i = 1; i < page; i++) {
+		for (let i = 1; i < page; i++) {
 			children.push(
 				<li className={classes.paginationNumbers}><a data-instant href={toPath(i === 1 ? '' : `${i}`)}><SrOnly>page </SrOnly>{i}</a></li>
 			);
@@ -31,7 +31,7 @@ function Pagination({toPath, page, pages}: PaginationProps): JSX.Element | null 
 		children.push(
 			<li className={classes.paginationNumbers}><span>…</span></li>
 		);
-		for(let i = page - 2; i < page; i++) {
+		for (let i = page - 2; i < page; i++) {
 			children.push(
 				<li className={classes.paginationNumbers}><a data-instant href={toPath(i === 1 ? '' : `${i}`)}><SrOnly>page </SrOnly>{i}</a></li>
 			);
@@ -41,13 +41,13 @@ function Pagination({toPath, page, pages}: PaginationProps): JSX.Element | null 
 		<li className={classes.paginationNumbers}><a data-instant href={toPath(page === 1 ? '' : `${page}`)} aria-current="page"><SrOnly>page </SrOnly>{page}</a></li>
 	);
 	if (page > pages - 3) {
-		for(let i = page + 1; i <= pages; i++) {
+		for (let i = page + 1; i <= pages; i++) {
 			children.push(
 				<li className={classes.paginationNumbers}><a data-instant href={toPath(i === 1 ? '' : `${i}`)}><SrOnly>page </SrOnly>{i}</a></li>
 			);
 		}
 	} else {
-		for(let i = page + 1; i < page + 3; i++) {
+		for (let i = page + 1; i < page + 3; i++) {
 			children.push(
 				<li className={classes.paginationNumbers}><a data-instant href={toPath(i === 1 ? '' : `${i}`)}><SrOnly>page </SrOnly>{i}</a></li>
 			);

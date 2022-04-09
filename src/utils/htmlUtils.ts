@@ -17,7 +17,7 @@ export const selfClosing: Partial<Record<string, true>> = {
 
 
 export function escape(input: unknown): string {
-	switch(typeof input) {
+	switch (typeof input) {
 	case 'bigint':
 	case 'boolean':
 	case 'undefined':

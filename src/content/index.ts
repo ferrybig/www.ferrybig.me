@@ -31,11 +31,11 @@ function *transformBody(parent: Generator<EscapedToken, void, unknown>): Generat
 				...a,
 				name: a.name === 'is' ? 'data-is' : a.name,
 			})); // Skip any customs elements replacing others
-			if(token.tag.includes('-')) {
+			if (token.tag.includes('-')) {
 				token.attr.push({ name: 'data-is', value: token.tag, quote: '"'});
 				token.tag = 'template';
 			}
-			switch(token.tag) {
+			switch (token.tag) {
 			case 'picture':
 			case 'source':
 			case 'track':
@@ -99,7 +99,7 @@ function makeSummary(body: string, targetSummaryLength = 512): Pick<ContentDefin
 	let weAreInABreakableTag = true;
 	for (const value of transformBody(parseHtml(body))) {
 		tokens.push(value);
-		switch(value.type) {
+		switch (value.type) {
 		case 'text':
 			if (contentLength + value.text.length >= targetSummaryLength && weAreInABreakableTag) {
 				tokens.pop();

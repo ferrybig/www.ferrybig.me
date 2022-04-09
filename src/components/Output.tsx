@@ -11,7 +11,7 @@ export default function Output({
 	children,
 	format: type,
 }: Props): JSX.Element {
-	switch(type) {
+	switch (type) {
 	case 'html':
 		return createElement(RAW_TAG_MARKER, {
 			start: '<!DOCTYPE html>\n',
