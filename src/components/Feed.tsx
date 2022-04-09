@@ -148,10 +148,10 @@ export default function Feed({ base: oldBase, page, pages, title, children, slic
 		<PageWrapper
 			base={base}
 			title={page === 1 ? title : `${title} - Page ${page}`}
-			outer='secondary'
-			inner='base'
-			bottomOuter='secondary'
-			bottomInner='base'
+			outer="secondary"
+			inner="base"
+			bottomOuter="secondary"
+			bottomInner="base"
 			includeWrapper
 			topWrapper={
 				<Breadcrumb links={[

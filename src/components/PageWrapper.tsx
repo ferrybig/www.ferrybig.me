@@ -41,7 +41,7 @@ export default function PageWrapper({
 			<div className={classes.scrollWrapper}>
 				<TopBar/>
 				<main className={classes.flex}>
-					<StyleWrapper height="short" top='primary' bottom={outer} bottomInner={inner}>
+					<StyleWrapper height="short" top="primary" bottom={outer} bottomInner={inner}>
 						{topWrapper}
 					</StyleWrapper>
 					{includeWrapper ? (
@@ -49,7 +49,7 @@ export default function PageWrapper({
 							{children}
 						</StyleWrapper>
 					) : children}
-					<StyleWrapper height="short" top={bottomOuter} topInner={bottomInner} bottom='tertiary'>
+					<StyleWrapper height="short" top={bottomOuter} topInner={bottomInner} bottom="tertiary">
 						{bottomWrapper}
 					</StyleWrapper>
 				</main>

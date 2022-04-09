@@ -15,7 +15,7 @@ export default function Logo({ className }: Props) {
 	return (
 		<Link route={home} props={{ page: '' }} className={classNames(className, classes.root)}>
 			<picture>
-				<source srcSet={faceWebp.srcSet} type='image/webp'/>
+				<source srcSet={faceWebp.srcSet} type="image/webp"/>
 				<img src={face} width={135} height={185} alt=""/>
 			</picture>
 			<SrOnly>Go back to the homepage</SrOnly>
