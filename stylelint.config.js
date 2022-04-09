@@ -7,6 +7,10 @@ module.exports = {
 	],
 	'rules': {
 		'indentation': ['tab'],
-		'no-descending-specificity': null
-	}
+		'no-descending-specificity': null,
+		'selector-type-no-unknown': [
+			true,
+			{ ignoreTypes: ['code-preview']},
+		],
+	},
 };
