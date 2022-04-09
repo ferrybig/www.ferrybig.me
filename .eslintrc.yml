@@ -44,6 +44,9 @@ rules:
     comma-dangle:
         - warn
         - always-multiline
+    space-before-blocks:
+        - warn
+        - always
 env:
     browser: true
 settings:
