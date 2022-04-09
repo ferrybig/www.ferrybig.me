@@ -53,7 +53,7 @@ class CodePreview extends HTMLElement {
 			weAre: this,
 			weDiscovered: codes,
 		});
-		this.attachShadow({ mode: 'open', });
+		this.attachShadow({ mode: 'open' });
 		const entries = Object.entries(codes);
 		if (!entries) {
 			const p = document.createElement('p');

@@ -59,7 +59,7 @@ export function decodeEntities(encodedString: string) {
 		'amp' : '&',
 		'quot': '"',
 		'lt'  : '<',
-		'gt'  : '>'
+		'gt'  : '>',
 	};
 	return encodedString.replace(translate_re, function(match, entity) {
 		return translate[entity] ?? '';

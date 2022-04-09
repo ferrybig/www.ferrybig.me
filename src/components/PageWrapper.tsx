@@ -34,7 +34,7 @@ export default function PageWrapper({
 			'og:site_name': 'The website of Fernando van Loenhout',
 			'og:title': title ?? null,
 			...partialBase.meta,
-		}
+		},
 	};
 	return (
 		<RootWrapper base={base} title={(title ? `${title} - ` : '') + 'The website of Fernando van Loenhout'}>

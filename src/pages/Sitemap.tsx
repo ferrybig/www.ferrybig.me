@@ -14,7 +14,7 @@ export default function Sitemap({ base }: Props) {
 	return (
 		<PageWrapper base={base} title="" includeWrapper topWrapper={
 			<Breadcrumb links={[
-				['Sitemap', base.link.canonical ?? '']
+				['Sitemap', base.link.canonical ?? ''],
 			]}/>
 		}>
 			<ul>

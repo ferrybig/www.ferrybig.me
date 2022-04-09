@@ -3,7 +3,7 @@
 module.exports = {
 	'extends': [
 		'stylelint-config-recommended',
-		'stylelint-config-css-modules'
+		'stylelint-config-css-modules',
 	],
 	'rules': {
 		'indentation': ['tab'],

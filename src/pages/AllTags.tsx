@@ -19,7 +19,7 @@ export default function AllTags({ base, tags }: Props) {
 	return (
 		<PageWrapper base={base} title="All tags" includeWrapper topWrapper={
 			<Breadcrumb links={[
-				['All tags', base.link.canonical ?? '']
+				['All tags', base.link.canonical ?? ''],
 			]}/>
 		}>
 			<h1>All tags</h1>

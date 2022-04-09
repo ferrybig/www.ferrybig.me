@@ -49,7 +49,7 @@ function renderRoute<P, I>(
 		meta: {
 			...partialBase.meta,
 			'og:url': `${publicPath}${parsedPath}`,
-		}
+		},
 	};
 	const file =
 		parsedPath.endsWith('.xml') ? `${parsedPath}` :

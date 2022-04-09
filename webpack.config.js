@@ -32,13 +32,13 @@ module.exports = [
 			new webpack.SourceMapDevToolPlugin({
 				append: '\n//# sourceMappingURL=../[url]',
 				filename: 'static/[contenthash:20].js.map',
-			})
+			}),
 		],
 		resolve: {
 			extensions: [
 				'.tsx',
 				'.ts',
-				'.js'
+				'.js',
 			],
 		},
 		module: {
@@ -59,7 +59,7 @@ module.exports = [
 		target: 'node',
 		externals: [nodeExternals()], // in order to ignore all modules in node_modules folder
 		externalsPresets: {
-			node: true // in order to ignore built-in modules like path, fs, etc.
+			node: true, // in order to ignore built-in modules like path, fs, etc.
 		},
 		node: false,
 		mode: 'development',
@@ -122,7 +122,7 @@ module.exports = [
 			extensions: [
 				'.tsx',
 				'.ts',
-				'.js'
+				'.js',
 			],
 		},
 		module: {
@@ -137,7 +137,7 @@ module.exports = [
 								importLoaders: 1,
 								sourceMap: true,
 								esModule: false,
-							}
+							},
 						},
 						{
 							loader: 'postcss-loader',
@@ -154,7 +154,7 @@ module.exports = [
 								},
 							},
 						},
-					]
+					],
 				},
 				{
 					test: /\.ts(x)?$/,
@@ -201,39 +201,39 @@ module.exports = [
 								inputEsModule: false,
 								outputEsModule: true,
 								extras: {
-									thumbnail: 'require'
+									thumbnail: 'require',
 								},
 								schema: {
 									type: 'object',
 									properties: {
 										'date': {
 											'type': 'string',
-											'format': 'date'
+											'format': 'date',
 										},
 										'endDate': {
 											'type': ['string', 'null'],
 											'format': 'date',
 										},
 										'parent': {
-											'type': 'string'
+											'type': 'string',
 										},
 										'thumbnail': {
-											'type': 'string'
+											'type': 'string',
 										},
 										'tags': {
 											'type': 'array',
 											'items': {
-												'type': 'string'
+												'type': 'string',
 											},
 											'minItems': 1,
-											'uniqueItems': true
+											'uniqueItems': true,
 										},
 										'extraTags': {
 											'type': 'array',
 											'items': {
-												'type': 'string'
+												'type': 'string',
 											},
-											'uniqueItems': true
+											'uniqueItems': true,
 										},
 									},
 									required: ['date', 'tags', 'extraTags'],
@@ -261,7 +261,7 @@ module.exports = [
 																&& attributes.find(a => a.name === 'download')
 																&& attributeInstance.value.startsWith('.')
 																|| false;
-														}
+														},
 													},
 												],
 											},
@@ -306,9 +306,9 @@ module.exports = [
 														}
 													);
 													//return Promise.all(promises);
-												}
-											]
-										}
+												},
+											],
+										},
 									},
 									{
 										loader: 'markdown-loader',
@@ -324,11 +324,11 @@ module.exports = [
 										},
 									},
 								],
-							}
+							},
 						},
 					],
 				},
-			]
+			],
 		},
 	},
 ];

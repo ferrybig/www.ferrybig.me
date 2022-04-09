@@ -80,7 +80,7 @@ export const contextLocation: HookedLocationService = {
 	useUpdate() {
 		const service = useContext(LOCATION_CONTEXT);
 		return [service.update, service.format];
-	}
+	},
 };
 
 export const LocationProvider: FC<{ service: LocationService }> = ({ service, children }) => {

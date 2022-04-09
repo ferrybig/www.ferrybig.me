@@ -51,7 +51,7 @@ function startCompilation(compilers, watch, onResult) {
 		if (watch) {
 			compiler.watch({
 				aggregateTimeout: 300,
-				poll: undefined
+				poll: undefined,
 			}, newOnResult);
 		} else {
 			compiler.run(newOnResult);
@@ -159,13 +159,13 @@ const argv = yargs(process.argv.slice(2))
 	.option('port', {
 		alias: 'p',
 		description: 'The HTTP server port used to serve the files in watch mode',
-		type: 'number'
+		type: 'number',
 	})
 	.implies('port', 'watch')
 	.option('open', {
 		alias: 'o',
 		description: 'Opens the http server once the app starts',
-		type: 'boolean'
+		type: 'boolean',
 	})
 	.implies('open', 'watch')
 	.help()
@@ -182,7 +182,7 @@ main({
 }).then(() => Promise.all([
 	fs.rm(`./dist/${webpackConfig[0].output.filename.replace('[name]', Object.keys(webpackConfig[0].entry)[0])}`),
 	fs.rm(`./dist/${webpackConfig[1].output.filename.replace('[name]', Object.keys(webpackConfig[1].entry)[0])}`,),
-	fs.rm(`./dist/${webpackConfig[1].output.filename.replace('[name]', Object.keys(webpackConfig[1].entry)[0])}.map`,)
+	fs.rm(`./dist/${webpackConfig[1].output.filename.replace('[name]', Object.keys(webpackConfig[1].entry)[0])}.map`,),
 ])).then(() => {
 	console.log('Finished building!');
 }).catch((e) => {

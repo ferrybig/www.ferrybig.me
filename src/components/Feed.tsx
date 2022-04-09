@@ -139,9 +139,9 @@ export default function Feed({ base: oldBase, page, pages, title, children, slic
 		head: [
 			...oldBase.head,
 			...(atomFeed ? [
-				<link href={atomFeed} rel="alternate" type="application/atom+xml"/>
-			] : [])
-		]
+				<link href={atomFeed} rel="alternate" type="application/atom+xml"/>,
+			] : []),
+		],
 	};
 	const self = toPath(page === 1 ? '' : `${page}`);
 	return (
