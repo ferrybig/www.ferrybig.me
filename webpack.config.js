@@ -316,7 +316,6 @@ module.exports = [
 											highlight: function (code, lang) {
 												const language = hljs.getLanguage(lang) ? lang : 'plaintext';
 												const result = hljs.highlight(code, { language }).value;
-												console.log(result);
 												return result;
 											},
 											langPrefix: 'hljs language-',
