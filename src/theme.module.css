@@ -5,13 +5,13 @@
 }
 :root, .themeLight {
 	--text-color: black;
-	--text-primary-color: hsl(200, 90%, 20%);
-	--text-secondary-color: hsl(80, 90%, 20%);
-	--text-tertiary-color: hsl(320, 90%, 20%);
+	--text-primary-color: hsl(220, 90%, 20%);
+	--text-secondary-color: hsl(100, 90%, 20%);
+	--text-tertiary-color: hsl(340, 90%, 20%);
 	--background-color: white;
-	--background-primary-color: hsl(200, 60%, 80%);
-	--background-secondary-color: hsl(80, 60%, 80%);
-	--background-tertiary-color: hsl(320, 60%, 80%);
+	--background-primary-color: hsl(220, 60%, 80%);
+	--background-secondary-color: hsl(100, 60%, 80%);
+	--background-tertiary-color: hsl(340, 60%, 80%);
 	--button-color: hsl(200, 10%, 80%);
 	--button-active-color: hsl(200, 10%, 70%);
 
@@ -44,13 +44,13 @@
 }
 .themeDark {
 	--text-color: #ddd;
-	--text-primary-color: hsl(200, 90%, 35%);
-	--text-secondary-color: hsl(80, 90%, 35%);
-	--text-tertiary-color: hsl(320, 90%, 35%);
+	--text-primary-color: hsl(220, 90%, 35%);
+	--text-secondary-color: hsl(100, 90%, 35%);
+	--text-tertiary-color: hsl(340, 90%, 35%);
 	--background-color: black;
-	--background-primary-color: hsl(200, 90%, 10%);
-	--background-secondary-color: hsl(80, 90%, 10%);
-	--background-tertiary-color: hsl(320, 90%, 10%);
+	--background-primary-color: hsl(220, 90%, 10%);
+	--background-secondary-color: hsl(100, 90%, 10%);
+	--background-tertiary-color: hsl(340, 90%, 10%);
 	--button-color: hsl(200, 10%, 20%);
 	--button-active-color: hsl(200, 10%, 30%);
 
@@ -85,13 +85,13 @@
 @media (prefers-color-scheme: dark) {
 	:root {
 		--text-color: #ddd;
-		--text-primary-color: hsl(200, 90%, 35%);
-		--text-secondary-color: hsl(80, 90%, 35%);
-		--text-tertiary-color: hsl(320, 90%, 35%);
+		--text-primary-color: hsl(220, 90%, 35%);
+		--text-secondary-color: hsl(100, 90%, 35%);
+		--text-tertiary-color: hsl(340, 90%, 35%);
 		--background-color: black;
-		--background-primary-color: hsl(200, 90%, 10%);
-		--background-secondary-color: hsl(80, 90%, 10%);
-		--background-tertiary-color: hsl(320, 90%, 10%);
+		--background-primary-color: hsl(220, 90%, 10%);
+		--background-secondary-color: hsl(100, 90%, 10%);
+		--background-tertiary-color: hsl(340, 90%, 10%);
 		--button-color: hsl(200, 10%, 20%);
 		--button-active-color: hsl(200, 10%, 30%);
 

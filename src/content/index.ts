@@ -4,22 +4,26 @@ import findOrCreate from '../utils/findOrCreate';
 import paginate from '../utils/paginate';
 import sortByKey from '../utils/sortByKey';
 import importedTags from './tags';
-import blog from './blog';
-import career from './career';
-import things from './things';
 import { parseHtml, EscapedToken, writeHtml } from '../utils/htmlParser';
 import { decodeEntities } from '../utils/htmlUtils';
 import assertNever from '../utils/assertNever';
+import blog from './blog';
+import career from './career';
+import things from './things';
+import techDemo from './tech-demo';
+import renderElement from '../utils/jsxToHtml';
+import RepoCard from '../components/RepoCard';
+import { createElement } from '../jsx/jsx-runtime';
 
-function split(html: string, slug: string): Pick<ContentDefinition, 'title' | 'body'> {
+function split(html: string, slug: string, extraHtml: string): Pick<ContentDefinition, 'title' | 'body'> {
 	const regex = /<(h[1-6])(?:\W[^=>]+(?:=[^=>]+))*?>(.*?)<\/\1>/mg;
 	const match = regex.exec(html);
 	if (!match) {
-		return { title: slug, body: html};
+		return { title: slug, body: extraHtml + html};
 	}
 	const title = decodeEntities(match[2].replace(/<\/?[^>]+(>|$)/g, ''));
 	const bodyIndex = regex.lastIndex;
-	const body = html.substring(bodyIndex);
+	const body = extraHtml + html.substring(bodyIndex);
 	return { title, body };
 }
 
@@ -27,6 +31,9 @@ function *transformBody(parent: Generator<EscapedToken, void, unknown>): Generat
 	let aOpen = false;
 	mainLoop: for (const token of parent) {
 		if (token.type === 'tag') {
+			// Strip the id attribute from any tag, so they don't conflict
+			token.attr = token.attr.filter(a => a.name !== 'id');
+
 			switch(token.tag) {
 			case 'picture':
 			case 'source':
@@ -34,14 +41,6 @@ function *transformBody(parent: Generator<EscapedToken, void, unknown>): Generat
 				continue mainLoop;
 			case 'a':
 				aOpen = !token.end;
-				break;
-			case 'h1':
-			case 'h2':
-			case 'h3':
-			case 'h4':
-			case 'h5':
-			case 'h6':
-				token.attr = token.attr.filter(a => a.name !== 'id');
 				break;
 			case 'img':
 				if (token.start) {
@@ -73,6 +72,10 @@ function *transformBody(parent: Generator<EscapedToken, void, unknown>): Generat
 					}
 				}
 				continue mainLoop;
+			}
+			if (token.tag.includes('-')) {
+				// Skip web-component!
+				continue;
 			}
 		}
 		yield token;
@@ -131,9 +134,13 @@ function makeSummary(body: string, targetSummaryLength = 512): Pick<ContentDefin
 }
 
 
-function mdToContentDefinition({default: html, endDate, date, created, updated, hidden, ...rest}: typeof import('*.md')): ContentDefinition {
+function mdToContentDefinition({default: html, endDate, date, created, updated, hidden, repo, ...rest}: typeof import('*.md')): ContentDefinition {
 	// console.log("Splitting: " + html);
-	const splitResult = split(html, rest.slug);
+	let extraHtml = '';
+	if (repo) {
+		extraHtml += renderElement(createElement(RepoCard, { repo: repo }));
+	}
+	const splitResult = split(html, rest.slug, extraHtml);
 	return {
 		...rest,
 		date: DateTime.fromISO(date),
@@ -141,6 +148,7 @@ function mdToContentDefinition({default: html, endDate, date, created, updated, 
 		created: created ? DateTime.fromRFC2822(created) : DateTime.now(),
 		updated: updated ? DateTime.fromRFC2822(updated) : DateTime.now(),
 		hidden: hidden ?? false,
+		repo,
 		...splitResult,
 		...makeSummary(splitResult.body),
 	};
@@ -151,7 +159,7 @@ for (const tag of importedTags) {
 	tags[tag.slug] = mdToContentDefinition(tag);
 }
 
-const content: ContentDefinition[] = [...blog, ...career, ...things]
+const content: ContentDefinition[] = [...blog, ...techDemo, ...career, ...things]
 	.map(mdToContentDefinition)
 	.sort(sortByKey('date', false, sortByKey('created', false)));
 

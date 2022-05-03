@@ -188,6 +188,9 @@ module.exports = {
 										'type': ['string', 'null'],
 										'format': 'date',
 									},
+									'repo': {
+										'type': 'string'
+									},
 									'parent': {
 										'type': 'string'
 									},
