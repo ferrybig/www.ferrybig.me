@@ -1,0 +1,12 @@
+.feed {
+	font-size: 0;
+}
+.feed::before {
+	content: '';
+	display: inline-block;
+	background: url(../icons/feed.svg);
+	background-size: 100% 100%;
+	width: 16px;
+	height: 16px;
+	margin-right: 4px;
+}

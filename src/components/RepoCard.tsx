@@ -9,7 +9,7 @@ export default function RepoCard({
 	repo,
 }: Props) {
 	let type;
-	if(repo.startsWith('https://github.com/')) {
+	if (repo.startsWith('https://github.com/')) {
 		type = 'Github repository';
 	} else {
 		type = 'Git repository';

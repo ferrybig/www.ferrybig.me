@@ -12,6 +12,7 @@ import { blog } from '../pages';
 import Breadcrumb from './Breadcrumb';
 import TagList from './TagList';
 import Time from './Time';
+import Subscribe from './Subscribe';
 
 interface PaginationProps {
 	page: number,
@@ -163,11 +164,7 @@ export default function Feed({ base: oldBase, page, pages, title, children, slic
 					Articles
 				</h1>
 				{atomFeed && (
-					<p>
-						<a href={atomFeed} target="_blank" rel="noopener noreferrer" type="application/atom+xml" className={classes.feed}>
-							View articles via an atom feed reader
-						</a>
-					</p>
+					<Subscribe atomFeed={atomFeed}/>
 				)}
 				<FullPagination base={base} self={self} aria-hidden className={classes.pagination}>
 					{pagination ? pagination() : <Pagination
