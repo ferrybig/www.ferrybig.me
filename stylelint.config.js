@@ -3,10 +3,14 @@
 module.exports = {
 	'extends': [
 		'stylelint-config-recommended',
-		'stylelint-config-css-modules'
+		'stylelint-config-css-modules',
 	],
 	'rules': {
 		'indentation': ['tab'],
-		'no-descending-specificity': null
-	}
+		'no-descending-specificity': null,
+		'selector-type-no-unknown': [
+			true,
+			{ ignoreTypes: ['code-preview']},
+		],
+	},
 };

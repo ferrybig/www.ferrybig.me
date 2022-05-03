@@ -1,7 +1,8 @@
-import instantClick from './instantClick.content.js';
-import main from './main.content.js';
+import InstantClick from './lib/instantClick';
+import './jobTitle';
+import './themeSwitcher';
+import './custom-elements/CodePreview';
 
-export default [
-	instantClick,
-	main,
-];
+InstantClick.init();
+
+console.log('Loaded!');

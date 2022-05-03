@@ -33,8 +33,17 @@ function *transformBody(parent: Generator<EscapedToken, void, unknown>): Generat
 		if (token.type === 'tag') {
 			// Strip the id attribute from any tag, so they don't conflict
 			token.attr = token.attr.filter(a => a.name !== 'id');
-
-			switch(token.tag) {
+			// Skip any customs elements replacing others
+			token.attr = token.attr.map(a => ({
+				...a,
+				name: a.name === 'is' ? 'data-is' : a.name,
+			}));
+			// Skip any customs elements
+			if (token.tag.includes('-')) {
+				token.attr.push({ name: 'data-is', value: token.tag, quote: '"'});
+				token.tag = 'template';
+			}
+			switch (token.tag) {
 			case 'picture':
 			case 'source':
 			case 'track':
@@ -94,7 +103,7 @@ function makeSummary(body: string, targetSummaryLength = 512): Pick<ContentDefin
 	let weAreInABreakableTag = true;
 	for (const value of transformBody(parseHtml(body))) {
 		tokens.push(value);
-		switch(value.type) {
+		switch (value.type) {
 		case 'text':
 			if (contentLength + value.text.length >= targetSummaryLength && weAreInABreakableTag) {
 				tokens.pop();
@@ -222,11 +231,11 @@ function makeOverview(posts: ContentDefinition[], paginateSize = 12): {
 		homePage: paginate(everything, paginateSize),
 		perPeriod: perPeriod.map(data => ({
 			...data,
-			content: data.content
+			content: data.content,
 		})),
 		perTag: perTag.map(data => ({
 			...data,
-			content: paginate(data.content, paginateSize)
+			content: paginate(data.content, paginateSize),
 		})),
 		tagCloudHits: perTag.map((t) => ({
 			name: t.tag,
@@ -238,8 +247,8 @@ function makeOverview(posts: ContentDefinition[], paginateSize = 12): {
 				.reduce((acc, tag) => {
 					acc[tag] = (acc[tag] ?? 0) + 1;
 					return acc;
-				}, {} as Partial<Record<string, number>>)
-		})).sort(sortByKey('count', false))
+				}, {} as Partial<Record<string, number>>),
+		})).sort(sortByKey('count', false)),
 	};
 }
 

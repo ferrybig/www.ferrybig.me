@@ -10,7 +10,7 @@ export default function Credits({ base }: Props) {
 	return (
 		<PageWrapper base={base} title="Credits" includeWrapper topWrapper={
 			<Breadcrumb links={[
-				['Credits', base.link.canonical ?? '']
+				['Credits', base.link.canonical ?? ''],
 			]}/>
 		}>
 			<h1>Credits</h1>

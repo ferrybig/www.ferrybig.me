@@ -39,7 +39,7 @@ function parseTagTryWriteAttribute(
 	if (attrStartIndex !== null && attrEndIndex - attrStartIndex >= 1) {
 		const data = input.substring(attrStartIndex, attrEndIndex);
 		const equals = data.indexOf('=');
-		if(equals < 0) {
+		if (equals < 0) {
 			attr.push({
 				name: data,
 				quote: '',
@@ -140,7 +140,7 @@ function parseTag(input: string, startIndex: number): [number, EscapedToken | nu
 function parseText(input: string, startIndex: number): [number, EscapedToken | null, Parser | null] {
 	let index = startIndex;
 	for (; index < input.length; index++) {
-		switch(input[index]) {
+		switch (input[index]) {
 		case '<':
 			return [
 				index - startIndex,
@@ -181,7 +181,7 @@ export function writeHtml(tokens: EscapedToken[], {xhtml = false, balance = true
 	const openTags: Extract<EscapedToken, {type: 'tag'}>[] = [];
 	for (const token of tokens) {
 		// console.log('Writing', token);
-		switch(token.type) {
+		switch (token.type) {
 		case 'text':
 			html += token.text;
 			break;

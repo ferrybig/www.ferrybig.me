@@ -17,7 +17,7 @@ export const selfClosing: Partial<Record<string, true>> = {
 
 
 export function escape(input: unknown): string {
-	switch(typeof input) {
+	switch (typeof input) {
 	case 'bigint':
 	case 'boolean':
 	case 'undefined':
@@ -59,7 +59,7 @@ export function decodeEntities(encodedString: string) {
 		'amp' : '&',
 		'quot': '"',
 		'lt'  : '<',
-		'gt'  : '>'
+		'gt'  : '>',
 	};
 	return encodedString.replace(translate_re, function(match, entity) {
 		return translate[entity] ?? '';

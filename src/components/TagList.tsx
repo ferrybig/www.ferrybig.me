@@ -20,7 +20,7 @@ export default function TagList({ tags, extraTags }: Props) {
 				</SrOnly>,
 				<Link route={tagRoute} props={{ tag, page: '' }} className={extraTags.includes(tag) ? classes.extra : undefined}>
 					{tag}
-				</Link>
+				</Link>,
 			])}
 		</span>
 	);

@@ -22,7 +22,7 @@ export default function Content({ content, base: partialBase }: Props) {
 			'article:modified_time': content.updated.toISO(),
 			'article:tag': [...content.tags, ...content.extraTags],
 			...partialBase.meta,
-		}
+		},
 	};
 	return (
 		<PageWrapper base={base} title={content.title} includeWrapper topWrapper={
@@ -32,8 +32,8 @@ export default function Content({ content, base: partialBase }: Props) {
 					month: `${content.date.month}`,
 				})],
 				[content.title, blog.toPath({
-					slug: content.slug
-				})]
+					slug: content.slug,
+				})],
 			]}/>
 		}>
 			<header>

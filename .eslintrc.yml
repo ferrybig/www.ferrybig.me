@@ -6,7 +6,7 @@ extends:
 ignorePatterns:
     - tmp
     - dist
-    - "*.content.js"
+    - "**/lib/*.js"
 parser: "@typescript-eslint/parser"
 plugins:
     - "@typescript-eslint"
@@ -41,6 +41,19 @@ rules:
         - always
     no-trailing-spaces:
         - warn
+    comma-dangle:
+        - warn
+        - always-multiline
+    space-before-blocks:
+        - warn
+        - always
+    keyword-spacing:
+        - warn
+        - before: true
+          after: true
+    jsx-quotes:
+        - warn
+        - prefer-double
 env:
     browser: true
 settings:

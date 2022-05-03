@@ -13,7 +13,7 @@ const colors: Record<Colors, string> = {
 };
 const heights = {
 	short: classes.heightShort,
-	absent: undefined
+	absent: undefined,
 };
 
 interface Props extends HTMLAttributes<HTMLElement> {
