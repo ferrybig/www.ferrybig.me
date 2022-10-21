@@ -27,14 +27,14 @@ peer: WjzcgNo1uYO0KoThtCz6ecgA2a33HJ5Lu5ZBHpIXIDw=
 ```
 
 The public and private keys are used for encryption of the traffic. The
-pre-shared key is a key that is the same between all sides. 
+pre-shared key is a key that is the same between all sides.
 
 An single node running wireguard can connect to 1 or multiple peers.
 
 ## Setting up
 
 The simplest way to get started is using a config generator:
-https://www.wireguardconfig.com/. The only thing you have to do on your own is
+<https://www.wireguardconfig.com/>. The only thing you have to do on your own is
 to fill in a proper endpoint address for your server. Note that this tool does
 not support IPv6 at te moment.
 
