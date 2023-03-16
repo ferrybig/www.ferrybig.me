@@ -4,6 +4,7 @@
 	grid-template-rows: auto;
 	padding: 0 var(--content-padding);
 	align-items: flex-start;
+	border-top: 2px solid var(--text-primary-color);
 }
 .section p:first-child {
 	margin: 0 0 0.5em;
@@ -25,10 +26,10 @@
 .sectionNavigation ul {
 	margin: 0 0 16px;
 	padding: 0 16px;
+	list-style: none;
 }
 .sectionSocial ul {
 	padding: 0;
-	list-style: none;
 }
 @media only screen and (max-width: 600px) {
 	.root > div {

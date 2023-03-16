@@ -3,13 +3,14 @@ import { HTMLAttributes } from 'react';
 import { AnyValidType, createElement, JSXNode } from '../jsx/jsx-runtime';
 import classes from './StyleWrapper.module.css';
 
-type Colors = 'primary' | 'secondary' | 'tertiary' | 'base';
+type Colors = 'primary' | 'secondary' | 'tertiary' | 'base' | 'accent';
 
 const colors: Record<Colors, string> = {
 	base: 'Base',
 	primary: 'Primary',
 	secondary: 'Secondary',
 	tertiary: 'Tertiary',
+	accent: 'Accent',
 };
 const heights = {
 	short: classes.heightShort,
@@ -18,9 +19,7 @@ const heights = {
 
 interface Props extends HTMLAttributes<HTMLElement> {
 	top: Colors,
-	topInner?: Colors,
 	bottom: Colors,
-	bottomInner?: Colors,
 	as?: AnyValidType,
 	children?: JSXNode,
 	height?: keyof typeof heights,
@@ -28,9 +27,7 @@ interface Props extends HTMLAttributes<HTMLElement> {
 
 export default function PageTransition({
 	top,
-	topInner = top,
 	bottom,
-	bottomInner = bottom,
 	as = 'div',
 	children,
 	height = 'absent',
@@ -41,10 +38,8 @@ export default function PageTransition({
 		className: classNames(
 			className,
 			classes.root,
-			classes[`topOuter${colors[top]}`],
-			classes[`topInner${colors[topInner]}`],
-			classes[`bottomOuter${colors[bottom]}`],
-			classes[`bottomInner${colors[bottomInner]}`],
+			classes[`topInner${colors[top]}`],
+			classes[`bottomInner${colors[bottom]}`],
 			heights[height]
 		),
 		...rest,

@@ -18,13 +18,8 @@ interface Props extends ComponentProps<typeof RootWrapper> {
 
 export default function PageWrapper({
 	children,
-	outer = 'secondary',
 	inner = 'base',
-	bottomOuter = outer,
 	bottomInner = inner,
-	includeWrapper = false,
-	topWrapper,
-	bottomWrapper,
 	base: partialBase,
 	title,
 }: Props) {
@@ -41,16 +36,8 @@ export default function PageWrapper({
 			<div className={classes.scrollWrapper}>
 				<TopBar/>
 				<main className={classes.flex}>
-					<StyleWrapper height="short" top="primary" bottom={outer} bottomInner={inner}>
-						{topWrapper}
-					</StyleWrapper>
-					{includeWrapper ? (
-						<StyleWrapper id="main" top={outer} topInner={inner} bottom={bottomOuter} bottomInner={bottomInner} className={classes.main}>
-							{children}
-						</StyleWrapper>
-					) : children}
-					<StyleWrapper height="short" top={bottomOuter} topInner={bottomInner} bottom="tertiary">
-						{bottomWrapper}
+					<StyleWrapper id="main" top={inner}  bottom={bottomInner} className={classes.main}>
+						{children}
 					</StyleWrapper>
 				</main>
 				<PageFooter/>
