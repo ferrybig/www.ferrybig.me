@@ -74,7 +74,6 @@ export default function render(assets: Record<string, string>) {
 			page: page === 0 ? '' : page + 1,
 			pages,
 			count: homePage.reduce((a, b) => a + b.length, 0),
-			tagCloudHits,
 		})),
 		homeAtom: [base => renderRoute(base, routes.homeAtom, {
 			slice: homePage[0],
@@ -108,7 +107,7 @@ export default function render(assets: Record<string, string>) {
 		})),
 		period: [base => renderRoute(base, routes.period, {})],
 		credits: [base => renderRoute(base, routes.credits, {})],
-		allTags: [base => renderRoute(base, routes.allTags, { tags: tagCloudHits })],
+		allTags: [base => renderRoute(base, routes.allTags, { tagCloudHits })],
 		sitemap: [base => renderRoute(base, routes.sitemap, {})],
 		sitemapXML: [base => renderRoute(base, routes.sitemapXML, {})],
 	};
