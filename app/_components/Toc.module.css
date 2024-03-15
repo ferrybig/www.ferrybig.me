@@ -1,0 +1,42 @@
+.title {
+	margin: 0;
+	text-align: center;
+	font-size: 1.5em;
+}
+.list {
+	list-style: none;
+	padding: 0;
+	margin: 0;
+	padding-left: 16px;
+	position: relative;
+}
+.list::before {
+	content: '';
+	position: absolute;
+	top: 0;
+	left: 4px;
+	width: 2px;
+	bottom: calc(11px + 24px * var(--reduceDepth, 0));
+	background: light-dark(rgba(14, 23, 41, 0.5), rgba(0, 0, 0, 0.5));
+}
+
+.list li {
+	position: relative;
+}
+.list li::before {
+	content: '';
+	position: absolute;
+	top: 11px;
+	left: -10px;
+	width: 8px;
+	height: 2px;
+	background: light-dark(rgba(14, 23, 41, 0.5), rgba(0, 0, 0, 0.5));
+}
+
+.listRoot {
+	composes: list;
+	padding-left: 0;
+}
+.listRoot::before {
+	left: -12px;
+}

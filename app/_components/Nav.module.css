@@ -1,0 +1,63 @@
+.nav {
+	max-width: 1440px;
+	margin: 0 auto;
+	padding: 0 16px;
+	column-gap: 16px;
+	display: grid;
+	grid-template-columns: 256px 1fr auto;
+	grid-template-rows: 50% 50%;
+	justify-content: center;
+	height: 100%;
+}
+.pictureHolder {
+	justify-self: center;
+	grid-row: 1 / span 2;
+}
+.picture {
+	border-radius: 50%;
+	border: 8px solid #EEEEEE;
+	margin-top: 10px;
+}
+.title {
+	margin: 0;
+}
+.spacer {
+	width: 8px;
+}
+.icons {
+	display: flex;
+	gap: 4px;
+}
+.topics {
+	align-self: flex-end;
+	grid-column: 2 / span 2;
+	margin-bottom: 8px;
+}
+.topics ul {
+	margin: 0;
+	padding: 0;
+	display: flex;
+	list-style: none;
+	gap: 8px;
+}
+.topics ul::after {
+	content: '';
+	flex: 1;
+}
+.topic a {
+	display: inline-block;
+	font-size: 1.5em;
+	color: inherit;
+	text-decoration: none;
+	/*border-bottom: 4px solid #990000;*/
+}
+.topic a:hover, .topic a:focus-visible {
+	background: #EEEEEE33;
+}
+.topicLast {
+	composes: topic;
+	order: 1;
+}
+.active.active {
+	border-bottom: 4px solid #EEEEEE;
+}

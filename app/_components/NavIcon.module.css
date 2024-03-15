@@ -1,0 +1,21 @@
+.icon {
+	background: none;
+	border: none;
+	cursor: pointer;
+	display: flex;
+	width: 32px;
+	height: 32px;
+	padding: 0;
+	line-height: 32px;
+	text-decoration: none;
+	box-sizing: content-box;
+	justify-content: center;
+	align-items: center;
+}
+.icon:hover {
+	background: rgba(255,255,255,25%);
+}
+.active {
+	composes: icon;
+	border-bottom: 4px solid white;
+}

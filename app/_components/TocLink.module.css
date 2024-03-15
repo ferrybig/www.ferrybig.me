@@ -1,0 +1,17 @@
+
+.link {
+	display: block;
+	height: 24px;
+	text-decoration: none;
+	color: inherit;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	overflow: hidden;
+}
+.linkActive {
+	composes: link;
+	color: #990000;
+}
+.link:hover {
+	background: light-dark(rgba(14, 23, 41, 0.1), rgba(0, 0, 0, 0.1));
+}

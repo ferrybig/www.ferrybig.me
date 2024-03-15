@@ -1,0 +1,31 @@
+html,
+body {
+	box-sizing: border-box;
+	height: 100%;
+	padding: 0;
+	margin: 0;
+	/* background-color: #FF6969; */
+	background: url('./background.svg') top center/25% #990000;
+	box-sizing: border-box;
+	min-height: 100%;
+	display: flex;
+	flex-direction: column;
+	gap: 16px;
+	font-size: 16px;
+}
+body > * {
+	flex-grow: 1;
+}
+
+:root {
+	--is-light-mode: initial;
+	--is-dark-mode:  ;
+}
+
+@media (prefers-color-scheme: dark) {
+
+	:root {
+		--is-light-mode:  ;
+		--is-dark-mode: initial;
+	}
+}

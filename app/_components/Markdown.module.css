@@ -1,0 +1,33 @@
+.markdown figure[data-rehype-pretty-code-figure] {
+	margin: 0 -16px;
+}
+.markdown figure[data-rehype-pretty-code-figure] pre {
+	padding: 8px 16px;
+	overflow: auto;
+	max-height: 90vh;
+	margin: 0;
+}
+.markdown img {
+	max-width: 100%;
+	aspect-ratio: auto;
+	height: auto;
+}
+.markdown > section > *:first-child {
+	margin-top: 0;
+}
+.heading {
+	position: relative;
+}
+.link {
+	position: absolute;
+	opacity: 0;
+	background: url(../../assets/link.svg);
+	width: 16px;
+	height: 16px;
+	top: calc(50%);
+	right: 100%;
+	transform: translateY(-50%);
+}
+.heading:hover .link, .link:focus {
+	opacity: 1;
+}

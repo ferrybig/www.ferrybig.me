@@ -1,0 +1,7 @@
+.noMarginTop {
+	margin-top: 0;
+}
+
+.sectionHeading {
+	composes: noMarginTop;
+}
