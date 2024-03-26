@@ -4,47 +4,49 @@
 name: Deploy app
 on:
     push:
-        branches: [master]
-jobs:
+        branches: [$default-branch]
+    workflow_dispatch:
+jobs: # push, pull_request
+    tests:
+        uses: ./.github/workflows/test.yml
     build:
+        needs: [tests]
         runs-on: ubuntu-latest
         steps:
-            -   uses: actions/checkout@v3
-                with:
-                    fetch-depth: 0
-            -   name: Use Node.js 20
-                uses: actions/setup-node@v3
-                with:
-                    node-version: 20
-                    cache: "npm"
-            -   run: npm ci
-            -   uses: actions/cache@v4
-                with:
-                    path: |
-                        ~/.npm
-                        ${{ github.workspace }}/.next/cache
-                    # Generate a new cache whenever packages or source files change.
-                    key: ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json') }}-${{ hashFiles('**/*.js', '**/*.jsx', '**/*.ts', '**/*.tsx') }}
-                    # If source files changed but packages didn't, rebuild from a prior cache.
-                    restore-keys: |
-                        ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json') }}-
-            -   run: npm run lint -- --exit-on-fatal-error
-            -   run: npm run lint-css
-            -   run: npm run build
-            -   name: CompressFiles
-                uses: stefh/ghaction-CompressFiles@v2
-                with:
-                    path: dist
-                    extensions: ".js,.css,.html,.map,.stl,.xml,.scad,.svg,.txt,.bmp"
-                    tools: "brotli,gzip"
-                    deterministicCompression: true
-            -   name: ssh publish
-                uses: easingthemes/ssh-deploy@c711f2c3391cac2876bf4c833590077f02e4bcb8
-                with:
-                    SSH_PRIVATE_KEY: ${{ secrets.ssh_private_key }}
-                    REMOTE_HOST: ${{ secrets.ssh_host }}
-                    REMOTE_USER: ${{ secrets.ssh_user }}
-                    REMOTE_PORT: 22
-                    SOURCE: out/
-                    TARGET: ${{ secrets.ssh_target }}
-                    ARGS: -r -l -0 -v --checksum --delete-delay
+            - uses: actions/checkout@v3
+              with:
+                  fetch-depth: 0
+            - name: Use Node.js 20
+              uses: actions/setup-node@v3
+              with:
+                  node-version: 20
+                  cache: "npm"
+            - run: npm ci
+            - uses: actions/cache@v4
+              with:
+                  path: |
+                      ~/.npm
+                      ${{ github.workspace }}/.next/cache
+                  # Generate a new cache whenever packages or source files change.
+                  key: ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json') }}-${{ hashFiles('**/*.js', '**/*.jsx', '**/*.ts', '**/*.tsx') }}
+                  # If source files changed but packages didn't, rebuild from a prior cache.
+                  restore-keys: |
+                      ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json') }}-
+            - run: npm run build
+            - name: CompressFiles
+              uses: stefh/ghaction-CompressFiles@v2
+              with:
+                  path: dist
+                  extensions: ".js,.css,.html,.map,.stl,.xml,.scad,.svg,.txt,.bmp"
+                  tools: "brotli,gzip"
+                  deterministicCompression: true
+            - name: ssh publish
+              uses: easingthemes/ssh-deploy@c711f2c3391cac2876bf4c833590077f02e4bcb8
+              with:
+                  SSH_PRIVATE_KEY: ${{ secrets.ssh_private_key }}
+                  REMOTE_HOST: ${{ secrets.ssh_host }}
+                  REMOTE_USER: ${{ secrets.ssh_user }}
+                  REMOTE_PORT: 22
+                  SOURCE: out/
+                  TARGET: ${{ secrets.ssh_target }}
+                  ARGS: -r -l -0 -v --checksum --delete-delay
