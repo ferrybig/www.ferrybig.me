@@ -35,9 +35,6 @@ export const metadata: Metadata = {
 		telephone: false,
 		url: false,
 	},
-	alternates: {
-		canonical: '/',
-	},
 	icons: {
 		icon: [
 			{
@@ -78,7 +75,7 @@ export default function RootLayout({
 			<body className={classNames(font.className, classes.body)}>
 				<Analytics/>
 				<div className={classes.skipToContent}>
-					Skip to <a href="#main">the article</a> or <a href="#footer">the footer</a>
+					Skip to <a href="#main">the article</a>
 				</div>
 				<header className={classes.barTop}>
 					<Nav/>
@@ -86,7 +83,6 @@ export default function RootLayout({
 				{children}
 				<footer id="footer" className={classes.barBottom}>
 					<div className={classes.footer}>
-						footer
 					</div>
 				</footer>
 			</body>

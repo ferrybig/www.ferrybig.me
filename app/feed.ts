@@ -17,7 +17,7 @@ export async function generateFeeds(options: {
 	const feed = new Feed({
 		description: '',
 		favicon: `${SITE_URL}favicon.ico`,
-		feedLinks: { atom: `${SITE_URL}${options.subDirectory}atom.xml`, rss: `${SITE_URL}${options.subDirectory}rss.xml`},
+		feedLinks: { atom: `${SITE_URL}${options.subDirectory}atom.xml`, rss: `${SITE_URL}${options.subDirectory}rss.xml`, json: `${SITE_URL}${options.subDirectory}feed.json`},
 		generator: options.title,
 		id: SITE_URL,
 		link: SITE_URL,
@@ -48,8 +48,7 @@ export async function generateFeeds(options: {
 			link: `${SITE_URL}${post.mainTag.slug}/${post.slug}`,
 			title: post.title,
 			category: post.tags.map(e => ({
-				name: e.title,
-				term: e.slug,
+				name: e.slug,
 				scheme: `${SITE_URL}${e.slug}`,
 			})),
 		});

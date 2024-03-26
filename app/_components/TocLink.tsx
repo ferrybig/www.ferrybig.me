@@ -26,7 +26,7 @@ function updateIntersectionState(linkIndex: number, state: boolean) {
 		intersectedEntities.splice(index, 1);
 		for (const listener of listeners) listener();
 	}
-	console.log(linkIndex, state, [...intersectedEntities]);
+	//console.log(linkIndex, state, [...intersectedEntities]);
 }
 
 interface TocLink {

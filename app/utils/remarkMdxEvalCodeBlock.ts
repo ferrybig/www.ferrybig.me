@@ -11,7 +11,8 @@ export function remarkMdxEvalCodeBlock(): Plugin<[any], any, any> {
 	return (tree) => {
 		//console.log(JSON.stringify(tree, null, 4));
 		visit(tree, 'code', (node, index, parent) => {
-			if (node.meta === 'eval') {
+			const meta: string | undefined = node.meta;
+			if (meta && (meta === 'eval' || meta.startsWith('eval ') || meta.endsWith(' eval') || meta.includes(' meta '))) {
 				if (javascriptLanguages.has(node.lang)) {
 					const program = parser.parse(node.value, {
 						ecmaVersion: 2020,

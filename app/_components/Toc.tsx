@@ -9,23 +9,19 @@ interface Leaf {
 	slug: string,
 	title: string,
 	leafs: Leaf[],
-	reduceLength: number,
+	reduceDepth: number,
 }
-function renderLeafList(leafs: Leaf[], className: string) {
-	if (leafs.length === 0) return null;
+function renderLeafList(myLeafs: Leaf[], className: string, myReduceDepth: number | null) {
+	if (myLeafs.length === 0) return null;
 	return (
-		<ul className={className}>
-			{/* eslint-disable-next-line @typescript-eslint/no-use-before-define, react/forbid-component-props */}
-			{leafs.map(l => <Leaf {...l} key={l.slug}/>)}
+		<ul className={className} style={myReduceDepth !== null ? { '--reduceDepth': myReduceDepth } as CSSProperties : undefined}>
+			{myLeafs.map(({ leafs, slug, title, index, reduceDepth }) => (
+				<li key={slug} className={classes.listItem}>
+					<TocLink slug={slug} title={title} index={index}/>
+					{renderLeafList(leafs, classes.list, reduceDepth)}
+				</li>
+			))}
 		</ul>
-	);
-}
-function Leaf({leafs, slug, title, reduceLength, index}: Leaf) {
-	return (
-		<li style={leafs.length > 0 ? { '--reduceDepth': reduceLength } as CSSProperties : undefined}>
-			<TocLink slug={slug} title={title} index={index}/>
-			{renderLeafList(leafs, classes.list)}
-		</li>
 	);
 }
 
@@ -37,7 +33,7 @@ function updateDeduceDepth(leaf: Leaf): number {
 	if (lastReduceLength == null) {
 		return 0;
 	}
-	leaf.reduceLength = lastReduceLength;
+	leaf.reduceDepth = lastReduceLength;
 	return lastReduceLength + leaf.leafs.length;
 
 }
@@ -56,7 +52,7 @@ function buildLeafTree(entries: TableOfContentsEntry[]): Leaf[] {
 			leafs: [],
 			slug: entry.slug,
 			title: entry.title,
-			reduceLength: 0,
+			reduceDepth: 0,
 		};
 		const top = stack[stack.length - 1];
 		(top ? top.leafs : leafs).push(newEntry);
@@ -76,8 +72,8 @@ function Toc ({entries, id}: Toc) {
 	const leafs = buildLeafTree(entries);
 	return (
 		<nav id={id}>
-			<h2 className={classes.title}>In this article</h2>
-			{renderLeafList(leafs, classes.listRoot)}
+			<h2 className={classes.title}>On this page</h2>
+			{renderLeafList(leafs, classes.listRoot, null)}
 		</nav>
 	);
 }

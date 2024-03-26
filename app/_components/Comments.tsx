@@ -1,6 +1,9 @@
 'use client';
 import Giscus from '@giscus/react';
 import classes from './Comments.module.css';
+import { SITE_URL } from '@/metadata';
+
+const themeUrl = (process.env.NODE_ENV === 'development' ? 'http://localhost:2999/' : SITE_URL) + 'giscus.css';
 
 function Comments() {
 	return (
@@ -13,9 +16,8 @@ function Comments() {
 				mapping="pathname"
 				strict="1"
 				reactionsEnabled="1"
-				emitMetadata="1"
-				inputPosition="top"
-				theme="preferred_color_scheme"
+				inputPosition="bottom"
+				theme={themeUrl}
 				lang="en"
 				loading="lazy"
 			/>

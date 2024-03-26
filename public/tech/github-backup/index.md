@@ -33,7 +33,7 @@ While this works greats for the Initial backup, we experience problems if we try
 
 We are going to solve this by making a small shell script that tries to fetch if the directory already exists, we can get the directory from the git url using the [`basename`](https://linux.die.net/man/1/basename) tool. We need to replace the xargs call by a subshell call, so we don't need to create a new shell every time, this is crucial for our performance, especially when running on Windows based platforms.
 
-```bash
+```bash showLineNumbers
 curl https://api.github.com/users/ferrybig/repos?per_page=100 | grep clone_url | cut -d'"' -f4 | while read url;
 do
   project="`basename "$url"`"
@@ -59,7 +59,7 @@ This features requires however an temporary file, since we don't have any output
 
 We also need to introduce a while loop and an variable containing an url, so we can keep on looping till GitHub says we have seen all the pages.
 
-```bash
+```bash showLineNumbers title="update.sh"
 #!/bin/sh
 tmp="`mktemp`"
 url="https://api.github.com/users/ferrybig/repos?per_page=100"

@@ -63,6 +63,8 @@ const content = (async (): Promise<Content> => {
 			const newTag = tagMap[thing.slug] = {
 				...thing,
 				posts: oldTag?.posts ?? [],
+				minDate: oldTag?.minDate ?? null,
+				maxDate: oldTag?.maxDate ?? null,
 			};
 			if (oldTag) {
 				for (const post of rawPosts) {
@@ -83,6 +85,8 @@ const content = (async (): Promise<Content> => {
 				hidden: false,
 				layout: 'list',
 				markdown: '',
+				maxDate: null,
+				minDate: null,
 				slug: tag,
 				title: tag,
 				posts: [],
@@ -90,6 +94,15 @@ const content = (async (): Promise<Content> => {
 			};
 			tags.push(tagInstance);
 			if (mainTag === null) mainTag = tagInstance;
+			if (post.date !== null) {
+				if (tagInstance.maxDate === null || tagInstance.maxDate < post.date) {
+					tagInstance.maxDate = post.date;
+				}
+				if (tagInstance.minDate === null || tagInstance.minDate > post.date) {
+					tagInstance.minDate = post.date;
+				}
+			}
+
 		}
 		if (!mainTag) {
 			throw new Error('Post ' + post.filename + ' is missing a main tag');
@@ -105,10 +118,13 @@ const content = (async (): Promise<Content> => {
 
 	const rawTags = Object.values(tagMap);
 
+	sortByKey(rawPosts, 'slug');
 	sortByKey(rawPosts, 'title');
 	sortByKey(rawPosts, 'date');
 	sortByKey(rawTags, 'title');
+	sortByKey(rawTags, 'maxDate');
 	for (const tag of rawTags) {
+		sortByKey(tag.posts, 'slug');
 		sortByKey(tag.posts, 'title');
 		sortByKey(tag.posts, 'date');
 	}

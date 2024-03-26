@@ -1,0 +1,19 @@
+@import url('https://giscus.app/themes/preferred_color_scheme.css');
+.gsc-comment-box-tabs {
+	border-radius: 0;
+}
+.gsc-header,
+.gsc-reactions-count,
+#__next .gsc-reactions-count + div {
+	margin-left: 8px;
+	margin-right: 8px;
+}
+.gsc-reactions-count {
+	text-align: left;
+}
+#__next .gsc-reactions-count + div {
+	justify-content: start;
+}
+.gsc-reactions-menu {
+	order: 1
+}

@@ -18,7 +18,7 @@ const POST_META = z.object({
 		width: z.optional(z.number()),
 		embed: z.optional(z.enum(['iframe'])),
 	}).or(z.string())),
-	tags: z.array(z.string()),
+	tags: z.optional(z.array(z.string())).default([]),
 	extraTags: z.optional(z.array(z.string())).default([]),
 });
 

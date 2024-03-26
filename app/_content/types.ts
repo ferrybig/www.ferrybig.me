@@ -33,8 +33,10 @@ export interface Post {
 
 export interface Tag {
 	type: 'tag',
+	minDate: string | null,
+	maxDate: string | null,
 	slug: string,
-	layout: 'card' | 'list' | 'simple'
+	layout: 'card' | 'list' | 'simple' | 'none'
 	posts: Post[]
 	hidden: boolean,
 	markdown: string,

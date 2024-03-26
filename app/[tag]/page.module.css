@@ -2,8 +2,10 @@
 	display: grid;
 	grid-template-columns: 256px 1fr 256px;
 	grid-template-rows: auto auto 1fr auto;
+	max-width: 1440px;
+	width: 1440px;
 	margin: 0 auto;
-	padding: 0 64px;
+	padding: 0 16px;
 	gap: 16px;
 	align-items: flex-start;
 }

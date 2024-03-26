@@ -22,6 +22,8 @@ import Link from 'next/link';
 import classes from './Markdown.module.css';
 import { ReactNode } from 'react';
 
+// https://rehype-pretty-code.netlify.app/
+
 interface Markdown {
 	source: string
 	filename: string
@@ -61,7 +63,10 @@ function Markdown({ source, filename, truncated, beforeHeading }: Markdown) {
 						rehypePlugins: [
 							[setImageSize, { dir: dirname(filename) }],
 							[rehypeFixReferencedAssets, { filename}],
-							[rehypePrettyCode as any, { theme: overnight }],
+							[rehypePrettyCode as any, { theme: {
+								dark: 'github-dark-dimmed',
+								light: 'github-light',
+							} }],
 							[rehypeSlug],
 							[rehypeAutolinkHeadings, {
 								content: [],

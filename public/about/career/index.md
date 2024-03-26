@@ -1,7 +1,3 @@
----
-tags: ["about"]
----
-
 # My career
 
 During my career, I try to put focus on being loyal. This means staying with a
@@ -19,7 +15,7 @@ why I like to help other people on website such as StackOverflow or Reddit.
 
 [![Competa logo](competa-logo.png)](https://competa.com/)
 
-<time>2017-08</time> till <time>2024-09</time>
+*From <time>2017-08</time> till <time>2024-09</time>*
 
 Competa is a company that specializes in sending programers to other companies. At this company, not only did I work for external projects, I also participated with the internal projects.
 
@@ -27,7 +23,7 @@ Competa is a company that specializes in sending programers to other companies. 
 
 [![Zorgverkeer logo](zorgverkeer-logo.png)](https://zorgverkeer.nl)
 
-<time>2020-03</time> till <time>2024-09</time>
+*From <time>2020-03</time> till <time>2024-09</time>*
 
 Zorgverkeer is a company that works together with healthcare and departments in the Netherlands. They help facilitate the exchange of information between both parties and offer a platform to do so.
 
@@ -53,7 +49,7 @@ This is another tool for managing data of health care providers, it allows them 
 
 ![alt text](royal-has-koning-logo.png)
 
-<time>2014-07</time> till <time>2017-07</time>.
+*From <time>2014-07</time> till <time>2017-07</time>.*
 
 At this place, my role was helping with the inhouse projects. The tech stack over these projects varried, but my team was the same group.
 
@@ -101,7 +97,7 @@ During my internship at Competa, I greatly improved my frontend tech skills. Thi
 
 ### Udoc
 
-<time>2015-07</time> till <time>2016-01</time>
+*From <time>2015-07</time> till <time>2016-01</time>*
 
 UDoc was a company managing the selling of digitalized car manuals. They also
 had other websites for digital books. During this internship, I learned to work
@@ -117,6 +113,6 @@ At this internship I was responsible for giving computer courses to seniors that
 
 ### Id College (Application Developer 4)
 
-<time>2014-07</time> till <time>2017-07</time>
+*From <time>2014-07</time> till <time>2017-07</time>*
 
 During this school I did a formal education course for being a professional application developer.

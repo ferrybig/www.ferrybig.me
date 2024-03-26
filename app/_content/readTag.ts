@@ -5,7 +5,7 @@ import { Tag } from './types';
 const TAG_META = z.object({
 	hidden: z.optional(z.boolean()).default(false),
 	topicIndex: z.optional(z.number()).default(0),
-	layout: z.optional(z.enum(['list', 'card'])).default('list'),
+	layout: z.optional(z.enum(['list', 'card', 'simple', 'none'])).default('list'),
 	thumbnail: z.optional(z.object({
 		link: z.optional(z.string()),
 		alt: z.optional(z.string()),
@@ -15,7 +15,7 @@ const TAG_META = z.object({
 	}).or(z.string())),
 });
 
-async function readPartialTag(tagName: string): Promise<Omit<Tag, 'posts'>> {
+async function readPartialTag(tagName: string): Promise<Omit<Tag, 'posts' | 'minDate' | 'maxDate'>> {
 	const {
 		content,
 		data,

@@ -32,6 +32,13 @@ const nextConfig = {
 					},
 				],
 			},
+			{
+				// matching all API routes
+				source: '/giscus.css',
+				headers: [
+					{ key: 'Access-Control-Allow-Origin', value: 'https://giscus.app' },
+				],
+			},
 		];
 	},
 };

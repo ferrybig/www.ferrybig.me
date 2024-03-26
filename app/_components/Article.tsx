@@ -104,7 +104,7 @@ function Article({post}: Article) {
 					<h2 className={classes.sectionHeading}>More {post.mainTag.slug}</h2>
 					<nav>
 						<ul>
-							{post.mainTag.posts.map(p => p.hiddenFromTags ? null : (
+							{post.mainTag.posts.slice().reverse().map(p => p.hiddenFromTags ? null : (
 								<li key={p.mainTag.slug + '/' + p.slug}>
 									<Link href={'/' + p.mainTag.slug + '/' + p.slug} aria-current={post === p}>
 										{p.title}

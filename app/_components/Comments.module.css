@@ -3,8 +3,10 @@
 }
 .root giscus-widget {
 	display: flex;
+	color-scheme: inherit;
 }
 .root giscus-widget::part(iframe) {
 	border-bottom-left-radius: 8px;
 	border-bottom-right-radius: 8px;
+	color-scheme: inherit;
 }
