@@ -1,7 +1,6 @@
 import { Metadata } from 'next/types';
 import { allPosts, findPost } from '@/_content';
 import Article from '@/_components/Article';
-import { SITE_URL } from '@/metadata';
 
 export async function generateMetadata({ params }: { params: Awaited<ReturnType<typeof generateStaticParams>>[number] }): Promise<Metadata> {
 	const post = await findPost(params.tag, params.post, null);

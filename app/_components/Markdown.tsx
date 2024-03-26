@@ -6,7 +6,6 @@ import rehypePrettyCode from 'rehype-pretty-code';
 import remarkSmartypants from 'remark-smartypants';
 import rehypeSlug from 'rehype-slug';
 import { rehypeAccessibleEmojis } from 'rehype-accessible-emojis';
-import overnight from 'overnight/themes/Overnight-Slumber.json';
 import setImageSize from '@/utils/rehypeImageSize';
 import { remarkMdxEvalCodeBlock } from '@/utils/remarkMdxEvalCodeBlock';
 import section from '@hbsnow/rehype-sectionize';
