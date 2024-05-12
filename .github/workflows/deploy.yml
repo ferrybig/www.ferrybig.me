@@ -16,6 +16,9 @@ jobs: # push, pull_request
             - uses: actions/checkout@v4
               with:
                   fetch-depth: 0
+            
+            - name: Fix timestamps
+              run:  bash .github/scripts/fix-timestamps
             - name: Use Node.js 20
               uses: actions/setup-node@v4
               with:

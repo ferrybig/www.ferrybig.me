@@ -16,6 +16,9 @@
 	position: sticky;
 	max-height: calc(100vh - 32px);
 }
+.flex {
+	display: flex;
+}
 
 .floatingLayers::before, .floatingLayers::after {
 	position: absolute;
@@ -120,4 +123,23 @@
 	top: 0;
 	bottom: 0;
 	width: 16px;
+}
+.flattenBottom {
+	border-bottom-left-radius: 0;
+	border-bottom-right-radius: 0;
+}
+.flattenBottom.attachedRight::before,
+.flattenBottom.attachedLeft::before {
+	display: none;
+}
+.flattenTop {
+	border-top-left-radius: 0;
+	border-top-right-radius: 0;
+}
+.flattenTop.attachedRight::after,
+.flattenTop.attachedLeft::after {
+	display: none;
+}
+.flattenTop.sticky {
+	top: 0;
 }

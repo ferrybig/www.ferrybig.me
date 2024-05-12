@@ -81,11 +81,12 @@ export function Analytics() {
 			if (impressions.current.length == 0) {
 				return;
 			}
-			const body = JSON.stringify({
-				impressions: impressions.current,
-				sessionId: sessionId.current,
-			});
+			//const body = JSON.stringify({
+			//	impressions: impressions.current,
+			//	sessionId: sessionId.current,
+			//});
 			impressions.current.length = 0;
+			/*
 			if (navigator.sendBeacon) {
 				navigator.sendBeacon('https://analytics.ferrybig.me/www.ferrybig.me', body);
 			} else {
@@ -98,6 +99,7 @@ export function Analytics() {
 					keepalive: true,
 				});
 			}
+			*/
 		}
 
 		const visibilityChange =  () => {

@@ -1,4 +1,4 @@
-import { TableOfContentsEntry } from '@/_content';
+import { TableOfContentsEntry } from '@/content';
 import classes from './Toc.module.css';
 import TocLink from './TocLink';
 import { CSSProperties } from 'react';
@@ -25,16 +25,20 @@ function renderLeafList(myLeafs: Leaf[], className: string, myReduceDepth: numbe
 	);
 }
 
-function updateDeduceDepth(leaf: Leaf): number {
-	let lastReduceLength: number | null = null;
+function countChildrenRecursive(leaf: Leaf): number {
+	let count = 0;
 	for (const l of leaf.leafs) {
-		lastReduceLength = updateDeduceDepth(l);
+		count += countChildrenRecursive(l);
 	}
-	if (lastReduceLength == null) {
-		return 0;
+	return count + leaf.leafs.length;
+}
+
+function updateReduceDepth(leaf: Leaf): void {
+	for (const l of leaf.leafs) {
+		updateReduceDepth(l);
 	}
-	leaf.reduceDepth = lastReduceLength;
-	return lastReduceLength + leaf.leafs.length;
+	if (leaf.leafs.length == 0) leaf.reduceDepth = 0;
+	else leaf.reduceDepth = countChildrenRecursive(leaf.leafs[leaf.leafs.length - 1]);
 
 }
 
@@ -59,7 +63,7 @@ function buildLeafTree(entries: TableOfContentsEntry[]): Leaf[] {
 		stack.push(newEntry);
 	}
 	for (const leaf of leafs) {
-		updateDeduceDepth(leaf);
+		updateReduceDepth(leaf);
 	}
 	return leafs;
 }
@@ -71,8 +75,8 @@ interface Toc {
 function Toc ({entries, id}: Toc) {
 	const leafs = buildLeafTree(entries);
 	return (
-		<nav id={id}>
-			<h2 className={classes.title}>On this page</h2>
+		<nav id={id} className={classes.root}>
+			<h2 className={classes.title}>Table of contents</h2>
 			{renderLeafList(leafs, classes.listRoot, null)}
 		</nav>
 	);

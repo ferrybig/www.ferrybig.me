@@ -1,7 +1,11 @@
-.title {
-	margin: 0 0 0 -12px;
-	font-size: 1.5em;
+.root {
+	font-size: 0.8em;
+	margin: 0 -16px 0 8px;
+	overflow: auto;
 	position: relative;
+}
+.title {
+	composes: sidebarTitle from '../common.module.css';
 }
 .list {
 	list-style: none;
@@ -16,28 +20,24 @@
 	top: 0;
 	left: 4px;
 	width: 2px;
-	bottom: calc(11px + 24px * var(--reduceDepth, 0));
-	background: light-dark(rgba(14, 23, 41, 0.5), rgba(0, 0, 0, 0.5));
+	bottom: calc(9px + 20px * var(--reduceDepth, 0));
+	background: light-dark(rgba(14, 23, 41, 0.5), rgba(127, 127, 127, 0.5));
 }
 
 .listRoot {
 	composes: list;
-	padding-left: 0;
-}
-.listRoot::before {
-	left: -12px;
 }
 
 
 .listItem {
 	position: relative;
 }
-.listItem::before {
+.listItem::after {
 	content: '';
 	position: absolute;
-	top: 11px;
+	top: 9px;
 	left: -10px;
 	width: 8px;
 	height: 2px;
-	background: light-dark(rgba(14, 23, 41, 0.5), rgba(0, 0, 0, 0.5));
+	background: light-dark(rgba(14, 23, 41, 0.5), rgba(127, 127, 127, 0.5));
 }

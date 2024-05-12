@@ -5,15 +5,31 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "tsc",
+    "dev": "tsc && node out/main.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
+  "bin": "out/main.js",
   "dependencies": {
     "@mdx-js/mdx": "^3.0.1",
+    "@types/proper-lockfile": "^4.1.4",
+    "chokidar": "^3.6.0",
+    "colors": "^1.4.0",
+    "gray-matter": "^4.0.3",
     "install": "^0.13.0",
+    "mdast-util-from-markdown": "^2.0.0",
+    "mdast-util-to-string": "^4.0.0",
     "npm": "^10.5.0",
-    "remark-mdx-images": "^3.0.0"
+    "proper-lockfile": "^4.1.2",
+    "rehype-truncate": "^1.2.2",
+    "remark-gfm": "^3.0.1",
+    "zod": "^3.23.6"
+  },
+  "overrides": {
+    "remark-parse": "^10.0.0",
+    "mdast-util-from-markdown": "^2.0.0",
+    "mdast-util-gfm-table": "^2.0.0"
   }
 }

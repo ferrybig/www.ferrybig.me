@@ -9,14 +9,11 @@ import keybase from '@assets/keybase.svg';
 */
 import face from '@assets/face.png';
 import classes from './Nav.module.css';
-import { allTags } from '@/_content';
-import sortByKey from '@/utils/sortByKey';
 import NavLink from './NavLink';
+import { getTopicChildren } from '@/content';
 
 async function Nav() {
-	const tags = await allTags();
-	const sorted = tags.slice();
-	sortByKey(sorted, 'topicIndex');
+	const tags = getTopicChildren();
 
 	return (
 		<div className={classes.nav}>
@@ -38,14 +35,14 @@ async function Nav() {
 							Home
 						</NavLink>
 					</li>
-					{sorted.map(e => e.topicIndex <= 0 ? null : (
+					{tags.map(e => e.topicIndex! <= 0 ? null : (
 						<li className={classes.topic} key={e.slug}>
 							<NavLink href={`/${e.slug}`} activeClassName={classes.active}>
 								{e.title}
 							</NavLink>
 						</li>
 					))}
-					{sorted.map(e => e.topicIndex >= 0 ? null : (
+					{tags.map(e => e.topicIndex! >= 0 ? null : (
 						<li className={classes.topicLast} key={e.slug}>
 							<NavLink href={`/${e.slug}`} activeClassName={classes.active}>
 								{e.title}

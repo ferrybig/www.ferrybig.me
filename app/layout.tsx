@@ -15,8 +15,6 @@ const font = Noto_Sans({ weight: ['400', '600', '700'], subsets: ['latin'] });
 export const viewport: Viewport = {
 	themeColor: '#990000',
 	colorScheme: 'dark light',
-	initialScale: 1,
-	width: '',
 };
 
 export const metadata: Metadata = {

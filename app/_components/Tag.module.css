@@ -1,0 +1,12 @@
+.root {
+	border: 1px solid currentColor;
+	padding: 1px 1px;
+	color: inherit;
+	border-radius: 2px;
+	text-decoration: none;
+	display: inline-block;
+	background-color: rgba(160, 160, 160, 0.3);
+}
+.root:hover {
+	background-color: rgba(160, 160, 160, 0.6);
+}

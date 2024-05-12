@@ -33,13 +33,30 @@ const nextConfig = {
 				],
 			},
 			{
-				// matching all API routes
 				source: '/giscus.css',
 				headers: [
 					{ key: 'Access-Control-Allow-Origin', value: 'https://giscus.app' },
 				],
 			},
 		];
+	},
+
+	webpack: (
+		config,
+		{ buildId, dev, isServer, defaultLoaders, nextRuntime, webpack }
+	) => {
+		// Important: return the modified config
+		config.module.rules.push({
+			resourceQuery: /rehype-asset/,
+			type: 'asset/resource',
+
+			generator: {
+				filename: 'static/[path][name].[hash][ext]',
+				//publicPath: '/.next',
+				outputPath: dev ? '..' : '../..',
+			},
+		});
+		return config;
 	},
 };
 

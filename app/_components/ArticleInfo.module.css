@@ -1,0 +1,14 @@
+.root {
+	padding: 8px 0 8px 8px;
+	font-size: 0.8em;
+}
+
+.title {
+	composes: sidebarTitle from '../common.module.css';
+}
+.listItem {
+	margin: 0.5em 0;
+}
+.links {
+	composes: listItem;
+}
