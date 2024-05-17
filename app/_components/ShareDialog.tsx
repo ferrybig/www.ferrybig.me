@@ -23,7 +23,7 @@ const definitions: Definition[] = [
 	},
 	{
 		title: 'Facebook',
-		link: (url, title) => `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`,
+		link: (url) => `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`,
 		icon: 'data:image/svg+xml,<svg width="24" height="25" viewBox="0 0 24 25" xmlns="http://www.w3.org/2000/svg"><path d="M12 0C5.41 0 0 5.137 0 11.5c0 3.39 1.57 6.402 4 8.5v4.625l4.438-2.22c1.128.34 2.308.595 3.562.595 6.59 0 12-5.137 12-11.5S18.59 0 12 0zm0 2c5.56 0 10 4.266 10 9.5S17.56 21 12 21c-1.195 0-2.336-.227-3.406-.594l-.406-.125L6 21.376v-2.25l-.375-.313C3.405 17.063 2 14.442 2 11.5 2 6.266 6.44 2 12 2zm-1.125 6.344l-6.03 6.375 5.405-3 2.875 3.092 5.97-6.468-5.282 2.97-2.938-2.97z" fill-rule="nonzero" fill="black"/></svg>',
 	},
 	{

@@ -2,7 +2,7 @@
 
 import dynamic from 'next/dynamic';
 import Link from 'next/link';
-import { MouseEvent, ReactNode, SyntheticEvent, useState } from 'react';
+import { MouseEvent, ReactNode, useState } from 'react';
 import { createPortal } from 'react-dom';
 
 const ShareDialog = dynamic(() => import('./ShareDialog'), { ssr: false });

@@ -1,7 +1,6 @@
 import { Feed } from 'feed';
 import { SITE_URL } from '../metadata';
 import { MetaData } from '@/content';
-import face from '@assets/face.png';
 import favicon32x32 from '@assets/favicon-32x32.png';
 
 export async function generateFeeds(options: {

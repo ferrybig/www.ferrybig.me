@@ -12,8 +12,6 @@ import favicon192x192 from '@assets/android-chrome-192x192.png';
 import favicon384x384 from '@assets/android-chrome-384x384.png';
 import appleTouch from '@assets/apple-touch-icon.png';
 import classes from './layout.module.css';
-import Head from 'next/head';
-import Script from 'next/script';
 
 const font = Noto_Sans({ weight: ['400', '600', '700'], subsets: ['latin'] });
 
