@@ -1,6 +1,6 @@
 .root {
 	border-radius: 8px;
-	background: light-dark(#EEEEEE, #222222);
+	background: light-dark(#FFFFFF, #111111);
 	color: light-dark(black, #eeeeee);
 	min-height: 64px;
 	position: relative;
@@ -27,7 +27,7 @@
 	width: 24px;
 	height: 48px;
 	background: transparent;
-	box-shadow: 0 -24px 0 0 light-dark(#EEEEEE, #222222);
+	box-shadow: 0 -24px 0 0 light-dark(#FFFFFF, #111111);
 }
 
 
@@ -86,10 +86,10 @@
 	border-bottom-left-radius: 24px;
 	bottom: 100%;
 	clip-path: polygon(0 50%, 100% 50%, 100% 100%, 0 100%);
-	box-shadow: 0 24px 0 0 light-dark(#EEEEEE, #222222);
+	box-shadow: 0 24px 0 0 light-dark(#FFFFFF, #111111);
 }
 .attachedLeft > .styleHelper {
-	background-color: light-dark(#EEEEEE, #222222);
+	background-color: light-dark(#FFFFFF, #111111);
 	position: absolute;
 	right: 100%;
 	top: 0;
@@ -114,10 +114,10 @@
 	border-bottom-right-radius: 24px;
 	bottom: 100%;
 	clip-path: polygon(0 50%, 100% 50%, 100% 100%, 0 100%);
-	box-shadow: 0 24px 0 0 light-dark(#EEEEEE, #222222);
+	box-shadow: 0 24px 0 0 light-dark(#FFFFFF, #111111);
 }
 .attachedRight > .styleHelper {
-	background-color: light-dark(#EEEEEE, #222222);
+	background-color: light-dark(#FFFFFF, #111111);
 	position: absolute;
 	left: 100%;
 	top: 0;

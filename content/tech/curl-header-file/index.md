@@ -39,3 +39,4 @@ content-length: 107
 x-github-request-id: 94B0:30CE68:B58094:B656A9:663B31CA
 ```
 
+From this point, you can now apply further processing on the headers, such as extracting the rate limit information.

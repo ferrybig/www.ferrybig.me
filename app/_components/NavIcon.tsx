@@ -1,11 +1,11 @@
 import { MouseEventHandler } from 'react';
 import classes from './NavIcon.module.css';
-import Image, { StaticImageData } from 'next/image';
+import Image, { StaticImageData } from '@/_components/Image';
 interface NavIcon {
 	onClick?: MouseEventHandler | undefined,
 	href?: string | undefined,
 	title?: string | undefined,
-	src: string | StaticImageData
+	src: StaticImageData
 	alt: string
 	active?: boolean | undefined,
 	small?: boolean | undefined,

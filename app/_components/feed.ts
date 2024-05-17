@@ -1,6 +1,8 @@
 import { Feed } from 'feed';
 import { SITE_URL } from '../metadata';
 import { MetaData } from '@/content';
+import face from '@assets/face.png';
+import favicon32x32 from '@assets/favicon-32x32.png';
 
 export async function generateFeeds(options: {
 	posts: MetaData[],
@@ -11,14 +13,22 @@ export async function generateFeeds(options: {
 }) {
 	const feed = new Feed({
 		description: '',
-		favicon: `${SITE_URL}favicon.ico`,
-		feedLinks: { atom: `${SITE_URL}${options.subDirectory}/feed.atom.xml`, rss: `${SITE_URL}${options.subDirectory}/feed.rss.xml`, json: `${SITE_URL}${options.subDirectory}/feed.json`},
+		favicon: new URL(favicon32x32.src.replace(/\.png$/, '.avif'), SITE_URL).href,
+		feedLinks: {
+			atom: new URL(`${options.subDirectory}/feed.atom.xml`, SITE_URL).href,
+			rss: new URL(`${options.subDirectory}/feed.rss.xml`, SITE_URL).href,
+			json: new URL(`${options.subDirectory}/feed.json`, SITE_URL).href,
+		},
 		generator: options.title,
-		id: SITE_URL + options.subDirectory,
-		link: SITE_URL + options.subDirectory,
+		id: new URL(`${options.subDirectory}`, SITE_URL).href,
+		link: new URL(`${options.subDirectory}`, SITE_URL).href,
 		title: options.title,
 		copyright: '',
 		language: 'en',
+		author: {
+			name: 'Fernando',
+			link: SITE_URL,
+		},
 	});
 
 	const maxPosts = (options.count ?? 15);
@@ -29,12 +39,12 @@ export async function generateFeeds(options: {
 		if (count++ >= maxPosts) break;
 		feed.addItem({
 			date: new Date(post.date),
-			author: [{name: 'Fernando', link: SITE_URL}],
 			// eslint-disable-next-line @typescript-eslint/no-non-null-asserted-optional-chain
 			image: post.thumbnail ? new URL(post.thumbnail.image.src, SITE_URL).href : '',
-			id: `${SITE_URL}${post.slug}`,
-			link: `${SITE_URL}${post.slug}`,
+			id: new URL(post.slug, SITE_URL).href,
+			link: new URL(post.slug, SITE_URL).href,
 			title: post.title,
+			content: post.summary ?? undefined!,
 			category: post.tags.map(e => ({
 				name: e,
 				scheme: `${SITE_URL}${e}`,

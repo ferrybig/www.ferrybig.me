@@ -1,3 +1,5 @@
+import type { ComponentType, ReactElement } from 'react';
+
 export interface TableOfContentsEntry {
 	readonly title: string,
 	readonly slug: string,
@@ -20,6 +22,9 @@ export interface MetaData {
 	readonly excludeFromChildren: boolean,
 	readonly readingTimeMin: number,
 	readonly readingTimeMax: number,
+	readonly children: 'auto' | 'direct' | 'indirect',
+	readonly linkTitle: string,
+	readonly summary: string | null,
 	readonly thumbnail: {
 		readonly alt: string | null,
 		readonly link: string | null,
@@ -37,5 +42,5 @@ export interface ArticleWrapperProps {
 	feeds: boolean,
 	toc: TableOfContentsEntry[],
 	originalFile: string | null
-	factory: null | ((props: { components: Record<string, React.ComponentType<any>> }) => React.ReactElement),
+	factory: null | ((props: { components: Record<string, ComponentType<any>> }) => ReactElement),
 }

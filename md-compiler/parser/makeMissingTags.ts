@@ -2,6 +2,10 @@ import { join } from 'node:path';
 import type { CompileResults, CompileResultsArticle, CompileResultsSubTasks, Config } from '../types.js';
 import makeGeneratedPage from './makeGeneratedPage.js';
 
+function titleCase(str: string): string {
+	return str[0].toUpperCase() + str.slice(1);
+}
+
 export default function makeMissingTags(results: Exclude<CompileResults, CompileResultsSubTasks>[], config: Config): CompileResultsArticle[] {
 	const newTags = new Map<string, CompileResultsArticle | null>();
 	for (const result of results) {
@@ -28,7 +32,10 @@ export default function makeMissingTags(results: Exclude<CompileResults, Compile
 						excludeFromAll: false,
 						excludeFromChildren: false,
 						childrenLayout: 'list',
-						title: tag,
+						summary: null,
+						title: titleCase(tag),
+						linkTitle: titleCase(tag),
+						children: 'auto',
 						updatedAt: null,
 						topicIndex: null,
 					},

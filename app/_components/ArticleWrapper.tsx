@@ -4,13 +4,14 @@ import Link from 'next/link';
 import Column from './Column';
 import Comments from './Comments';
 import Toc from './Toc';
-import Image from 'next/image';
+import Image from '@/_components/Image';
 import Date from './Date';
 import classes from './ArticleWrapper.module.css';
 import HtmlPreview from './HtmlPreview';
 import { Metadata } from 'next';
 import { SITE_URL } from '@/metadata';
 import ArticleInfo from './ArticleInfo';
+import Heading from './Heading';
 
 function isRelative(href: string): boolean {
 	return !/^(?:[a-z]+:)?\/\//i.test(href);
@@ -21,7 +22,7 @@ export function generateFeed(metadata: MetaData | null, children: MetaData[], fo
 		format: format,
 		posts: children,
 		subDirectory: metadata?.slug ?? '',
-		title: 'Posts under ' + (metadata ? metadata.title : 'www.ferrybig.me'),
+		title: 'Posts under ' + (metadata?.slug ? metadata.title : 'www.ferrybig.me'),
 	});
 }
 export function generateMetadata({
@@ -70,6 +71,7 @@ export function generateMetadata({
 }
 export default function ArticleWrapper({
 	metadata: {
+		title,
 		slug,
 		date,
 		tags,
@@ -83,103 +85,106 @@ export default function ArticleWrapper({
 	factory,
 	originalFile,
 	children,
+	feeds,
 }: ArticleWrapperProps) {
-
+	const shortDisplay = readingTimeMin <= 1 && thumbnail == null;
 	return (
-		<div className={classes.root}>
+		<div className={shortDisplay ? classes.rootShort : classes.root}>
+			<header className={classes.displayContent}>
+				<Column attached="top" className={classes.meInfo} margin>
+					<p>I&apos;m Fernando, <br/>a full stack developer</p>
+				</Column>
+			</header>
 			<main className={classes.displayContent}>
-				<header className={classes.info}>
-					<Column attached="top" className={classes.meInfo} margin>
-						<p>I&apos;m Fernando, <br/>a full stack developer</p>
-					</Column>
-					<Column attached="right" flatten="bottom" className={classes.postInfo}>
+				<header className={classes.displayContent}>
+					<Column className={classes.postInfo} attached={shortDisplay ? undefined : 'right'} margin>
 						<ArticleInfo
 							date={date}
+							slug={slug}
 							originalFile={originalFile}
 							readingTimeMax={readingTimeMax}
 							readingTimeMin={readingTimeMin}
 							tags={tags}
 							updatedAt={updatedAt}
+							feeds={feeds}
 						/>
 					</Column>
-					<Column flatten="top" className={classes.toc} attached={readingTimeMax > 1 || thumbnail ? 'right' : undefined} sticky flex>
-						<Toc id="nav" entries={[
-							...toc,
-							...(children.length > 0 ? [
+					<div className={classes.tocWrapper}>
+						<Column className={classes.toc} sticky flex>
+							<Toc id="nav" entries={[
+								...toc,
+								...(children.length > 0 ? [
+									{
+										lvl: 1,
+										slug: 'article-pages',
+										title: 'Articles',
+									},
+								] : []),
 								{
 									lvl: 1,
-									slug: 'article-pages',
-									title: 'Articles under this topic',
+									slug: 'article-comments',
+									title: 'Comments',
 								},
-							] : []),
-							{
-								lvl: 1,
-								slug: 'article-comments',
-								title: 'Comments',
-							},
-						]}/>
-					</Column>
+							]}/>
+						</Column>
+					</div>
 				</header>
-				<div className={classes.content}>
-					{factory && <Column className={classes.markdown} id="main" margin={children.length > 0}>
+				<div className={classes.rightSide}>
+					{factory && <Column className={classes.markdown} id="main" margin>
 						{factory?.({
 							components: {
-								h1: (props) => (
+								h1: (props: any) => (
 									<>
 										{thumbnail ? (
-											thumbnail.embed ? (
-												<div className={classes.hero} style={{backgroundImage: `url('${thumbnail.image.src}')`}}>
-													<Image hidden src={thumbnail.image} width={939} height={528} alt={thumbnail.alt ?? ''} fetchPriority="low"/>
-													<iframe src={thumbnail.embed}/>
-													{thumbnail.alt && thumbnail.link && (
-														<a className={classes.caption} href={thumbnail.link}>{thumbnail.alt}</a>
-													)}
-												</div>
-											) : thumbnail.link ? (
-												<a href={thumbnail.link} className={classes.hero} style={{backgroundImage: `url('${thumbnail.image.src}`}}>
-													<Image src={thumbnail.image} width={939} height={528} alt={thumbnail.alt ?? ''} loading="eager" fetchPriority="auto"/>
+											thumbnail.link ? (
+												<a href={thumbnail.link} className={classes.hero} style={{backgroundImage: `url('${thumbnail.image.blurDataURL}`}}>
+													<Image src={thumbnail.image} width={939} height={528} alt={thumbnail.alt ?? ''} decoding="sync" fetchPriority="high"/>
 													{thumbnail.alt && (
 														<span className={classes.caption}>{thumbnail.alt}</span>
 													)}
 												</a>
 											) : (
-												<div className={classes.hero} style={{backgroundImage: `url('${thumbnail.image.src}')`}}>
-													<Image src={thumbnail.image} width={939} height={528} alt={thumbnail.alt ?? ''} loading="eager" fetchPriority="auto"/>
+												<div className={classes.hero} style={{backgroundImage: `url('${thumbnail.image.blurDataURL}')`}}>
+													<Image src={thumbnail.image} width={939} height={528} alt={thumbnail.alt ?? ''} decoding="sync" fetchPriority="high"/>
 												</div>
 											)
 										) : null}
-										<h1 {...props}/>
+										<Heading level={1} {...props}/>
 									</>
 								),
+								h2: (props: any) => <Heading level={2} {...props}/>,
+								h3: (props: any) => <Heading level={3} {...props}/>,
+								h4: (props: any) => <Heading level={4} {...props}/>,
+								h5: (props: any) => <Heading level={5} {...props}/>,
+								h6: (props: any) => <Heading level={6} {...props}/>,
 								HtmlPreview,
-								img: (props) => <Image
-									style={{ color: undefined }}
+								img: (props: any) => <Image
 									{...props}
 									src={props.src ?? ''}
 									alt={props.alt ?? ''}
 									width={props.width ? Number(props.width) : undefined}
 									height={props.height ? Number(props.height) : undefined}
 								/>,
-								a: (props) => props.href && isRelative(props.href) ? <Link {...props as any} href={props.href ?? ''}/> : <a {...props}/>,
+								a: (props: any) => props.href && isRelative(props.href) ? <Link {...props as any} href={props.href ?? ''}/> : <a {...props}/>,
 							},
 						})}
 					</Column>}
-					{children.length > 0 && <Column className={classes.children} padded>
-						<h1 id="article-pages" className={classes.sectionHeading}>Articles under this topic</h1>
+					{children.length > 0 && <Column className={classes.children} padded margin>
+						<h1 id="article-pages" className={classes.sectionHeading}>{factory ? 'Articles' : `${title} Articles`}</h1>
 						{children.map((child) => (
-							<div key={child.slug} className={classes.child}>
+							<article key={child.slug} className={classes.child}>
 								<h2><Link href={'/' + child.slug}>{child.title}</Link></h2>
 								<p>{child.date && <Date timestamp={child.date}/>}</p>
-							</div>
+							</article>
 						))}
 					</Column>}
+					{commentStatus !== 'disabled' && <footer className={classes.displayContent}>
+						<Column className={classes.comments}>
+							<h1 id="article-comments" className={classes.sectionHeading}>Comments</h1>
+							<Comments/>
+						</Column>
+					</footer>}
 				</div>
-				{commentStatus !== 'disabled' && <footer className={classes.displayContent}>
-					<Column className={classes.comments}>
-						<h1 id="article-comments" className={classes.sectionHeading}>Comments</h1>
-						<Comments/>
-					</Column>
-				</footer>}
 			</main>
 			{tags.length > 0 && (
 				<aside className={classes.moreReading}>

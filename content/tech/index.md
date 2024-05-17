@@ -1,6 +1,6 @@
 ---
 childrenLayout: list
-topicIndex: 1
+topicIndex: 1.5
 ---
 # Tech
 

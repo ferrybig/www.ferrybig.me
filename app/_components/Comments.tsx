@@ -1,14 +1,16 @@
 'use client';
 import Giscus from '@giscus/react';
 import classes from './Comments.module.css';
-import { SITE_URL } from '@/metadata';
-
-const themeUrl = (process.env.NODE_ENV === 'development' ? 'http://localhost:2999/' : SITE_URL) + 'giscus.css';
+import { useEffect, useState } from 'react';
 
 function Comments() {
+	const [baseUrl, setBaseUrl] = useState<string | null>(null);
+	useEffect(() => {
+		setBaseUrl(new URL('/giscus.css', window.location.href).href);
+	}, []);
 	return (
 		<div className={classes.root}>
-			<Giscus
+			{baseUrl && <Giscus
 				repo="ferrybig/www.ferrybig.me"
 				repoId="R_kgDOHBif1g="
 				category="Announcements"
@@ -17,10 +19,10 @@ function Comments() {
 				strict="1"
 				reactionsEnabled="1"
 				inputPosition="bottom"
-				theme={themeUrl}
+				theme={baseUrl}
 				lang="en"
 				loading="lazy"
-			/>
+			/>}
 		</div>
 	);
 }

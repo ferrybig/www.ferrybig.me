@@ -1,8 +1,6 @@
-import withMDXFactory from '@next/mdx';
-const withMDX = withMDXFactory();
-
 const cspHeader = `
-default-src 'self' analytics.ferrybig.me;
+default-src 'self';
+connect-src 'self' analytics.ferrybig.me;
 script-src 'self' 'unsafe-eval' 'unsafe-inline';
 style-src 'self' 'unsafe-inline';
 img-src 'self' blob: data:;
@@ -20,6 +18,12 @@ const nextConfig = {
 	output: 'export',
 	images: {
 		unoptimized: true,
+	},
+	eslint: {
+		ignoreDuringBuilds: process.env.IGNORE_ERRORS === 'true',
+	},
+	typescript: {
+		ignoreBuildErrors: process.env.IGNORE_ERRORS === 'true',
 	},
 	async headers() {
 		return [
@@ -60,7 +64,4 @@ const nextConfig = {
 	},
 };
 
-export default withMDX({
-	// other next config
-	...nextConfig,
-});
+export default nextConfig;

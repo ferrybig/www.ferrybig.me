@@ -6,8 +6,10 @@ export default function makeFeeds(
 	config: Config,
 ): CompileResultsFile[] {
 	const newFiles: CompileResultsFile[] = [];
+	let seenIndex = false;
 	for (const result of results) {
 		if (result.type === 'article' && result.needsFeeds) {
+			seenIndex ||= result.metadata.slug === '';
 			newFiles.push(
 				{
 					type: 'file',
@@ -27,22 +29,24 @@ export default function makeFeeds(
 			);
 		}
 	}
-	newFiles.push(
-		{
-			type: 'file',
-			file: 'feed.json/route.js',
-			contents: makeGeneratedFeed('json', null, config),
-		},
-		{
-			type: 'file',
-			file: 'feed.atom.xml/route.js',
-			contents: makeGeneratedFeed('atom', null, config),
-		},
-		{
-			type: 'file',
-			file: 'feed.rss.xml/route.js',
-			contents: makeGeneratedFeed('rss', null, config),
-		},
-	);
+	if (!seenIndex) {
+		newFiles.push(
+			{
+				type: 'file',
+				file: 'feed.json/route.js',
+				contents: makeGeneratedFeed('json', null, config),
+			},
+			{
+				type: 'file',
+				file: 'feed.atom.xml/route.js',
+				contents: makeGeneratedFeed('atom', null, config),
+			},
+			{
+				type: 'file',
+				file: 'feed.rss.xml/route.js',
+				contents: makeGeneratedFeed('rss', null, config),
+			},
+		);
+	}
 	return newFiles;
 }

@@ -5,6 +5,7 @@ import type {
 	CompileResultsSubTasks,
 	Config,
 } from '../types.js';
+import assertNever from '../utils/assertNever.js';
 
 const typeofPriority: Record<'string' | 'number' | 'bigint' | 'boolean' | 'symbol' | 'undefined' | 'object' | 'function', number> = {
 	string: 0,
@@ -16,39 +17,52 @@ const typeofPriority: Record<'string' | 'number' | 'bigint' | 'boolean' | 'symbo
 	symbol: 6,
 	undefined: 7,
 };
+interface Comparator<T> {
+	(a: T, b: T): 1 | -1 | 0;
+}
+function genericCompare(aValue: unknown, bValue: unknown): 1 | -1 | 0 {
+	const aType = typeof aValue;
+	const bType = typeof bValue;
+	const aPriority = typeofPriority[aType];
+	const bPriority = typeofPriority[bType];
+	if (aPriority < bPriority) return -1;
+	if (aPriority > bPriority) return 1;
 
-function sortBy<T>(
-	base: T[],
-	array: number[],
-	...resolvers: ((instance: T) => unknown)[]
-): void {
-	array.sort((a, b) => {
-		for (const resolver of resolvers) {
-			const aValue = resolver(base[a]);
-			const bValue = resolver(base[b]);
-			const aType = typeof aValue;
-			const bType = typeof bValue;
-			const aPriority = typeofPriority[aType];
-			const bPriority = typeofPriority[bType];
-			if (aPriority < bPriority) return -1;
-			if (aPriority > bPriority) return 1;
-
-			switch (aType) {
-			case 'string':
-			case 'number':
-			case 'bigint':
-			case 'boolean':
-				if (aValue as any < (bValue as any)) return -1;
-				if (aValue as any > (bValue as any)) return 1;
-				break;
-			default:
-				if (aValue !== bValue) {
-					throw new Error(`Cannot compare ${aType} values`);
-				}
-			}
+	switch (aType) {
+	case 'string':
+	case 'number':
+	case 'bigint':
+	case 'boolean':
+		if (aValue as any < (bValue as any)) return -1;
+		if (aValue as any > (bValue as any)) return 1;
+		return 0;
+	default:
+		if (aValue !== bValue) {
+			throw new Error(`Cannot compare ${aType} values`);
 		}
 		return 0;
-	});
+	}
+}
+function comparing<T>(getter: (value: T) => unknown): Comparator<T> {
+	return (a: T, b: T) => genericCompare(getter(a), getter(b));
+}
+function comparingDesc<T>(getter: (value: T) => unknown): Comparator<T> {
+	return (a: T, b: T) => -genericCompare(getter(a), getter(b)) as 1 | -1 | 0;
+}
+function comparingChain<T>(...comparators: Comparator<T>[]): Comparator<T> {
+	return (a: T, b: T) => {
+		for (const comparator of comparators) {
+			const result = comparator(a, b);
+			if (result !== 0) return result;
+		}
+		return 0;
+	};
+
+}
+function arrayMappedSort<T>(items: T[], comparator: Comparator<T>): Comparator<number> {
+	return (a: number, b: number) => {
+		return comparator(items[a], items[b]);
+	};
 }
 
 export default function makeContent(
@@ -70,23 +84,8 @@ export default function makeContent(
 		children.push([]);
 		slugMap.set(article.metadata.slug, i);
 	}
-	let postsContent = 'const posts = [\n';
 	for (let i = 0; i < articles.length; i++) {
 		const article = articles[i];
-		postsContent += '\t';
-		postsContent += JSON.stringify(article.metadata, (key, value) => {
-			if ((key === 'image' || key === 'icon') && typeof value === 'string') {
-				const importName = importMap.get(value);
-				if (importName !== undefined) {
-					return importName;
-				}
-				const newImportId = `____IMPORT_${importId++}____`;
-				importMap.set(value, newImportId);
-				return newImportId;
-			}
-			return value;
-		});
-		postsContent += ',\n';
 		if (article.metadata.topicIndex!== null) {
 			topicIndex.push(i);
 		}
@@ -108,14 +107,82 @@ export default function makeContent(
 			}
 		}
 	}
-	postsContent += '];\n';
-
-	sortBy(articles, directChildren, e => e.metadata.date, e => e.metadata.title, e => e.metadata.slug);
-	sortBy(articles, indirectChildren, e => e.metadata.date, e => e.metadata.title, e => e.metadata.slug);
-	sortBy(articles, topicIndex, e => e.metadata.topicIndex, e => e.metadata.date, e => e.metadata.title, e => e.metadata.slug);
-	for (const list of children) {
-		sortBy(articles, list, e => e.metadata.date, e => e.metadata.title, e => e.metadata.slug);
+	// Update children to follow the type stored in metadata
+	for (let i = 0; i < articles.length; i++) {
+		const childrenType = articles[i].metadata.children;
+		children[i] =
+			childrenType === 'direct' ? directChildren.slice() :
+			childrenType === 'indirect' ? indirectChildren.slice() :
+			childrenType === 'auto' ? children[i]  :
+			assertNever(childrenType);
 	}
+	// Update updatedAt to the latest updatedAt of the children
+	{
+		const scanned: boolean[] = [];
+		const scan = (index: number) => {
+			if (scanned[index]) return;
+			if (scanned[index] === false) throw new Error('Circular dependency');
+			scanned[index] = false;
+			let highestUpdatedAt = articles[index].metadata.updatedAt;
+			for (const child of children[index]) {
+				scan(child);
+				const childUpdatedAt = articles[child].metadata.updatedAt;
+				if (childUpdatedAt != null && (highestUpdatedAt == null || childUpdatedAt > highestUpdatedAt)) {
+					highestUpdatedAt = articles[child].metadata.updatedAt;
+				}
+			}
+			articles[index].metadata = {
+				...articles[index].metadata,
+				updatedAt: highestUpdatedAt,
+			};
+			scanned[index] = true;
+		};
+		for (let i = 0; i < articles.length; i++) {
+			scan(i);
+		}
+	}
+
+	// Sort everything
+	const defaultSort = [
+		comparingDesc((e: CompileResultsArticle) => e.metadata.date),
+		comparing((e: CompileResultsArticle) => e.metadata.title),
+		comparing((e: CompileResultsArticle) => e.metadata.slug),
+	];
+	directChildren.sort(arrayMappedSort(articles, comparingChain(
+		...defaultSort
+	)));
+	indirectChildren.sort(arrayMappedSort(articles, comparingChain(
+		...defaultSort
+	)));
+	topicIndex.sort(arrayMappedSort(articles, comparingChain(
+		comparing((e: CompileResultsArticle) => e.metadata.topicIndex),
+		...defaultSort
+	)));
+	for (const list of children) {
+		list.sort(arrayMappedSort(articles, comparingChain(
+			...defaultSort
+		)));
+	}
+
+	let postsContent = 'const posts = [\n';
+	for (let i = 0; i < articles.length; i++) {
+		const article = articles[i];
+		postsContent += '\t';
+		postsContent += JSON.stringify(article.metadata, (key, value) => {
+			if ((key === 'image' || key === 'icon') && typeof value === 'string') {
+				const importName = importMap.get(value);
+				if (importName !== undefined) {
+					return importName;
+				}
+				const newImportId = `____IMPORT_${importId++}____`;
+				importMap.set(value, newImportId);
+				return newImportId;
+			}
+			return value;
+		});
+		postsContent += ',\n';
+	}
+	postsContent += '];\n';
 
 	const directChildrenContent = `const directChildren = ${JSON.stringify(directChildren)}\n`;
 	const indirectChildrenContent = `const indirectChildren = ${JSON.stringify(indirectChildren)}\n`;
@@ -147,6 +214,7 @@ export default function makeContent(
 	return {
 		type: 'file',
 		contents: `/* eslint-disable */
+import 'server-only';
 ${importContent}
 ${postsContent}
 ${childrenContent}

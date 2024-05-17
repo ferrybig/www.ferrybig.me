@@ -11,7 +11,7 @@ It is time to learn something new again, his time it is the VPN solution Wiregua
 Wireguard is based around a TUN network interface. This network interface has
 multiple properties:
 
-```
+```text
 #wg show wg0
 interface: wg0
   public key: jyhyusgqxdzT732wlJa7nQCMqUvQnpC//SUjCBAsniI=
@@ -67,7 +67,7 @@ AllowedIPs = 10.0.0.4/32
 
 Client 1:
 
-```
+```text
 [Interface]
 Address = 10.0.0.2/24
 ListenPort = 51820

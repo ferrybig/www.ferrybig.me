@@ -1,51 +1,81 @@
 .root {
 	display: grid;
-	grid-template-columns: 256px 1fr;
-	grid-template-rows: auto 1fr 96px auto;
+	grid-template:
+		"info-me content" auto
+		"info-post content" auto
+		"toc content" 96px
+		"toc content" auto
+		"toc children" 1fr
+		"toc comments" auto
+		"toc moreReading" auto
+		/ 256px 1fr;
 	padding: 0 64px;
-	gap: 16px;
+	column-gap: 16px;
 	align-items: flex-start;
+}
+.rootShort {
+	composes: root;
+	grid-template:
+		"info-me right" auto
+		"info-post right" auto
+		"toc right" 1fr
+		"toc moreReading" auto
+		/ 256px 1fr;
+
 }
 .displayContent {
 	display: contents;
 }
 .moreReading {
-	grid-row: 3 / span 2;
-	grid-column: 1;
-	align-self: stretch;
+	grid-area: moreReading;
 }
-.info {
-	grid-row: 1 / span 2;
-	grid-column: 1;
-	align-self: stretch;
+.children {
+	grid-area: children;
+}
+.comments {
+	grid-area: comments;
 }
 .meInfo {
 	padding-top: 32px;
+	grid-area: info-me;
 }
-.content {
-	grid-row: 1 / span 3;
-	grid-column: 2;
+.postInfo {
+	grid-area: info-post;
+}
+.tocWrapper {
+	grid-area: toc;
+	align-self: stretch;
+}
+.markdown {
+	grid-area: content;
 	min-width: 0;
+	align-self: stretch;
 }
-.comments {
-	grid-row: 4;
-	grid-column: 2;
+.rightSide {
+	display: contents;
+}
+.rootShort .rightSide{
+	grid-area: right;
+	display: initial;
+}
+.last {
+	grid-area: last;
 }
 .hero {
 	margin: 0 -16px 16px;
-	aspect-ratio: 16/9;
+	aspect-ratio: 32/9;
 	border-top-left-radius: 8px;
 	border-top-right-radius: 8px;
 	background-position: center;
 	background-size: cover;
+	background-color: gray;
 	display: block;
 	position: relative;
 	line-height: 0;
 }
-.hero img {
+.hero.hero img {
 	border-top-left-radius: 8px;
 	border-top-right-radius: 8px;
-	backdrop-filter: blur(16px);
 	width: 100%;
 	height: 100%;
 	object-fit: contain;
@@ -122,47 +152,3 @@
 	height: auto;
 }
 
-.heading {
-	position: relative;
-}
-
-.link {
-	position: absolute;
-	opacity: 0;
-	background: url(../../assets/link.svg);
-	width: 16px;
-	height: 16px;
-	top: calc(50%);
-	right: 100%;
-	transform: translateY(-50%);
-}
-
-.heading:hover .link,
-.link:focus {
-	opacity: 1;
-}
-
-.markdown h1 {
-	margin: 16px 0;
-	font-size: 2.5em;
-}
-
-.markdown h2 {
-	margin: 14px 0;
-}
-
-.markdown h3 {
-	margin: 10px 0;
-}
-
-.markdown h4 {
-	margin: 7px 0;
-}
-
-.markdown h5 {
-	margin: 4px 0;
-}
-
-.markdown h6 {
-	margin: 2px 0;
-}

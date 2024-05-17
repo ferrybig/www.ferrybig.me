@@ -5,31 +5,46 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "build": "tsc",
-    "dev": "tsc && node out/main.js"
+    "build": "tsc && node out/main.js build",
+    "dev": "tsc-watch --preserveWatchOutput --onSuccess \"node out/main.js watch\"",
+    "compiler-build": "tsc",
+    "compiler-run": "node out/main.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "bin": "out/main.js",
   "dependencies": {
+    "@hbsnow/rehype-sectionize": "^1.0.7",
     "@mdx-js/mdx": "^3.0.1",
     "@types/proper-lockfile": "^4.1.4",
     "chokidar": "^3.6.0",
     "colors": "^1.4.0",
+    "github-slugger": "^2.0.0",
     "gray-matter": "^4.0.3",
-    "install": "^0.13.0",
+    "image-size": "^1.1.1",
     "mdast-util-from-markdown": "^2.0.0",
     "mdast-util-to-string": "^4.0.0",
-    "npm": "^10.5.0",
     "proper-lockfile": "^4.1.2",
+    "rehype-accessible-emojis": "^0.3.2",
+    "rehype-autolink-headings": "^7.1.0",
+    "rehype-minify-whitespace": "^6.0.0",
+    "rehype-pretty-code": "^0.13.1",
+    "rehype-slug": "^6.0.0",
     "rehype-truncate": "^1.2.2",
     "remark-gfm": "^3.0.1",
+    "remark-parse": "^10.0.2",
+    "remark-smartypants": "^3.0.1",
     "zod": "^3.23.6"
   },
   "overrides": {
-    "remark-parse": "^10.0.0",
     "mdast-util-from-markdown": "^2.0.0",
     "mdast-util-gfm-table": "^2.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.12.11",
+    "@types/react": "^18.3.2",
+    "tsc-watch": "^6.2.0",
+    "typescript": "^5.4.5"
   }
 }

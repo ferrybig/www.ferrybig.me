@@ -14,13 +14,13 @@ interface PreviouslyGeneratedFiles {
 
 function printFileStatus(outputDir: string, file: string, status: 'delete' | 'update' | 'create' | 'no-change') {
 	if (status === 'delete') {
-		console.log(colors.red('- ' + join(outputDir, file)));
+		console.log(colors.red('D ' + join(outputDir, file)));
 	} else if (status === 'update') {
-		console.log('  ' + join(outputDir, file));
+		console.log('U ' + join(outputDir, file));
 	} else if (status === 'create') {
-		console.log(colors.green('+ ' + join(outputDir, file)));
+		console.log(colors.green('C ' + join(outputDir, file)));
 	} else if (status === 'no-change') {
-		console.log(colors.gray('  ' + join(outputDir, file)));
+		console.log(colors.gray('= ' + join(outputDir, file)));
 	}
 }
 
@@ -37,9 +37,12 @@ async function clean(previousGeneratedFiles: PreviouslyGeneratedFiles[], {output
 }
 
 async function compile(previousGeneratedFiles: PreviouslyGeneratedFiles[], config: Config) {
+	console.log('Compiling...');
+	console.time('Compiled');
 	const generatedFiles = await transformFiles(config);
 	const newGeneratedFiles: PreviouslyGeneratedFiles[] = [];
 	const promises: Promise<void>[] = [];
+	let skippedFiles = 0;
 	for (const file of generatedFiles) {
 		const filePath = join(config.outputDir, file.file);
 		const newHash = createHash('sha256').update(file.contents).digest('hex');
@@ -55,7 +58,8 @@ async function compile(previousGeneratedFiles: PreviouslyGeneratedFiles[], confi
 			const [entry] = previousGeneratedFiles.splice(index, 1);
 			if (entry.hash === newHash) {
 				shouldOverwrite = false;
-				printFileStatus(config.outputDir, file.file, 'no-change');
+				//printFileStatus(config.outputDir, file.file, 'no-change');
+				skippedFiles++;
 			} else {
 				shouldOverwrite = true;
 				printFileStatus(config.outputDir, file.file, 'update');
@@ -76,8 +80,10 @@ async function compile(previousGeneratedFiles: PreviouslyGeneratedFiles[], confi
 		}
 	}
 	await Promise.all(promises);
+	console.log(colors.gray(skippedFiles + ' files skipped as no update was needed'));
 	await clean(previousGeneratedFiles, config);
 	previousGeneratedFiles.push(...newGeneratedFiles);
+	console.timeEnd('Compiled');
 }
 
 function setupWatcher({ inputDir }: Pick<Config, 'inputDir'>) {
@@ -150,7 +156,6 @@ async function markdownCompiler({ doClean, doCompile, doWatch, ...config }: Comp
 					await compile(previousGeneratedFiles, config);
 					const newGitIgnore = '# This is an generated file\n.gitignore\n' + previousGeneratedFiles.map(e => `# generated-file-hash: ${e.hash}\n${e.file}`).join('\n');
 					await fs.writeFile(join(config.outputDir, '.gitignore'), newGitIgnore);
-					console.log('Compilation done');
 				} while (await watcher?.await());
 			} finally {
 				await watcher?.close();

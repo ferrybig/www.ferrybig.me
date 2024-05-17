@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import Image from 'next/image';
+import Image from '@/_components/Image';
 import ThemeSwitcher from './ThemeSwitcher';
 /*
 import NavIcon from './NavIcon';
@@ -18,7 +18,7 @@ async function Nav() {
 	return (
 		<div className={classes.nav}>
 			<Link href="/" className={classes.pictureHolder}>
-				<Image src={face} width={128} height={128} alt="" className={classes.picture} loading="eager" referrerPolicy="same-origin"/>
+				<Image src={face} width={128} height={128} alt="" className={classes.picture} loading="eager" />
 			</Link>
 			<h1 className={classes.title}>Ferrybig&apos;s personal internet space</h1>
 			<div className={classes.icons}>
@@ -30,22 +30,17 @@ async function Nav() {
 			</div>
 			<nav className={classes.topics}>
 				<ul>
-					<li className={classes.topic}>
-						<NavLink href={'/'} activeClassName={classes.active}>
-							Home
-						</NavLink>
-					</li>
 					{tags.map(e => e.topicIndex! <= 0 ? null : (
 						<li className={classes.topic} key={e.slug}>
 							<NavLink href={`/${e.slug}`} activeClassName={classes.active}>
-								{e.title}
+								{e.linkTitle}
 							</NavLink>
 						</li>
 					))}
 					{tags.map(e => e.topicIndex! >= 0 ? null : (
 						<li className={classes.topicLast} key={e.slug}>
 							<NavLink href={`/${e.slug}`} activeClassName={classes.active}>
-								{e.title}
+								{e.linkTitle}
 							</NavLink>
 						</li>
 					))}

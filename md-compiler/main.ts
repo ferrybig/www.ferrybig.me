@@ -8,10 +8,11 @@ try {
 		articleWrapperPath: '../app/_components/ArticleWrapper',
 		miniumForFeedGeneration: 1,
 		defaultCommentStatus: 'open',
-		doClean: false,
+		doClean: process.argv.includes('clear'),
 		doCompile: true,
-		doWatch: false,
+		doWatch: process.argv.includes('watch'),
 	});
 } catch (e) {
 	console.error('An error happened',e);
+	process.exit(1);
 }

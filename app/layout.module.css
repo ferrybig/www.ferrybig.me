@@ -23,10 +23,10 @@
 }
 .barTop {
 	composes: bar;
-	border-bottom: 8px solid light-dark(#EEEEEE, #222222);
+	border-bottom: 8px solid light-dark(#FFFFFF, #111111);
 }
 .barBottom {
 	composes: bar;
-	border-top: 8px solid light-dark(#EEEEEE, #222222);
+	border-top: 8px solid light-dark(#FFFFFF, #111111);
 }
 

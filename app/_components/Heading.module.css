@@ -1,0 +1,39 @@
+h1.root {
+	margin: 16px 0;
+	font-size: 2.5em;
+}
+h2.root {
+	margin: 14px 0;
+}
+h3.root {
+	margin: 10px 0;
+}
+h4.root {
+	margin: 7px 0;
+}
+h5.root {
+	margin: 4px 0;
+}
+h6.root {
+	margin: 2px 0;
+}
+.withLink {
+	composes: root;
+	position: relative;
+}
+
+.withLink > a:first-child {
+	position: absolute;
+	opacity: 0;
+	background: url(../../assets/link.svg);
+	width: 16px;
+	height: 16px;
+	top: calc(50%);
+	right: 100%;
+	transform: translateY(-50%);
+}
+
+.withLink:hover > a:first-child,
+.withLink > a:first-child:focus {
+	opacity: 1;
+}

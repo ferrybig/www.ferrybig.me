@@ -9,11 +9,54 @@ export default async function generateStaticFiles(): Promise<CompileResultsSubTa
 			{
 				type: 'file',
 				file: 'content.d.ts',
-				contents: `import { StaticImageData } from 'next/image';
-${(await readFile(join(import.meta.dirname, '../../typesExport.ts'), 'utf8'))
-		.replace('readonly image: string', 'readonly image: StaticImageData')
-		.replace('readonly icon: string | null', 'readonly icon: StaticImageData | null')
+				contents: `import type { StaticImageData } from 'next/image';
+import type { ComponentType, ReactElement } from 'react';
+
+export interface TableOfContentsEntry {
+	readonly title: string,
+	readonly slug: string,
+	readonly lvl: number,
 }
+
+export interface MetaData {
+	readonly slug: string,
+	readonly date: string | null,
+	readonly color: string | null,
+	readonly icon: StaticImageData | null,
+	readonly updatedAt: string | null,
+	readonly topicIndex: number | null,
+	readonly tags: string[],
+	readonly title: string,
+	readonly childrenLayout: 'card' | 'list' | null,
+	readonly deprecated: boolean,
+	readonly commentStatus: 'open' | 'closed' | 'disabled',
+	readonly children: 'auto' | 'direct' | 'indirect',
+	readonly linkTitle: string,
+	readonly summary: string | null,
+	readonly excludeFromAll: boolean,
+	readonly excludeFromChildren: boolean,
+	readonly readingTimeMin: number,
+	readonly readingTimeMax: number,
+	readonly thumbnail: {
+		readonly alt: string | null,
+		readonly link: string | null,
+		readonly width: number | null,
+		readonly height: number | null,
+		readonly image: StaticImageData,
+		readonly embed: string | null,
+	} | null,
+}
+export interface ArticleWrapperProps {
+	slug: string,
+	id: number,
+	metadata: MetaData,
+	children: MetaData[],
+	feeds: boolean,
+	toc: TableOfContentsEntry[],
+	originalFile: string | null
+	factory: null | ((props: { components: Record<string, ComponentType<any>> }) => ReactElement),
+}
+
 export declare function getIdBySlug(slug: string): number;
 export declare function getChildren(id: number): MetaData[];
 export declare function getChildrenBySlug(slug: string): MetaData[];

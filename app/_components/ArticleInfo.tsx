@@ -1,24 +1,28 @@
-import { getMetadataBySlug } from '@/content';
 import classes from './ArticleInfo.module.css';
 import Date from './Date';
-import Link from 'next/link';
+import Share from './Share';
 import TagList from './TagList';
 import { CONTENT_FOLDER, GIT_BRANCH } from '@/metadata';
+
 interface ArticleInfo {
+	slug: string,
 	date: string | null,
 	tags: string[],
 	readingTimeMin: number,
 	readingTimeMax: number,
 	updatedAt: string | null,
 	originalFile: string | null,
+	feeds: boolean,
 }
 function ArticleInfo({
 	date,
 	tags,
+	slug,
 	readingTimeMin,
 	readingTimeMax,
 	updatedAt,
 	originalFile,
+	feeds,
 }: ArticleInfo) {
 	return (
 		<div className={classes.root}>
@@ -47,6 +51,13 @@ function ArticleInfo({
 				<a href={`https://github.com/ferrybig/www.ferrybig.me/commits/${GIT_BRANCH}${CONTENT_FOLDER}${originalFile}`}>View source</a>
 				{' '}
 				<a href={`https://github.com/ferrybig/www.ferrybig.me/edit/${GIT_BRANCH}${CONTENT_FOLDER}${originalFile}`}>Suggest edit</a>
+			</p>
+			<p className={classes.listItem}>
+				<Share slug={slug}/>
+				{feeds && <>
+					{' '}
+					<a href={'feed.rss.xml'}>Subscribe</a>
+				</>}
 			</p>
 			<TagList tags={tags}/>
 		</div>

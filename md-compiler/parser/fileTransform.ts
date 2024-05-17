@@ -4,7 +4,7 @@ import { unified } from 'unified';
 import {toString as nodeToText} from 'mdast-util-to-string';
 import matter from 'gray-matter';
 import remarkParse from 'remark-parse';
-import type {Root} from 'mdast';
+import type {Root, RootContent} from 'mdast';
 import type { CompileResults, CompileResultsArticle, CompileResultsSubTasks, Config } from '../types.js';
 import z from 'zod';
 import tableOfContents from './tableOfContents.js';
@@ -20,6 +20,8 @@ const ARTICLE_DATA = z.object({
 	excludeFromChildren: z.optional(z.boolean()).default(false),
 	deprecated: z.optional(z.boolean()).default(false),
 	commentStatus: z.optional(z.enum(['open', 'closed', 'disabled'])),
+	children: z.optional(z.enum(['auto', 'direct', 'indirect'])).default('auto'),
+	linkTitle: z.optional(z.string()),
 	date: z.optional(z.string()),
 	color: z.optional(z.string()),
 	icon: z.optional(z.string()),
@@ -36,6 +38,21 @@ const ARTICLE_DATA = z.object({
 	topicIndex: z.optional(z.number()),
 }).strict();
 
+function readSummary(tree: Root) {
+	for (const node of tree.children) {
+		if (node.type === 'paragraph') {
+			let text = nodeToText(node);
+			if (text.length > 200) {
+				const truncatedText = text.substring(0, 200);
+				const lastSpaceIndex = truncatedText.lastIndexOf(' ');
+				text = truncatedText.substring(0, lastSpaceIndex) + '…';
+			}
+			return text;
+		}
+	}
+	return null;
+}
+
 async function processFile(paths: string[], config: Config): Promise<CompileResultsArticle> {
 	const filename = join(config.inputDir, ...paths);
 	try {
@@ -49,7 +66,7 @@ async function processFile(paths: string[], config: Config): Promise<CompileResu
 		const data = ARTICLE_DATA.parse(rawData);
 
 		const tree = unified()
-			.use(remarkParse)
+			.use(remarkParse as any) // todo fix this
 			.parse(content) as Root;
 		const tableOfContent = tableOfContents(tree, Infinity);
 		// Note, the following is buggy as it does not account for the fact that some HTML elements add newlines between them.
@@ -60,7 +77,7 @@ async function processFile(paths: string[], config: Config): Promise<CompileResu
 		const withoutLast = dirname(originalPath);
 		const last = originalPath.substring(withoutLast.length + 1);
 		const lastWithoutExtension = last.substring(0, last.length - 3);
-		const path = withoutLast + '/' + (lastWithoutExtension === 'index' ? 'page.js' : lastWithoutExtension + '/page.js');
+		const path = originalPath === 'index.md' ? 'page.js' : (withoutLast + '/' + (lastWithoutExtension === 'index' ? 'page.js' : lastWithoutExtension + '/page.js'));
 
 		const slug = path.split('/').slice(0, -1).join('/');
 
@@ -98,6 +115,7 @@ async function processFile(paths: string[], config: Config): Promise<CompileResu
 				date: data.date ?? null,
 				deprecated: data.deprecated,
 				commentStatus: data.commentStatus ?? config.defaultCommentStatus,
+				children: data.children,
 				tags,
 				readingTimeMax: Math.max(Math.ceil(wordCount / 200), 1),
 				readingTimeMin: Math.max(Math.floor(wordCount / 228), 1),
@@ -107,12 +125,14 @@ async function processFile(paths: string[], config: Config): Promise<CompileResu
 					height: thumbnail?.height ?? null,
 					width: thumbnail?.width ?? null,
 					embed: thumbnail?.embed ?? null,
-					link: thumbnail?.link ? join(dirname(filename), thumbnail.link) : null,
+					link: thumbnail?.link ? thumbnail.link : null,
 				} : null,
 				excludeFromAll: data.excludeFromAll,
 				excludeFromChildren: data.excludeFromChildren,
 				title: tableOfContent[0]?.title ?? path.split('/').slice(0, -1).join('/'),
+				linkTitle: data.linkTitle ?? tableOfContent[0]?.title ?? path.split('/').slice(0, -1).join('/'),
 				updatedAt: new Date((await stat(filename)).mtimeMs).toISOString(),
+				summary: readSummary(tree),
 				childrenLayout: data.childrenLayout ?? null,
 				topicIndex: data.topicIndex ?? null,
 				color: data.color ?? null,
