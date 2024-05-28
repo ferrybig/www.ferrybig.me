@@ -1,4 +1,4 @@
-import classNames from 'classnames';
+import classNames from 'clsx';
 import classes from './Column.module.css';
 import { ReactNode } from 'react';
 interface Column {

@@ -1,12 +1,16 @@
 {
   "compilerOptions": {
-    "lib": ["dom", "dom.iterable", "esnext"],
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
     "allowJs": true,
-	"checkJs": false,
+    "checkJs": false,
     "skipLibCheck": true,
     "strict": true,
     "noEmit": true,
-	"exactOptionalPropertyTypes": true,
+    "exactOptionalPropertyTypes": true,
     "esModuleInterop": true,
     "module": "esnext",
     "moduleResolution": "bundler",
@@ -20,10 +24,23 @@
       }
     ],
     "paths": {
-		"@/*": ["./app/*"],
-		"@assets/*": ["./assets/*"]
-    }
+      "@/*": [
+        "./app/*"
+      ],
+      "@assets/*": [
+        "./assets/*"
+      ]
+    },
+    "target": "ES2017"
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
-  "exclude": ["node_modules", "md-compiler"]
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    ".next/types/**/*.ts"
+, "app/comments.json/route.js"  ],
+  "exclude": [
+    "node_modules",
+    "md-compiler"
+  ]
 }

@@ -5,21 +5,32 @@
   "scripts": {
     "dev": "concurrently -n NextJS,Markdown -c green,blue --kill-others \"npm run --silent dev-frontend\" \"cd md-compiler && npm --silent run dev\"",
     "dev-frontend": "next dev -p 2999",
-    "build": "next build",
+    "build": "cd md-compiler && npm --silent run build && cd .. && npm --silent run build-frontend",
+    "build-frontend": "next build",
     "build-via-docker": "rm -fr out && docker build -t www.ferrybig.me:files --target export . -o out",
-    "start": "serve out -p 2999",
+    "start-frontend": "serve out -p 2999",
+    "start": "docker build -t www.ferrybig.me:server --target server . && docker --rm --name www.ferrybig.me --publish 2999:2999 www.ferrybig.me:server",
     "lint": "next lint",
     "tsc": "tsc --noEmit",
     "clean": "find app -name '*.js' -delete && rm -rf out md-compiler/out md-compiler/.tsbuildinfo app/.gitignore app/content.d.ts"
   },
   "dependencies": {
     "@giscus/react": "^3.0.0",
-    "classnames": "^2.5.1",
+    "babel-plugin-react-compiler": "^0.0.0-experimental-592953e-20240517",
+    "clsx": "^2.1.1",
+    "eslint-plugin-react-compiler": "^0.0.0-experimental-c8b3f72-20240517",
     "feed": "^4.2.2",
-    "next": "^14.2.3",
-    "react": "^18.3.1",
-    "react-dom": "^18.3.1",
+    "next": "^14.3.0-canary.78",
+    "postcss-combine-media-query": "^1.0.1",
+    "react": "19.0.0-rc-f994737d14-20240522",
+    "react-dom": "19.0.0-rc-f994737d14-20240522",
     "sharp": "^0.33.2"
+  },
+  "overrides": {
+    "@giscus/react": {
+      "react": "^19.0.0-rc-f994737d14-20240522",
+      "react-dom": "^19.0.0-rc-f994737d14-20240522"
+    }
   },
   "devDependencies": {
     "@types/node": "^20",

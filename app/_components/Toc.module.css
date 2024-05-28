@@ -3,6 +3,7 @@
 	margin: 4px 0 0 8px;
 	overflow: auto;
 	position: relative;
+	flex: 1;
 }
 .title {
 	composes: sidebarTitle from '../common.module.css';
@@ -23,12 +24,9 @@
 	bottom: calc(9px + 20px * var(--reduceDepth, 0));
 	background: light-dark(rgba(14, 23, 41, 0.5), rgba(127, 127, 127, 0.5));
 }
-
 .listRoot {
 	composes: list;
 }
-
-
 .listItem {
 	position: relative;
 }
@@ -40,4 +38,7 @@
 	width: 8px;
 	height: 2px;
 	background: light-dark(rgba(14, 23, 41, 0.5), rgba(127, 127, 127, 0.5));
+}
+.listItem:has(> .linkActive)::after {
+	background-image: linear-gradient(to right, #99000000, #990000);
 }

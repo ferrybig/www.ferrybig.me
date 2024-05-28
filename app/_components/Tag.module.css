@@ -1,12 +1,16 @@
 .root {
 	border: 1px solid currentColor;
-	padding: 1px 1px;
+	padding: 0 4px;
 	color: inherit;
-	border-radius: 2px;
+	border-radius: 4px;
 	text-decoration: none;
 	display: inline-block;
-	background-color: rgba(160, 160, 160, 0.3);
+	background-color: rgba(160, 160, 160, 0.1);
 }
 .root:hover {
-	background-color: rgba(160, 160, 160, 0.6);
+	background-color: rgba(160, 160, 160, 0.3);
+}
+.root img {
+	vertical-align: middle;
+	margin-top: -1px;
 }

@@ -34,7 +34,9 @@ export function generateMetadata() {
 }
 export default function GeneratedPage() {
 	return jsx
-}`;
+}
+export const dynamic = "force-static"
+`;
 }
 
 export function makeGeneratedFeed(format: string, slug: string | null, {articleWrapperPath, outputDir}: Config) {
@@ -48,5 +50,7 @@ ${slug ?
 
 export function GET() {
 	return generateFeed(metadata, children, ${JSON.stringify(format)});
-}`;
+}
+export const dynamic = "force-static"
+`;
 }

@@ -7,12 +7,13 @@ interface NavLink {
 	href: string,
 	children: ReactNode,
 	activeClassName: string,
+	activePages: string[],
 }
-function NavLink({href, children, activeClassName}: NavLink) {
+function NavLink({href, children, activeClassName, activePages}: NavLink) {
 	const pathname = usePathname();
-	const active = pathname.startsWith(href + '/') || pathname === href;
+	const active = activePages.includes(pathname);
 	return (
-		<Link className={active ? activeClassName : undefined} href={href} aria-current={pathname === href}>
+		<Link className={active ? activeClassName : undefined} href={href} aria-current={pathname === href} prefetch={false}>
 			{children}
 		</Link>
 	);

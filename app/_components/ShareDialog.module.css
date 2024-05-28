@@ -28,7 +28,7 @@
 }
 
 .webShareContainer {
-    max-width: 286px;
+    max-width: 366px;
     width: 100%;
     box-sizing: border-box;
     margin: 0 auto 8px;
@@ -58,6 +58,7 @@
     color: black !important;
     cursor: pointer;
     width: 64px;
+	text-align: center;
 }
 
 .webShareItem img {
@@ -73,6 +74,9 @@
     margin: 0 auto;
 }
 
+.webShareItem span {
+	display: block;
+}
 
 .webShareItemDesc {
     text-align: center;

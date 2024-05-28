@@ -1,7 +1,7 @@
 import { TableOfContentsEntry } from '@/content';
 import classes from './Toc.module.css';
 import TocLink from './TocLink';
-import { CSSProperties } from 'react';
+import { CSSProperties, useMemo } from 'react';
 
 interface Leaf {
 	index: number,
@@ -73,7 +73,7 @@ interface Toc {
 	id?: string | undefined
 }
 function Toc ({entries, id}: Toc) {
-	const leafs = buildLeafTree(entries);
+	const leafs = useMemo(() => buildLeafTree(entries), [entries]);
 	return (
 		<nav id={id} className={classes.root}>
 			<h2 className={classes.title}>Table of contents</h2>

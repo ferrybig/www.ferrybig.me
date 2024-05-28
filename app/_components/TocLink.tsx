@@ -22,7 +22,7 @@ function checkLastIsSlug(linkIndex: number) {
 let observer: IntersectionObserver | null = null;
 const elementToIndexMap = new WeakMap<Element, (isIntersecting: boolean) => void>();
 function observeParent(slug: string, index: number) {
-	const element = document.getElementById(slug)?.parentElement;
+	const element = document.getElementById(slug)?.closest('section,footer,article,header');
 	if (!element) return;
 	if (observer == null) {
 		observer = new IntersectionObserver((entries) => {
@@ -30,7 +30,7 @@ function observeParent(slug: string, index: number) {
 				elementToIndexMap.get(target)?.(isIntersecting);
 			}
 		}, {
-			rootMargin: '16px 0px -99% 0px',
+			rootMargin: '16px 0px -97% 0px',
 			threshold: 0,
 		});
 	}

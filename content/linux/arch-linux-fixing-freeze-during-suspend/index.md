@@ -1,11 +1,11 @@
 ---
 date: "2024-03-06"
-tags: ['linux', 'sleep', 'systemd']
+tags: ['tech', 'linux', 'sleep', 'systemd']
 ---
 
 # Arch Linux fixing freeze during suspend
 
-One issue I encountered using Arch Linux, is that after some recent upgrade the system would freeze if it would go into sleep mode. This was quite annoying as it would mea you lost all your work.
+One issue I encountered while using Arch Linux is that after some recent upgrade, the system would freeze if it went into sleep mode, which was quite annoying as it would result in the loss of all your work.
 
 With some detective work, I looked into the logs from the previous boot to see what was happening:
 

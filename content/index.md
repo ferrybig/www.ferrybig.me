@@ -2,7 +2,7 @@
 childrenLayout: "card"
 topicIndex: 1
 linkTitle: Home
-children: indirect
+children: content
 ---
 # My website
 

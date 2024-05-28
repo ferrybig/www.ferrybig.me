@@ -20,7 +20,7 @@ const ARTICLE_DATA = z.object({
 	excludeFromChildren: z.optional(z.boolean()).default(false),
 	deprecated: z.optional(z.boolean()).default(false),
 	commentStatus: z.optional(z.enum(['open', 'closed', 'disabled'])),
-	children: z.optional(z.enum(['auto', 'direct', 'indirect'])).default('auto'),
+	children: z.optional(z.enum(['auto', 'root', 'content'])).default('auto'),
 	linkTitle: z.optional(z.string()),
 	date: z.optional(z.string()),
 	color: z.optional(z.string()),
@@ -38,19 +38,26 @@ const ARTICLE_DATA = z.object({
 	topicIndex: z.optional(z.number()),
 }).strict();
 
+const MAX_SUMMARY_LENGTH = 400;
+
 function readSummary(tree: Root) {
-	for (const node of tree.children) {
-		if (node.type === 'paragraph') {
-			let text = nodeToText(node);
-			if (text.length > 200) {
-				const truncatedText = text.substring(0, 200);
-				const lastSpaceIndex = truncatedText.lastIndexOf(' ');
-				text = truncatedText.substring(0, lastSpaceIndex) + '…';
-			}
-			return text;
-		}
+	let text = '';
+	for (let i = 0; i < tree.children.length && text.length < MAX_SUMMARY_LENGTH; i++) {
+		if (tree.children[i].type === 'heading') continue;
+		if (tree.children[i].type !== 'paragraph' && tree.children[i].type !== 'text') break;
+		text += nodeToText(tree.children[i]) + ' ';
 	}
-	return null;
+	if (!text) {
+		return null;
+	}
+	const shouldCut = text.length > MAX_SUMMARY_LENGTH;
+	if (shouldCut) {
+		const lastSpaceIndex = text.lastIndexOf(' ', MAX_SUMMARY_LENGTH);
+		text = text.substring(0, lastSpaceIndex === -1 ? MAX_SUMMARY_LENGTH : lastSpaceIndex);
+		text = text[text.length - 1] === '.' ? text.substring(0, text.length - 1) : text;
+		text += '…';
+	}
+	return text;
 }
 
 async function processFile(paths: string[], config: Config): Promise<CompileResultsArticle> {
@@ -96,7 +103,7 @@ async function processFile(paths: string[], config: Config): Promise<CompileResu
 		const parentTag = path.split('/').slice(0, -2).join('/');
 		if (parentTag) {
 			const index = tags.indexOf(parentTag);
-			if (index != 0) {
+			if (index < 0) {
 				if (index > 0) tags.splice(index, 1);
 				tags.unshift(parentTag);
 			}
@@ -136,7 +143,7 @@ async function processFile(paths: string[], config: Config): Promise<CompileResu
 				childrenLayout: data.childrenLayout ?? null,
 				topicIndex: data.topicIndex ?? null,
 				color: data.color ?? null,
-				icon: data.icon ?? null,
+				icon: data.icon ? join(dirname(filename), data.icon) : null,
 			},
 		};
 	} catch (e) {

@@ -2,16 +2,18 @@
 	padding: 0 64px;
 	column-gap: 16px;
 	display: grid;
-	grid-template-columns: 256px 1fr auto;
-	grid-template-rows: 50% 50%;
+	grid-template:
+		"logo title icons" 48px
+		"logo topics topics" 48px
+		/ 256px 1fr auto;
 	justify-content: center;
-	height: 100%;
 }
 .pictureHolder {
 	justify-self: center;
-	grid-row: 1 / span 2;
+	grid-area: logo;
 	align-self: end;
 	height: 96px;
+	font-size: 0;
 }
 .picture {
 	border-radius: 50%;
@@ -21,6 +23,7 @@
 }
 .title {
 	margin: 0;
+	grid-area: title;
 }
 .spacer {
 	width: 8px;
@@ -29,7 +32,8 @@
 	display: flex;
 	gap: 4px;
 	align-self: center;
-	font-size: 0;;
+	font-size: 0;
+	grid-area: icons;
 }
 .icons::after {
 	content: '';
@@ -37,7 +41,7 @@
 }
 .topics {
 	align-self: flex-end;
-	grid-column: 2 / span 2;
+	grid-area: topics;
 	margin-bottom: 8px;
 }
 .topics ul {
@@ -71,4 +75,66 @@
 }
 .active.active {
 	border-bottom: 4px solid #EEEEEE;
+}
+@media screen and (max-width: 1280px) {
+	.nav {
+		padding: 0 16px;
+	}
+}
+@media screen and (max-width: 1024px) {
+	.nav {
+		grid-template:
+			"title title title" 48px
+			"logo _ _" 48px
+			"logo topics icons" 48px
+			/ 256px 1fr auto;
+	}
+	.title {
+		justify-self: center;
+	}
+}
+@media screen and (max-width: 768px) {
+	.nav {
+		grid-template:
+			"title title" auto
+			"topics topics" auto
+			"logo icons" 96px
+			/ 256px 1fr;
+	}
+	.title {
+		text-align: center;
+	}
+	.topics {
+		justify-self: center;
+	}
+	.icons {
+		justify-self: flex-end;
+		align-self: flex-end;
+	}
+}
+@media screen and (max-width: 480px) {
+	.nav {
+		grid-template:
+			"title" auto
+			"topics" auto
+			"logo" 96px
+			/ 1fr;
+	}
+	.icons {
+		grid-area: logo;
+	}
+	.topics {
+		justify-self: stretch;
+	}
+	.topics ul {
+		display: block;
+	}
+	.topic a {
+		display: block;
+		height: 40px;
+		box-sizing: border-box;
+	}
+	.topics ul::after {
+		content: initial;
+	}
 }

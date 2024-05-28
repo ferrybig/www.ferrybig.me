@@ -1,6 +1,6 @@
 import { MouseEventHandler } from 'react';
 import classes from './NavIcon.module.css';
-import Image, { StaticImageData } from '@/_components/Image';
+import { StaticImageData } from '@/_components/Image';
 interface NavIcon {
 	onClick?: MouseEventHandler | undefined,
 	href?: string | undefined,
@@ -14,12 +14,13 @@ interface NavIcon {
 function NavIcon({href, onClick, alt, src, active, title, small}: NavIcon) {
 	const size = small ? 24 : 32;
 	const img = (
-
-		<Image
+		// eslint-disable-next-line react/forbid-elements
+		<img
 			width={size}
 			height={size}
-			src={src}
+			src={src.src}
 			alt={alt}
+			fetchPriority="low"
 		/>
 	);
 	if (onClick) {

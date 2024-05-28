@@ -72,21 +72,21 @@ This project was never finished and the funding dried up.
 
 This tool uses a geographic calculation to calculate the forces on mooring lines that ships experienced during multiple wind and water flow conditions, this helped to see if the configurations were within the safe operation limits of the equipment. 
 
-###### The website v3
+##### The Competa website v3
 
 This was a website version written with NextJS. I joined the project pretty late, which meant I was not responsible for making chooses in this project. Even with this setback, we still made a good looking website.
 
-###### The website v1
+##### The Competa website v1
 
 This was an version of their website written with wordpress. It allowed people to make blog posts and had a few animations here and there. A tricky part of this website was triangle borders between the components, which never worked great when you were zoomed in.
 
-###### Trainee project
+##### Trainee education project
 
 One thing I really enjoy is sharing knowledge. I ran projects to train up other people starting from the near basics till they have more experience to go on projects. This usually started with the HTML basics, then introduced ReactJS and other higher level frameworks.
 
 Teaching other people requires patience and knowledge of the work itself. This was quite fun to do.
 
-###### Fair Trade Software Foundation
+##### Fair Trade Software Foundation
 
 ![Fair trade software foundation logo](fair-trade-software-foundation-logo.png)
 

@@ -30,7 +30,7 @@ export interface MetaData {
 	readonly childrenLayout: 'card' | 'list' | null,
 	readonly deprecated: boolean,
 	readonly commentStatus: 'open' | 'closed' | 'disabled',
-	readonly children: 'auto' | 'direct' | 'indirect',
+	readonly children: 'auto' | 'root' | 'content',
 	readonly linkTitle: string,
 	readonly summary: string | null,
 	readonly excludeFromAll: boolean,
@@ -64,8 +64,8 @@ export declare function getMetadata(id: number): MetaData;
 export declare function getMetadataBySlug(slug: string): MetaData;
 export declare function hasFeeds(id: number): boolean;
 export declare function hasFeedsBySlug(slug: string): boolean;
-export declare function getDirectChildren(): MetaData[];
-export declare function getIndirectChildren(): MetaData[];
+export declare function getRootChildren(): MetaData[];
+export declare function getContentChildren(): (MetaData & { date: string })[];
 export declare function getTopicChildren(): MetaData[];
 export declare function getAllPosts(): readonly MetaData[];
 `,
@@ -73,13 +73,15 @@ export declare function getAllPosts(): readonly MetaData[];
 			{
 				type: 'file',
 				file: 'comments.json/route.js',
-				contents: `import { getAllPosts } from '../content';
+				contents: `/* eslint-disable */
+import { getAllPosts } from '../content';
 export function GET() {
 	return new Response (
 		JSON.stringify(getAllPosts().filter(({ commentStatus }) => commentStatus !== 'disabled').map(({ slug, commentStatus }) => ({ url: slug, status: commentStatus }))),
 		{headers: {'Content-Type': 'application/json'}}
 	);
 }
+export const dynamic = "force-static";
 `,
 			},
 		],

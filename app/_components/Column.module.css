@@ -143,3 +143,21 @@
 .flattenTop.sticky {
 	top: 0;
 }
+
+@media screen and (max-width: 1280px) {
+	.attachedRight::before,
+	.attachedRight::after,
+	.attachedRight > .styleHelper {
+		display: none;
+	}
+	.attachedRight {
+		border-top-right-radius: 8px;
+		border-bottom-right-radius: 8px;
+	}
+}
+@media screen and (max-width: 480px) {
+	.attachedTop::before,
+	.attachedTop::after {
+		width: 16px;
+	}
+}

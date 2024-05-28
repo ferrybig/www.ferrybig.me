@@ -15,7 +15,6 @@
 .bar {
 	flex-grow: 0;
 	flex-shrink: 0;
-	height: 96px;
 	background-color: light-dark(rgb(14, 23, 41), black);
 	color: #EEEEEE;
 	position: relative;
@@ -24,9 +23,11 @@
 .barTop {
 	composes: bar;
 	border-bottom: 8px solid light-dark(#FFFFFF, #111111);
+	margin-bottom: 16px;
 }
 .barBottom {
 	composes: bar;
 	border-top: 8px solid light-dark(#FFFFFF, #111111);
+	height: 96px;
 }
 

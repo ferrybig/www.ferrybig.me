@@ -11,6 +11,7 @@
 }
 .linkActive {
 	composes: link;
+	composes: linkActive from './Toc.module.css';
 	color: #990000;
 }
 .link:hover {

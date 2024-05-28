@@ -11,3 +11,4 @@ export function GET() {
 </browserconfig>
 `, { headers: { 'Content-Type': 'application/xml' } });
 }
+export const dynamic = 'force-static';

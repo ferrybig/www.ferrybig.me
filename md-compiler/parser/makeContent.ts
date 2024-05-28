@@ -77,8 +77,8 @@ export default function makeContent(
 	const children: number[][] = [];
 	const topicIndex: number[] = [];
 	const slugMap = new Map<string, number>();
-	const directChildren: number[] = [];
-	const indirectChildren: number[] = [];
+	const rootChildren: number[] = [];
+	const contentChildren: number[] = [];
 	for (let i = 0; i < articles.length; i++) {
 		const article = articles[i];
 		children.push([]);
@@ -100,10 +100,11 @@ export default function makeContent(
 			}
 		}
 		if (!article.metadata.excludeFromAll) {
-			if (article.metadata.slug.includes('/')) {
-				indirectChildren.push(i);
-			} else {
-				directChildren.push(i);
+			if (article.metadata.tags.length === 0) {
+				rootChildren.push(i);
+			}
+			if (article.metadata.date !== null) {
+				contentChildren.push(i);
 			}
 		}
 	}
@@ -111,8 +112,8 @@ export default function makeContent(
 	for (let i = 0; i < articles.length; i++) {
 		const childrenType = articles[i].metadata.children;
 		children[i] =
-			childrenType === 'direct' ? directChildren.slice() :
-			childrenType === 'indirect' ? indirectChildren.slice() :
+			childrenType === 'root' ? rootChildren.slice() :
+			childrenType === 'content' ? contentChildren.slice() :
 			childrenType === 'auto' ? children[i]  :
 			assertNever(childrenType);
 	}
@@ -148,10 +149,10 @@ export default function makeContent(
 		comparing((e: CompileResultsArticle) => e.metadata.title),
 		comparing((e: CompileResultsArticle) => e.metadata.slug),
 	];
-	directChildren.sort(arrayMappedSort(articles, comparingChain(
+	rootChildren.sort(arrayMappedSort(articles, comparingChain(
 		...defaultSort
 	)));
-	indirectChildren.sort(arrayMappedSort(articles, comparingChain(
+	contentChildren.sort(arrayMappedSort(articles, comparingChain(
 		...defaultSort
 	)));
 	topicIndex.sort(arrayMappedSort(articles, comparingChain(
@@ -184,8 +185,8 @@ export default function makeContent(
 	}
 	postsContent += '];\n';
 
-	const directChildrenContent = `const directChildren = ${JSON.stringify(directChildren)}\n`;
-	const indirectChildrenContent = `const indirectChildren = ${JSON.stringify(indirectChildren)}\n`;
+	const rootChildrenContent = `const rootChildren = ${JSON.stringify(rootChildren)}\n`;
+	const contentChildrenContent = `const contentChildren = ${JSON.stringify(contentChildren)}\n`;
 	const topicIndexContent = `const topicIndex = ${JSON.stringify(topicIndex)}\n`;
 
 	let slugMapContent = 'const slugMap = {\n';
@@ -219,8 +220,8 @@ ${importContent}
 ${postsContent}
 ${childrenContent}
 ${slugMapContent}
-${directChildrenContent}
-${indirectChildrenContent}
+${rootChildrenContent}
+${contentChildrenContent}
 ${topicIndexContent}
 const miniumForFeedGeneration = ${miniumForFeedGeneration};
 export function getIdBySlug(slug) {
@@ -252,11 +253,11 @@ export function hasFeedsBySlug(slug) {
 	return hasFeeds(id);
 }
 
-export function getDirectChildren() {
-	return directChildren.map(i => posts[i]);
+export function getRootChildren() {
+	return rootChildren.map(i => posts[i]);
 }
-export function getIndirectChildren() {
-	return indirectChildren.map(i => posts[i]);
+export function getContentChildren() {
+	return contentChildren.map(i => posts[i]);
 }
 export function getTopicChildren() {
 	return topicIndex.map(i => posts[i]);

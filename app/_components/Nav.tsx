@@ -11,6 +11,7 @@ import face from '@assets/face.png';
 import classes from './Nav.module.css';
 import NavLink from './NavLink';
 import { getTopicChildren } from '@/content';
+import {getAllPosts} from '@/content';
 
 async function Nav() {
 	const tags = getTopicChildren();
@@ -30,16 +31,13 @@ async function Nav() {
 			</div>
 			<nav className={classes.topics}>
 				<ul>
-					{tags.map(e => e.topicIndex! <= 0 ? null : (
-						<li className={classes.topic} key={e.slug}>
-							<NavLink href={`/${e.slug}`} activeClassName={classes.active}>
-								{e.linkTitle}
-							</NavLink>
-						</li>
-					))}
-					{tags.map(e => e.topicIndex! >= 0 ? null : (
-						<li className={classes.topicLast} key={e.slug}>
-							<NavLink href={`/${e.slug}`} activeClassName={classes.active}>
+					{tags.map(e => (
+						<li className={e.topicIndex! >= 0 ? classes.topic : classes.topicLast} key={e.slug}>
+							<NavLink
+								href={`/${e.slug}`}
+								activeClassName={classes.active}
+								activePages={getAllPosts().filter(a => a.slug === e.slug || a.tags.includes(e.slug)).map(a => '/' + a.slug).sort()}
+							>
 								{e.linkTitle}
 							</NavLink>
 						</li>

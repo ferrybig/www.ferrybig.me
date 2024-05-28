@@ -1,7 +1,14 @@
-/* eslint-disable */
+export default function setupGoatCounter(settings) {
+	const newWindow = { ...window, goatcounter: { ...settings } };
+	const goatcounter = newWindow.goatcounter;
+	(() => {
+		const window = newWindow;
+
+		/* eslint-disable */
 // GoatCounter: https://www.goatcounter.com
 // This file is released under the ISC license: https://opensource.org/licenses/ISC
 ;(function() {
+
 	'use strict';
 
 	if (window.goatcounter && window.goatcounter.vars)  // Compatibility with very old version; do not use.
@@ -253,4 +260,8 @@
 				goatcounter.bind_events()
 		})
 })();
-export default window.goatcounter;
+
+		/* eslint-enable */
+	})();
+	return goatcounter;
+}

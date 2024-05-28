@@ -16,14 +16,20 @@ block-all-mixed-content;
 /** @type {import('next').NextConfig} */
 const nextConfig = {
 	output: 'export',
+	reactStrictMode: true,
 	images: {
 		unoptimized: true,
 	},
+	productionBrowserSourceMaps: true,
 	eslint: {
 		ignoreDuringBuilds: process.env.IGNORE_ERRORS === 'true',
 	},
 	typescript: {
 		ignoreBuildErrors: process.env.IGNORE_ERRORS === 'true',
+	},
+	experimental: {
+		reactCompiler: true,
+		gzipSize: false,
 	},
 	async headers() {
 		return [

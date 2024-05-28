@@ -9,8 +9,8 @@ function Tag({ slug }: Tag) {
 	const { linkTitle, color, icon } = getMetadataBySlug(slug);
 	return (
 		<Link href={'/' + slug} className={classes[color ?? 'root']} >
-			{icon && <Image src={icon} width={16} height={16} alt="" className={classes.icon}/>}
-			{linkTitle}
+			{icon && <Image src={icon} width={16} height={16} alt="" className={classes.icon} fetchPriority="low"/>}
+			{linkTitle.toLowerCase()}
 		</Link>
 	);
 }

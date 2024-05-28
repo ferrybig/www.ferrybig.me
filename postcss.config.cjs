@@ -16,5 +16,6 @@ module.exports = {
 			},
 		],
 		'./postcssLightDarkPolyfill.cjs',
+		'postcss-combine-media-query',
 	],
 };

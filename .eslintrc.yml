@@ -11,7 +11,10 @@ ignorePatterns:
 parser: "@typescript-eslint/parser"
 plugins:
   - "@typescript-eslint"
+  - 'eslint-plugin-react-compiler'
 rules:
+  react-compiler/react-compiler:
+    - error
   no-shadow: off
   "@typescript-eslint/no-shadow":
     - error

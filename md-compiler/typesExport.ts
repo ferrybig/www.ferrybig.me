@@ -22,7 +22,7 @@ export interface MetaData {
 	readonly excludeFromChildren: boolean,
 	readonly readingTimeMin: number,
 	readonly readingTimeMax: number,
-	readonly children: 'auto' | 'direct' | 'indirect',
+	readonly children: 'auto' | 'root' | 'content',
 	readonly linkTitle: string,
 	readonly summary: string | null,
 	readonly thumbnail: {

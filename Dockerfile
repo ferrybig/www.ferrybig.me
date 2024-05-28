@@ -31,7 +31,7 @@ COPY --from=md-compiler /app/app /app/app
 
 FROM build-env as build
 RUN cd /app && npm run lint && npm run tsc
-RUN --mount=type=cache,target=/app/.next/cache cd /app && IGNORE_ERRORS=true npm run build
+RUN --mount=type=cache,target=/app/.next/cache cd /app && IGNORE_ERRORS=true npm run build-frontend
 
 
 FROM node-base as compressor
@@ -64,7 +64,7 @@ FROM scratch as export
 COPY --from=compressor /srv /
 
 
-FROM caddy:2.8
+FROM caddy:2.8 as server
 EXPOSE 2999
 COPY <<Caddyfile /etc/caddy/Caddyfile
 {

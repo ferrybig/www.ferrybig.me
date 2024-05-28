@@ -12,6 +12,7 @@ import { Metadata } from 'next';
 import { SITE_URL } from '@/metadata';
 import ArticleInfo from './ArticleInfo';
 import Heading from './Heading';
+import TagList from './TagList';
 
 function isRelative(href: string): boolean {
 	return !/^(?:[a-z]+:)?\/\//i.test(href);
@@ -87,7 +88,7 @@ export default function ArticleWrapper({
 	children,
 	feeds,
 }: ArticleWrapperProps) {
-	const shortDisplay = readingTimeMin <= 1 && thumbnail == null;
+	const shortDisplay = readingTimeMax <= 1 && thumbnail == null;
 	return (
 		<div className={shortDisplay ? classes.rootShort : classes.root}>
 			<header className={classes.displayContent}>
@@ -120,11 +121,11 @@ export default function ArticleWrapper({
 										title: 'Articles',
 									},
 								] : []),
-								{
+								...(commentStatus !== 'disabled' ? [{
 									lvl: 1,
 									slug: 'article-comments',
 									title: 'Comments',
-								},
+								}] : []),
 							]}/>
 						</Column>
 					</div>
@@ -160,26 +161,30 @@ export default function ArticleWrapper({
 								HtmlPreview,
 								img: (props: any) => <Image
 									{...props}
-									src={props.src ?? ''}
 									alt={props.alt ?? ''}
 									width={props.width ? Number(props.width) : undefined}
 									height={props.height ? Number(props.height) : undefined}
+									loading="lazy"
 								/>,
 								a: (props: any) => props.href && isRelative(props.href) ? <Link {...props as any} href={props.href ?? ''}/> : <a {...props}/>,
 							},
 						})}
 					</Column>}
-					{children.length > 0 && <Column className={classes.children} padded margin>
-						<h1 id="article-pages" className={classes.sectionHeading}>{factory ? 'Articles' : `${title} Articles`}</h1>
-						{children.map((child) => (
-							<article key={child.slug} className={classes.child}>
-								<h2><Link href={'/' + child.slug}>{child.title}</Link></h2>
-								<p>{child.date && <Date timestamp={child.date}/>}</p>
-							</article>
-						))}
-					</Column>}
+					{children.length > 0 && <section className={classes.children}>
+						<Column padded margin>
+							<Heading level={1} id="article-pages" className={classes.sectionHeading}>{factory ? 'Articles' : `${title} Articles`}</Heading>
+							{children.map((child) => (
+								<article key={child.slug} className={classes.child}>
+									<Heading level={2} id={`child-${child.slug}`}><Link href={'/' + child.slug} prefetch={false}>{child.title}</Link></Heading>
+									<p>{child.date && <Date timestamp={child.date}/>}</p>
+									<p>{child.summary}</p>
+									<TagList tags={child.tags}/>
+								</article>
+							))}
+						</Column>
+					</section>}
 					{commentStatus !== 'disabled' && <footer className={classes.displayContent}>
-						<Column className={classes.comments}>
+						<Column className={classes.comments} margin>
 							<h1 id="article-comments" className={classes.sectionHeading}>Comments</h1>
 							<Comments/>
 						</Column>
@@ -188,7 +193,7 @@ export default function ArticleWrapper({
 			</main>
 			{tags.length > 0 && (
 				<aside className={classes.moreReading}>
-					<Column margin>
+					<Column>
 						<h1 className={classes.sectionHeading}>More {getMetadataBySlug(tags[0]).title}</h1>
 						<nav>
 							<ul>

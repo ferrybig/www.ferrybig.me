@@ -1,7 +1,7 @@
 import './globals.css';
 import type { Metadata, Viewport } from 'next/types';
 import { Noto_Sans } from 'next/font/google';
-import classNames from 'classnames';
+import classNames from 'clsx';
 import { Analytics } from './_components/Analytics';
 import Nav from './_components/Nav';
 import favicon409x409 from '@assets/face.png';
