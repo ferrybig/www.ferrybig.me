@@ -1,4 +1,4 @@
-import { join } from 'node:path';
+import { join } from 'node:path/posix';
 import type { CompileResults, CompileResultsArticle, CompileResultsSubTasks, Config } from '../types.js';
 import makeGeneratedPage from './makeGeneratedPage.js';
 

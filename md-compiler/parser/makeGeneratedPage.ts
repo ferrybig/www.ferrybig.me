@@ -1,4 +1,4 @@
-import { join } from 'path';
+import { join } from 'node:path/posix';
 import type { Config } from '../types.js';
 import importRelative from './importRelative.js';
 import type { TableOfContentsEntry } from '../typesExport.js';

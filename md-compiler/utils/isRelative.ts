@@ -1,4 +1,4 @@
-import { isAbsolute } from 'node:path';
+import { isAbsolute } from 'node:path/posix';
 
 const absolutePathRegex = /^(?:[a-z]+:)?\/\//;
 

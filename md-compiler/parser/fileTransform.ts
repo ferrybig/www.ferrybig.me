@@ -1,5 +1,5 @@
 import { readFile, readdir, stat } from 'node:fs/promises';
-import { dirname, join } from 'node:path';
+import { dirname, join } from 'node:path/posix';
 import { unified } from 'unified';
 import {toString as nodeToText} from 'mdast-util-to-string';
 import matter from 'gray-matter';

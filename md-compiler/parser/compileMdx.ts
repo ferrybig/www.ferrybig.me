@@ -1,4 +1,4 @@
-import { dirname } from 'node:path';
+import { dirname } from 'node:path/posix';
 import { compile } from '@mdx-js/mdx';
 import remarkGfm from 'remark-gfm';
 import rehypePrettyCode from 'rehype-pretty-code';

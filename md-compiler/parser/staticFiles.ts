@@ -1,6 +1,4 @@
-import { readFile } from 'node:fs/promises';
 import type { CompileResultsSubTasks } from '../types.js';
-import { join } from 'node:path';
 
 export default async function generateStaticFiles(): Promise<CompileResultsSubTasks> {
 	return {

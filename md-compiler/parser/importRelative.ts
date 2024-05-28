@@ -1,4 +1,4 @@
-import {relative } from 'node:path';
+import {relative } from 'node:path/posix';
 
 export default function importRelative(from: string, to: string): string {
 	const transformed = relative(from, to);

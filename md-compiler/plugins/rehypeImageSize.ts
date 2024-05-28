@@ -1,4 +1,4 @@
-import path from 'path';
+import path from 'node:path/posix';
 import { visit } from 'unist-util-visit';
 import sizeOf from 'image-size';
 /**
