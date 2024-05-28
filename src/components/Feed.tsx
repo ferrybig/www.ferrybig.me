@@ -163,16 +163,15 @@ export default function Feed({ base: oldBase, page, pages, title, children, slic
 				<h1 id="articles">
 					Articles
 				</h1>
-				{atomFeed && (
-					<Subscribe atomFeed={atomFeed}/>
+				{!children && (
+					<FullPagination base={base} self={self} aria-hidden className={classes.pagination}>
+						{pagination ? pagination() : <Pagination
+							toPath={toPath}
+							page={page}
+							pages={pages}
+						/>}
+					</FullPagination>
 				)}
-				<FullPagination base={base} self={self} aria-hidden className={classes.pagination}>
-					{pagination ? pagination() : <Pagination
-						toPath={toPath}
-						page={page}
-						pages={pages}
-					/>}
-				</FullPagination>
 				<div>
 					{slice.map(content => (
 						<article className={classes.feedArticle}>
@@ -209,6 +208,9 @@ export default function Feed({ base: oldBase, page, pages, title, children, slic
 						pages={pages}
 					/>}
 				</FullPagination>
+				{atomFeed && (
+					<Subscribe atomFeed={atomFeed}/>
+				)}
 			</section>
 		</PageWrapper>
 	);

@@ -223,6 +223,10 @@ module.exports = [
 										'thumbnail': {
 											'type': 'string',
 										},
+										'visibility': {
+											'type': 'string',
+											'enum': ['visible', 'hidden', 'very-hidden'],
+										},
 										'tags': {
 											'type': 'array',
 											'items': {
