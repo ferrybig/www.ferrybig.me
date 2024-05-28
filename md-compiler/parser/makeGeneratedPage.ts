@@ -42,10 +42,10 @@ export const dynamic = "force-static"
 export function makeGeneratedFeed(format: string, slug: string | null, {articleWrapperPath, outputDir}: Config) {
 	return `/* eslint-disable */
 import { generateFeed } from ${JSON.stringify(importRelative(join(outputDir, slug ?? '.', 'feed'), articleWrapperPath))};
-import { ${slug ? 'getChildrenBySlug, getMetadataBySlug' : 'getIndirectChildren'} } from ${JSON.stringify(importRelative(join(slug ?? '.', 'feed'), 'content'))};
+import { ${slug ? 'getChildrenBySlug, getMetadataBySlug' : 'getContentChildren'} } from ${JSON.stringify(importRelative(join(slug ?? '.', 'feed'), 'content'))};
 ${slug ?
 		`const slug = ${JSON.stringify(slug)}, metadata = getMetadataBySlug(slug), children = getChildrenBySlug(slug);` :
-		'const metadata = null, children = getIndirectChildren();'
+		'const metadata = null, children = getContentChildren();'
 }
 
 export function GET() {
