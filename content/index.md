@@ -5,5 +5,3 @@ linkTitle: Home
 children: content
 ---
 # My website
-
-

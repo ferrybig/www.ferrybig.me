@@ -1,3 +1,3 @@
 ---
-icon: './linux-svgrepo-com.svg'
+icon: linux-svgrepo-com.svg
 ---

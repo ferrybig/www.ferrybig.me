@@ -33,7 +33,6 @@ h6.root {
 	position: absolute;
 	opacity: 0;
 	background: light-dark(black, white);
-	mask-image: url(../../assets/link.svg);
 	width: 16px;
 	height: 16px;
 	top: calc(50%);
@@ -45,4 +44,5 @@ h6.root {
 .withLink > a:first-child:focus {
 	opacity: 1;
 	transition: opacity 0.01s 0.1s;
+	mask-image: url(../../assets/link.svg);
 }

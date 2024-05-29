@@ -1,6 +1,6 @@
 ---
 date: "2022-03-23"
-tags: ["tech", "react", "webpack", "bare-bones", "from-scratch"]
+tags: ["tech", "react", "webpack", "from-scratch"]
 deprecated: true
 ---
 # React bare bones setup using webpack
