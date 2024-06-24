@@ -37,3 +37,11 @@ next-env.d.ts
 .vscode/bash_history
 md-compiler/main.js
 app.lock
+
+/app/*
+!/app/_components
+!/app/_components/*
+!/app/browserconfig.xml
+!/app/browserconfig.xml/*
+!/app/site.webmanifest
+!/app/site.webmanifest/*

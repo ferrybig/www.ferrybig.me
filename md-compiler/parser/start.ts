@@ -3,9 +3,10 @@ import { dirname, join } from 'node:path';
 import lockfile from 'proper-lockfile';
 import colors from 'colors';
 import transformFiles from './fileTransform.js';
-import type { CompileConfig, Config } from '../types.js';
+import type { CompileConfig, RunningConfig } from '../types.js';
 import chokidar from 'chokidar';
 import { createHash } from 'node:crypto';
+import { makeCache, makeNoOpCache } from '../utils/cache.js';
 
 interface PreviouslyGeneratedFiles {
 	file: string,
@@ -24,7 +25,7 @@ function printFileStatus(outputDir: string, file: string, status: 'delete' | 'up
 	}
 }
 
-async function clean(previousGeneratedFiles: PreviouslyGeneratedFiles[], {outputDir}: Pick<Config, 'outputDir'>) {
+async function clean(previousGeneratedFiles: PreviouslyGeneratedFiles[], {outputDir}: Pick<RunningConfig, 'outputDir'>) {
 	await Promise.all(previousGeneratedFiles.map(async ({file}) => {
 		printFileStatus(outputDir, file, 'delete');
 		try {
@@ -36,7 +37,7 @@ async function clean(previousGeneratedFiles: PreviouslyGeneratedFiles[], {output
 	previousGeneratedFiles.length = 0;
 }
 
-async function compile(previousGeneratedFiles: PreviouslyGeneratedFiles[], config: Config) {
+async function compile(previousGeneratedFiles: PreviouslyGeneratedFiles[], config: RunningConfig) {
 	console.log('Compiling...');
 	console.time('Compiled');
 	const generatedFiles = await transformFiles(config);
@@ -86,7 +87,7 @@ async function compile(previousGeneratedFiles: PreviouslyGeneratedFiles[], confi
 	console.timeEnd('Compiled');
 }
 
-function setupWatcher({ inputDir }: Pick<Config, 'inputDir'>) {
+function setupWatcher({ inputDir }: Pick<RunningConfig, 'inputDir'>) {
 	const watcher = chokidar.watch(join(inputDir, '**', '*.md'), {
 		persistent: true,
 		ignoreInitial: true,
@@ -125,19 +126,14 @@ async function markdownCompiler({ doClean, doCompile, doWatch, ...config }: Comp
 	const release = await lockfile.lock(config.outputDir);
 	try {
 		try {
-			const content = await fs.readFile(join(config.outputDir, '.gitignore'), { encoding: 'utf8' });
-			let hash = '';
+			const content = await fs.readFile(join(config.outputDir, 'generated_files.txt'), { encoding: 'utf8' });
 			for (const line of content.split('\n')) {
-				if (!line.startsWith('#') && line.length !== 0 && line !== '.gitignore') {
+				if (!line.startsWith('#') && line.length !== 0) {
+					const [,,hash, file] = line.split(' ', 4);
 					previousGeneratedFiles.push({
-						file: line,
+						file,
 						hash,
 					});
-					hash = '';
-				} else if (line.startsWith('# generated-file-hash: ')) {
-					hash = line.slice('# generated-file-hash: '.length);
-				} else {
-					hash = '';
 				}
 			}
 		} catch (e) {
@@ -151,11 +147,17 @@ async function markdownCompiler({ doClean, doCompile, doWatch, ...config }: Comp
 
 		if (doCompile) {
 			const watcher = doWatch ? setupWatcher(config) : null;
+			const cache = doWatch ? makeCache() : makeNoOpCache();
+			const runningConfig: RunningConfig = {
+				...config,
+				cache,
+			};
 			try {
 				do {
-					await compile(previousGeneratedFiles, config);
-					const newGitIgnore = '# This is an generated file\n.gitignore\n' + previousGeneratedFiles.map(e => `# generated-file-hash: ${e.hash}\n${e.file}`).join('\n');
-					await fs.writeFile(join(config.outputDir, '.gitignore'), newGitIgnore);
+					cache.nextCycle();
+					await compile(previousGeneratedFiles, runningConfig);
+					const newGitIgnore = '# This is an generated file\n' + previousGeneratedFiles.map(e => `  ${e.hash} ${e.file}`).join('\n');
+					await fs.writeFile(join(config.outputDir, 'generated_files.txt'), newGitIgnore);
 				} while (await watcher?.await());
 			} finally {
 				await watcher?.close();

@@ -4,8 +4,8 @@ export function GET() {
 <browserconfig>
 	<msapplication>
 		<tile>
-			<square150x150logo src="${favicon150x150}"/>
-			<TileColor>#00aba9</TileColor>
+			<square150x150logo src="${favicon150x150.src.replace('.png', '.avif')}"/>
+			<TileColor>#FF0000</TileColor>
 		</tile>
 	</msapplication>
 </browserconfig>

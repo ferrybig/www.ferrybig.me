@@ -45,20 +45,20 @@
 
 .webShareCancel {
 	composes: webShareContainer;
+	composes: center from '../common.module.css';
     color: #0076FF;
     font-size: 16px;
-    text-align: center;
     cursor: pointer;
 }
 
 .webShareItem {
+	composes: center from '../common.module.css';
     margin: 16px 8px;
     display: inline-block;
     text-decoration: none !important;
     color: black !important;
     cursor: pointer;
     width: 64px;
-	text-align: center;
 }
 
 .webShareItem img {
@@ -79,7 +79,7 @@
 }
 
 .webShareItemDesc {
-    text-align: center;
+	composes: center from '../common.module.css';
     margin-top: 4px;
 }
 

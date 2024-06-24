@@ -1,21 +1,22 @@
 import type { MetaData } from './typesExport.js';
+import type { Cache } from './utils/cache.js';
 
 export interface CompileResultsArticle {
-	type: 'article'
-	file: string
-	contents: string
-	metadata: MetaData
-	needsFeeds: boolean
+	readonly type: 'article'
+	readonly file: string
+	readonly contents: string
+	readonly metadata: MetaData
+	readonly needsFeeds: boolean
 }
 export interface CompileResultsFile {
-	type: 'file'
-	file: string
-	contents: string
+	readonly type: 'file'
+	readonly file: string
+	readonly contents: string
 }
 
 export interface CompileResultsSubTasks {
-	type: 'sub-tasks'
-	children: (CompileResults | Promise<CompileResults>)[],
+	readonly type: 'sub-tasks'
+	readonly children: (CompileResults | Promise<CompileResults>)[],
 }
 
 export type CompileResults = CompileResultsArticle | CompileResultsSubTasks | CompileResultsFile
@@ -27,6 +28,10 @@ export interface Config {
 	readonly miniumForFeedGeneration: number
 	readonly defaultCommentStatus: MetaData['commentStatus']
 }
+export interface RunningConfig extends Config {
+	readonly cache: Cache;
+}
+
 export interface CompileConfig extends Config {
 	readonly doClean: boolean
 	readonly doCompile: boolean

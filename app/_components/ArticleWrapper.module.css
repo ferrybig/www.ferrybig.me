@@ -48,43 +48,11 @@
 .last {
 	grid-area: last;
 }
-.hero {
-	margin: 0 -16px 16px;
-	aspect-ratio: 32/9;
-	border-top-left-radius: 8px;
-	border-top-right-radius: 8px;
-	background-position: center;
-	background-size: cover;
-	background-color: gray;
-	display: block;
-	position: relative;
-	line-height: 0;
+.childLink {
+	color: light-dark(black, #eeeeee);
 }
-.hero.hero img {
-	border-top-left-radius: 8px;
-	border-top-right-radius: 8px;
-	width: 100%;
-	height: 100%;
-	object-fit: contain;
-}
-.hero iframe {
-	width: 100%;
-	height: 100%;
-	border-top-left-radius: 8px;
-	border-top-right-radius: 8px;
-	backdrop-filter: blur(16px);
-	border: 0;
-}
-.caption {
-	min-height: 16px;
-	position: absolute;
-	display: inline-block;
-	top: 100%;
-	left: 50%;
-	transform: translateX(-50%);
-	max-width: 90%;
-	text-decoration: underline;
-	line-height: 1.25;
+.childLink:visited {
+	color: light-dark(#606060, #bbbbbb);
 }
 .sectionHeading {
 	composes: sectionHeading from '../common.module.css';
@@ -156,11 +124,11 @@
 }
 @media screen and (max-width: 1280px) {
 	.root {
-		padding: 0 16px;
+		padding: 0 8px;
 	}
 }
 
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 1023px) {
 	.root {
 		grid-template:
 			"info-me info-post" auto

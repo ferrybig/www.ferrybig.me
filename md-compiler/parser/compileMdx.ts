@@ -5,12 +5,11 @@ import rehypePrettyCode from 'rehype-pretty-code';
 import remarkSmartypants from 'remark-smartypants';
 import rehypeSlug from 'rehype-slug';
 import { rehypeAccessibleEmojis } from 'rehype-accessible-emojis';
-import setImageSize from '../plugins/rehypeImageSize.js';
-import { remarkMdxEvalCodeBlock } from '../plugins/remarkMdxEvalCodeBlock.js';
+import setImageSize from '../rehype/rehypeImageSize.js';
+import { remarkMdxEvalCodeBlock } from '../rehype/remarkMdxEvalCodeBlock.js';
 import section from '@hbsnow/rehype-sectionize';
 import rehypeMinifyWhitespace from 'rehype-minify-whitespace';
-import rehypeAutolinkHeadings from 'rehype-autolink-headings';
-import rehypeMdxAssets from '../plugins/rehypeMdxAssets.js';
+import rehypeMdxAssets from '../rehype/rehypeMdxAssets.js';
 
 export async function compileMdx(inputFileName: string, outputFileName: string, content: string): Promise<string> {
 

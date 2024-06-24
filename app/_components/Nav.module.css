@@ -3,8 +3,8 @@
 	column-gap: 16px;
 	display: grid;
 	grid-template:
-		"logo title icons" 48px
-		"logo topics topics" 48px
+		"logo title title" 48px
+		"logo topics icons" 48px
 		/ 256px 1fr auto;
 	justify-content: center;
 }
@@ -78,7 +78,7 @@
 }
 @media screen and (max-width: 1280px) {
 	.nav {
-		padding: 0 16px;
+		padding: 0 8px;
 	}
 }
 @media screen and (max-width: 1024px) {
@@ -100,9 +100,6 @@
 			"topics topics" auto
 			"logo icons" 96px
 			/ 256px 1fr;
-	}
-	.title {
-		text-align: center;
 	}
 	.topics {
 		justify-self: center;

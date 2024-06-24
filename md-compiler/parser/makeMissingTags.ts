@@ -1,12 +1,12 @@
 import { join } from 'node:path/posix';
-import type { CompileResults, CompileResultsArticle, CompileResultsSubTasks, Config } from '../types.js';
+import type { CompileResults, CompileResultsArticle, CompileResultsSubTasks, RunningConfig } from '../types.js';
 import makeGeneratedPage from './makeGeneratedPage.js';
 
 function titleCase(str: string): string {
 	return str[0].toUpperCase() + str.slice(1);
 }
 
-export default function makeMissingTags(results: Exclude<CompileResults, CompileResultsSubTasks>[], config: Config): CompileResultsArticle[] {
+export default function makeMissingTags(results: Exclude<CompileResults, CompileResultsSubTasks>[], config: RunningConfig): CompileResultsArticle[] {
 	const newTags = new Map<string, CompileResultsArticle | null>();
 	for (const result of results) {
 		if (result.type !== 'article') continue;

@@ -8,7 +8,8 @@
     "build": "tsc && node out/main.js build",
     "dev": "tsc-watch --preserveWatchOutput --onSuccess \"node out/main.js watch\"",
     "compiler-build": "tsc",
-    "compiler-run": "node out/main.js"
+    "compiler-run": "node out/main.js",
+    "clean": "rm -rf out .tsbuildinfo "
   },
   "keywords": [],
   "author": "",
@@ -35,6 +36,7 @@
     "remark-gfm": "^3.0.1",
     "remark-parse": "^10.0.2",
     "remark-smartypants": "^3.0.1",
+    "svg-sprite": "^2.0.4",
     "zod": "^3.23.6"
   },
   "overrides": {

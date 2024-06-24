@@ -1,5 +1,5 @@
 # syntax=docker/dockerfile:1
-FROM node:20-alpine as node-base
+FROM node:22-alpine as node-base
 
 FROM node-base as md-compiler-deps
 COPY /md-compiler/package.json /md-compiler/package-lock.json /app/md-compiler/
@@ -35,18 +35,19 @@ RUN --mount=type=cache,target=/app/.next/cache cd /app && IGNORE_ERRORS=true npm
 
 
 FROM node-base as compressor
-RUN apk add --no-cache brotli libwebp-tools libavif-apps
+RUN apk add --no-cache brotli libavif-apps
 COPY --from=build /app/out /srv
 RUN cd /srv \
 && find . -type f -not -name 'sha1sums' -exec sha1sum {} + > /srv/sha1sums \
 && find /srv -type f \( -name '*.png' -o -name '*.jpg' \) -print0 \
 | xargs -0 sh -c 'for d; do avifenc -- "$d" "${d%.*}.avif"; done' 'sh' \
-&& find /srv -type f \( -name '*.png' \) -print0 \
-| xargs -0 sh -c 'for d; do cwebp -lossless -o "${d%.*}.webp" "$d"; done' 'sh' \
 && find /srv -type f \
 	\( \
 		-name '*.png' -o \
 		-name '*.jpg' -o \
+		-name '*.jpeg' -o \
+		-name '*.bmp' -o \
+		-name '*.tif' -o \
 		-name '*.txt' -o \
 		-name '*.html' -o \
 		-name '*.js' -o \
@@ -57,7 +58,7 @@ RUN cd /srv \
 		-name '*.stl' \
 	\) -size +512c \
 	-print0 \
-| xargs -0 brotli -Z -k
+| xargs -0 brotli --best -k -s --
 
 
 FROM scratch as export

@@ -23,5 +23,5 @@ captured, so it does not go of the screen vertically. It also updates the mouse
 cursor depending what kind of element the user hovers the mouse on.
 
 When the game loads for the first time, it makes api requests to load all the
-used images. This could be optimized in the future with an image grid, but it 
+used images. This could be optimized in the future with an image grid, but it
 hasn't been done here.

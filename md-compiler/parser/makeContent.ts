@@ -3,7 +3,7 @@ import type {
 	CompileResultsArticle,
 	CompileResultsFile,
 	CompileResultsSubTasks,
-	Config,
+	RunningConfig,
 } from '../types.js';
 import assertNever from '../utils/assertNever.js';
 
@@ -67,8 +67,8 @@ function arrayMappedSort<T>(items: T[], comparator: Comparator<T>): Comparator<n
 
 export default function makeContent(
 	results: Exclude<CompileResults, CompileResultsSubTasks>[],
-	{miniumForFeedGeneration}: Config
-): CompileResultsFile {
+	{miniumForFeedGeneration}: RunningConfig
+): Exclude<CompileResults, CompileResultsSubTasks>[] {
 	let importId = 0;
 	const importMap = new Map<string, string>();
 	const articles = results.filter(
@@ -118,25 +118,31 @@ export default function makeContent(
 			assertNever(childrenType);
 	}
 	// Update updatedAt to the latest updatedAt of the children
+	const newArticles: typeof articles = [];
 	{
 		const scanned: boolean[] = [];
 		const scan = (index: number) => {
-			if (scanned[index]) return;
+			if (scanned[index]) return newArticles[index];
 			if (scanned[index] === false) throw new Error('Circular dependency');
 			scanned[index] = false;
 			let highestUpdatedAt = articles[index].metadata.updatedAt;
 			for (const child of children[index]) {
-				scan(child);
-				const childUpdatedAt = articles[child].metadata.updatedAt;
+				const childArticle = scan(child);
+				const childUpdatedAt = childArticle.metadata.updatedAt;
 				if (childUpdatedAt != null && (highestUpdatedAt == null || childUpdatedAt > highestUpdatedAt)) {
-					highestUpdatedAt = articles[child].metadata.updatedAt;
+					highestUpdatedAt = childArticle.metadata.updatedAt;
 				}
 			}
-			articles[index].metadata = {
-				...articles[index].metadata,
-				updatedAt: highestUpdatedAt,
+			const newEntry = {
+				...articles[index],
+				metadata: {
+					...articles[index].metadata,
+					updatedAt: highestUpdatedAt,
+				},
 			};
+			newArticles[index] = newEntry;
 			scanned[index] = true;
+			return newEntry;
 		};
 		for (let i = 0; i < articles.length; i++) {
 			scan(i);
@@ -207,14 +213,21 @@ export default function makeContent(
 		postsContent = postsContent.replaceAll(`"${value}"`, value);
 	}
 
-	for (let i = 0; i < articles.length; i++) {
-		const article = articles[i];
-		article.needsFeeds = children[i].length >= miniumForFeedGeneration;
+	for (let i = 0; i < newArticles.length; i++) {
+		newArticles[i] = {
+			...newArticles[i],
+			needsFeeds: children[i].length >= miniumForFeedGeneration,
+		};
 	}
 
-	return {
-		type: 'file',
-		contents: `/* eslint-disable */
+	return [
+		...results.filter(
+			(x) => x.type !== 'article'
+		),
+		...newArticles,
+		{
+			type: 'file',
+			contents: `/* eslint-disable */
 import 'server-only';
 ${importContent}
 ${postsContent}
@@ -266,7 +279,8 @@ export function getAllPosts() {
 	return posts;
 }
 `,
-		file: 'content.js',
-	};
+			file: 'content.js',
+		} satisfies CompileResultsFile,
+	];
 
 }

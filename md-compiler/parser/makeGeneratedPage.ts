@@ -1,9 +1,9 @@
 import { join } from 'node:path/posix';
-import type { Config } from '../types.js';
+import type { RunningConfig } from '../types.js';
 import importRelative from './importRelative.js';
 import type { TableOfContentsEntry } from '../typesExport.js';
 
-export default function makeGeneratedPage(compiledMarkdown: string | null, tableOfContents: TableOfContentsEntry[], slug: string, originalFile: string | null, {articleWrapperPath, outputDir}: Config) {
+export default function makeGeneratedPage(compiledMarkdown: string | null, tableOfContents: TableOfContentsEntry[], slug: string, originalFile: string | null, {articleWrapperPath, outputDir}: RunningConfig) {
 	return `/* eslint-disable */
 import ArticleWrapper, { generateMetadata as _generateMetadata } from ${JSON.stringify(importRelative(join(outputDir, slug), articleWrapperPath))};
 import { getMetadata, getChildren, hasFeeds, getIdBySlug } from ${JSON.stringify(importRelative(join(slug), 'content'))};
@@ -39,7 +39,7 @@ export const dynamic = "force-static"
 `;
 }
 
-export function makeGeneratedFeed(format: string, slug: string | null, {articleWrapperPath, outputDir}: Config) {
+export function makeGeneratedFeed(format: string, slug: string | null, {articleWrapperPath, outputDir}: RunningConfig) {
 	return `/* eslint-disable */
 import { generateFeed } from ${JSON.stringify(importRelative(join(outputDir, slug ?? '.', 'feed'), articleWrapperPath))};
 import { ${slug ? 'getChildrenBySlug, getMetadataBySlug' : 'getContentChildren'} } from ${JSON.stringify(importRelative(join(slug ?? '.', 'feed'), 'content'))};

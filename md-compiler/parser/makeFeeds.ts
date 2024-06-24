@@ -1,9 +1,9 @@
-import type { CompileResults, CompileResultsFile, CompileResultsSubTasks, Config } from '../types.js';
+import type { CompileResults, CompileResultsFile, CompileResultsSubTasks, RunningConfig } from '../types.js';
 import { makeGeneratedFeed } from './makeGeneratedPage.js';
 
 export default function makeFeeds(
 	results: Exclude<CompileResults, CompileResultsSubTasks>[],
-	config: Config,
+	config: RunningConfig,
 ): CompileResultsFile[] {
 	const newFiles: CompileResultsFile[] = [];
 	let seenIndex = false;

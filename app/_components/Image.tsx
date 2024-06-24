@@ -38,12 +38,6 @@ function ImageLoader({
 					type="image/avif"
 				/>
 			)}
-			{process.env.NODE_ENV !== 'development' && (src.src.endsWith('.png')) && (
-				<source
-					srcSet={src.src.substring(0, src.src.length - 4) + '.webp'}
-					type="image/webp"
-				/>
-			)}
 			{/* eslint-disable-next-line react/forbid-elements */}
 			<img
 				src={src.src}
