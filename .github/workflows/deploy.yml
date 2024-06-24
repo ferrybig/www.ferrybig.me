@@ -25,6 +25,6 @@ jobs: # push, pull_request
           REMOTE_HOST: ${{ secrets.ssh_host }}
           REMOTE_USER: ${{ secrets.ssh_user }}
           REMOTE_PORT: 22
-          SOURCE: tmp/tmp
+          SOURCE: tmp/
           TARGET: ${{ secrets.ssh_target }}
           ARGS: -r -l -0 -v --checksum --delete-delay
