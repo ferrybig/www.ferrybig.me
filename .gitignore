@@ -39,6 +39,13 @@ md-compiler/main.js
 app.lock
 
 /app/*
+!/app/not-found.tsx
+!/app/layout.tsx
+!/app/layout.module.css
+!/app/common.module.css
+!/app/error.module.css
+!/app/globals.css
+!/app/metadata.ts
 !/app/_components
 !/app/_components/*
 !/app/browserconfig.xml
