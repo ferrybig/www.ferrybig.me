@@ -4,7 +4,7 @@
 name: Deploy app
 on:
   push:
-    branches: [$default-branch]
+    branches: [master]
   workflow_dispatch:
 jobs: # push, pull_request
   tests:
