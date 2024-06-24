@@ -1,0 +1,15 @@
+.noMarginTop {
+	margin-top: 0;
+}
+
+.sectionHeading {
+	composes: noMarginTop;
+}
+.sidebarTitle {
+	font-size: 19px;
+	position: relative;
+	margin: 0;
+}
+.center {
+	text-align: center;
+}

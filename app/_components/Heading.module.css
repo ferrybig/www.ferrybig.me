@@ -1,0 +1,48 @@
+/* font-size: 41.079*0.85457^x */
+.root {
+	margin: 0.25em 0 0.125em;
+}
+h1.root {
+	margin-top: 8px;
+	font-size: 35.1px;
+}
+h2.root {
+	font-size: 30px;
+}
+h3.root {
+	font-size: 25.6px;
+}
+h4.root {
+	font-size: 21.9px;
+}
+h5.root {
+	font-size: 18.7px;
+}
+h6.root {
+	font-size: 16px;
+}
+.root + p,
+.root + ul {
+	margin-top: 0;
+}
+.withLink {
+	composes: root;
+	position: relative;
+}
+.withLink > a:first-child {
+	position: absolute;
+	opacity: 0;
+	background: light-dark(black, white);
+	width: 16px;
+	height: 16px;
+	top: calc(50%);
+	right: 100%;
+	transform: translateY(-50%);
+}
+
+.withLink:hover > a:first-child,
+.withLink > a:first-child:focus {
+	opacity: 1;
+	transition: opacity 0.01s 0.1s;
+	mask-image: url(../../assets/link.svg);
+}

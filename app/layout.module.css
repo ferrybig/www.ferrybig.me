@@ -1,0 +1,33 @@
+.skipToContent {
+	background: #e77e23;
+	height: 30px;
+	left: 50%;
+	padding: 8px;
+	position: absolute;
+	transform: translateY(-100%);
+	transition: transform 0.3s;
+	z-index: 99;
+}
+.skipToContent:focus-within {
+	transform: translateY(0%);
+}
+
+.bar {
+	flex-grow: 0;
+	flex-shrink: 0;
+	background-color: light-dark(rgb(14, 23, 41), black);
+	color: #EEEEEE;
+	position: relative;
+	z-index: 1;
+}
+.barTop {
+	composes: bar;
+	border-bottom: 8px solid light-dark(#FFFFFF, #111111);
+	margin-bottom: 16px;
+}
+.barBottom {
+	composes: bar;
+	border-top: 8px solid light-dark(#FFFFFF, #111111);
+	height: 96px;
+}
+

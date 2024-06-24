@@ -1,0 +1,44 @@
+.root {
+	font-size: 0.8em;
+	margin: 4px 0 0 8px;
+	overflow: auto;
+	position: relative;
+	flex: 1;
+}
+.title {
+	composes: sidebarTitle from '../common.module.css';
+}
+.list {
+	list-style: none;
+	padding: 0;
+	margin: 0;
+	padding-left: 16px;
+	position: relative;
+}
+.list::before {
+	content: '';
+	position: absolute;
+	top: 0;
+	left: 4px;
+	width: 2px;
+	bottom: calc(9px + 20px * var(--reduceDepth, 0));
+	background: light-dark(rgba(14, 23, 41, 0.5), rgba(127, 127, 127, 0.5));
+}
+.listRoot {
+	composes: list;
+}
+.listItem {
+	position: relative;
+}
+.listItem::after {
+	content: '';
+	position: absolute;
+	top: 9px;
+	left: -10px;
+	width: 8px;
+	height: 2px;
+	background: light-dark(rgba(14, 23, 41, 0.5), rgba(127, 127, 127, 0.5));
+}
+.listItem:has(> .linkActive)::after {
+	background-image: linear-gradient(to right, #99000000, #990000);
+}

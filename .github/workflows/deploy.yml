@@ -4,38 +4,27 @@
 name: Deploy app
 on:
   push:
-    branches: [ master ]
-jobs:
-  build:
+    branches: [$default-branch]
+  workflow_dispatch:
+jobs: # push, pull_request
+  tests:
+    uses: ./.github/workflows/build.yml
+  deploy:
+    needs: [tests]
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
-      with:
-        fetch-depth: 0
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v3
-      with:
-        node-version: 16
-        cache: 'npm'
-    - run: npm ci
-    - run: npm run lint -- --exit-on-fatal-error
-    - run: npm run lint-css
-    - run: npm run build
-    - name: CompressFiles
-      uses: stefh/ghaction-CompressFiles@v2
-      with:
-        path: dist
-        extensions: '.js,.css,.html,.map,.stl,.xml,.scad,.svg,.txt,.bmp'
-        tools: 'brotli,gzip'
-        deterministicCompression: true
-    - name: ssh publish
-      uses: easingthemes/ssh-deploy@c711f2c3391cac2876bf4c833590077f02e4bcb8
-      with:
-        SSH_PRIVATE_KEY: ${{ secrets.ssh_private_key }}
-        REMOTE_HOST: ${{ secrets.ssh_host }}
-        REMOTE_USER: ${{ secrets.ssh_user }}
-        REMOTE_PORT: ${{ secrets.ssh_port }}
-        SOURCE: dist/
-        TARGET: ${{ secrets.ssh_target }}
-        EXCLUDE: api
-        ARGS: -r -l -0 -v --checksum --delete-delay
+      - name: Download artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: files
+          path: /tmp
+      - name: ssh publish
+        uses: easingthemes/ssh-deploy@c711f2c3391cac2876bf4c833590077f02e4bcb8
+        with:
+          SSH_PRIVATE_KEY: ${{ secrets.ssh_private_key }}
+          REMOTE_HOST: ${{ secrets.ssh_host }}
+          REMOTE_USER: ${{ secrets.ssh_user }}
+          REMOTE_PORT: 22
+          SOURCE: /tmp/files
+          TARGET: ${{ secrets.ssh_target }}
+          ARGS: -r -l -0 -v --checksum --delete-delay

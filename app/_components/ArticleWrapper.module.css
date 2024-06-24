@@ -1,0 +1,160 @@
+.root {
+	display: grid;
+	grid-template:
+		"info-me content" auto
+		"info-post content" auto
+		"toc content" 96px
+		"toc content" auto
+		"toc children" 1fr
+		"toc comments" auto
+		"toc moreReading" auto
+		/ 256px 1fr;
+	padding: 0 64px;
+	column-gap: 16px;
+	align-items: flex-start;
+}
+.displayContent {
+	display: contents;
+}
+.moreReading {
+	grid-area: moreReading;
+}
+.children {
+	grid-area: children;
+}
+.comments {
+	grid-area: comments;
+}
+.meInfo {
+	padding-top: 32px;
+	grid-area: info-me;
+	align-self: stretch;
+}
+.postInfo {
+	grid-area: info-post;
+}
+.tocWrapper {
+	grid-area: toc;
+	align-self: stretch;
+}
+.markdown {
+	grid-area: content;
+	min-width: 0;
+	align-self: stretch;
+}
+.rightSide {
+	display: contents;
+}
+.last {
+	grid-area: last;
+}
+.childLink {
+	color: light-dark(black, #eeeeee);
+}
+.childLink:visited {
+	color: light-dark(#606060, #bbbbbb);
+}
+.sectionHeading {
+	composes: sectionHeading from '../common.module.css';
+}
+.markdown {
+	display: flow-root;
+	padding: 0 16px 16px;
+}
+
+.markdown figure[data-rehype-pretty-code-figure] {
+	margin: 0 -16px;
+}
+
+.markdown figure[data-rehype-pretty-code-figure] pre {
+	overflow: auto;
+	max-height: 90vh;
+	margin: 0;
+}
+
+.markdown figure[data-rehype-pretty-code-figure] code {
+	counter-reset: line;
+	padding: 8px 16px;
+}
+
+.markdown figure[data-rehype-pretty-code-figure] code[data-line-numbers]>[data-line]::before {
+	counter-increment: line;
+	content: counter(line);
+
+	/* Other styling */
+	display: inline-block;
+	width: 1rem;
+	margin-right: 2rem;
+	text-align: right;
+	color: gray;
+}
+
+.markdown figure[data-rehype-pretty-code-figure] code[data-line-numbers-max-digits="2"]>[data-line]::before {
+	width: 2rem;
+}
+
+.markdown figure[data-rehype-pretty-code-figure] code[data-line-numbers-max-digits="3"]>[data-line]::before {
+	width: 3rem;
+}
+.markdown figure[data-rehype-pretty-code-figure] code[data-theme*=" "],
+.markdown figure[data-rehype-pretty-code-figure] code[data-theme*=" "] span {
+  color: light-dark(var(--shiki-light), var(--shiki-dark));
+  background-color: light-dark(var(--shiki-light-bg), var(--shiki-dark-bg));
+}
+.markdown img {
+	max-width: 100%;
+	aspect-ratio: auto;
+	height: auto;
+}
+
+.rootShort {
+	composes: root;
+	grid-template:
+		"info-me right" auto
+		"info-post right" auto
+		"toc right" 1fr
+		"toc moreReading" auto
+		/ 256px 1fr;
+
+}
+.rootShort .rightSide {
+	grid-area: right;
+	display: initial;
+	min-width: 0;
+}
+@media screen and (max-width: 1280px) {
+	.root {
+		padding: 0 8px;
+	}
+}
+
+@media screen and (max-width: 1023px) {
+	.root {
+		grid-template:
+			"info-me info-post" auto
+			"toc toc" auto
+			"right right" auto
+			"moreReading moreReading" auto
+			/ 256px 1fr;
+	}
+	.rightSide {
+		grid-area: right;
+		display: initial;
+		min-width: 0;
+	}
+	.toc {
+		margin-bottom: 16px;
+	}
+}
+
+@media screen and (max-width: 480px) {
+	.root {
+		grid-template:
+			"info-me" auto
+			"info-post" auto
+			"toc" auto
+			"right" auto
+			"moreReading" auto
+			/ 1fr;
+	}
+}

@@ -1,0 +1,163 @@
+.root {
+	border-radius: 8px;
+	background: light-dark(#FFFFFF, #111111);
+	color: light-dark(black, #eeeeee);
+	min-height: 64px;
+	position: relative;
+}
+.padded {
+	padding: 16px;
+}
+.margin {
+	margin-bottom: 16px;
+}
+.sticky {
+	top: 16px;
+	position: sticky;
+	max-height: calc(100vh - 32px);
+}
+.flex {
+	display: flex;
+}
+
+.floatingLayers::before, .floatingLayers::after {
+	position: absolute;
+	content: "";
+	display: block;
+	width: 24px;
+	height: 48px;
+	background: transparent;
+	box-shadow: 0 -24px 0 0 light-dark(#FFFFFF, #111111);
+}
+
+
+.attachedBottom {
+	composes: floatingLayers;
+	margin-bottom: -16px;
+	border-bottom-left-radius: 0;
+	border-bottom-right-radius: 0;
+	padding-bottom: 16px;
+}
+.attachedBottom::before, .attachedBottom::after {
+	bottom: 0;
+}
+.attachedBottom::before {
+	right: 100%;
+	border-bottom-right-radius: 24px;
+}
+.attachedBottom::after {
+	left: 100%;
+	border-bottom-left-radius: 24px;
+}
+
+.attachedTop {
+	composes: floatingLayers;
+	margin-top: -16px;
+	border-top-left-radius: 0;
+	border-top-right-radius: 0;
+	padding-top: 16px;
+}
+.attachedTop::before, .attachedTop::after {
+	top: 0;
+}
+.attachedTop::before {
+	right: 100%;
+	border-top-right-radius: 24px;
+}
+.attachedTop::after {
+	left: 100%;
+	border-top-left-radius: 24px;
+}
+
+.attachedLeft {
+	composes: floatingLayers;
+	border-top-left-radius: 0;
+	border-bottom-left-radius: 0;
+}
+.attachedLeft::before, .attachedLeft::after {
+	right: calc(100% - 8px);
+}
+.attachedLeft::before {
+	border-top-left-radius: 24px;
+	top: 100%;
+	clip-path: polygon(0 0, 100% 0, 100% 50%, 0 50%);
+}
+.attachedLeft::after {
+	border-bottom-left-radius: 24px;
+	bottom: 100%;
+	clip-path: polygon(0 50%, 100% 50%, 100% 100%, 0 100%);
+	box-shadow: 0 24px 0 0 light-dark(#FFFFFF, #111111);
+}
+.attachedLeft > .styleHelper {
+	background-color: light-dark(#FFFFFF, #111111);
+	position: absolute;
+	right: 100%;
+	top: 0;
+	bottom: 0;
+	width: 16px;
+}
+
+.attachedRight {
+	composes: floatingLayers;
+	border-top-right-radius: 0;
+	border-bottom-right-radius: 0;
+}
+.attachedRight::before, .attachedRight::after {
+	left: calc(100% - 8px);
+}
+.attachedRight::before {
+	border-top-right-radius: 24px;
+	top: 100%;
+	clip-path: polygon(0 0, 100% 0, 100% 50%, 0 50%);
+}
+.attachedRight::after {
+	border-bottom-right-radius: 24px;
+	bottom: 100%;
+	clip-path: polygon(0 50%, 100% 50%, 100% 100%, 0 100%);
+	box-shadow: 0 24px 0 0 light-dark(#FFFFFF, #111111);
+}
+.attachedRight > .styleHelper {
+	background-color: light-dark(#FFFFFF, #111111);
+	position: absolute;
+	left: 100%;
+	top: 0;
+	bottom: 0;
+	width: 16px;
+}
+.flattenBottom {
+	border-bottom-left-radius: 0;
+	border-bottom-right-radius: 0;
+}
+.flattenBottom.attachedRight::before,
+.flattenBottom.attachedLeft::before {
+	display: none;
+}
+.flattenTop {
+	border-top-left-radius: 0;
+	border-top-right-radius: 0;
+}
+.flattenTop.attachedRight::after,
+.flattenTop.attachedLeft::after {
+	display: none;
+}
+.flattenTop.sticky {
+	top: 0;
+}
+
+@media screen and (max-width: 1023px) {
+	.attachedRight::before,
+	.attachedRight::after,
+	.attachedRight > .styleHelper {
+		display: none;
+	}
+	.attachedRight {
+		border-top-right-radius: 8px;
+		border-bottom-right-radius: 8px;
+	}
+}
+@media screen and (max-width: 480px) {
+	.attachedTop::after {
+		width: 16px;
+		clip: rect(0,8px,24px,0)
+	}
+}

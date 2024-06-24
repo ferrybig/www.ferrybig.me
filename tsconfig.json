@@ -1,16 +1,46 @@
 {
-    "module": "ESNext",
-	"compilerOptions": {
-		"strict": true,
-		"jsx": "react-jsx",
-		"jsxImportSource": "../jsx",
-		"esModuleInterop": true,
-		"noImplicitAny": true,
-		"noImplicitReturns": true,
-		"strictNullChecks": true,
-		"downlevelIteration": true,
-		"lib": ["es6"],
-		"target": "es2016",
-		"moduleResolution": "node"
-	}
+  "compilerOptions": {
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
+    "allowJs": true,
+    "checkJs": false,
+    "skipLibCheck": true,
+    "strict": true,
+    "noEmit": true,
+    "exactOptionalPropertyTypes": true,
+    "esModuleInterop": true,
+    "module": "esnext",
+    "moduleResolution": "bundler",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "jsx": "preserve",
+    "incremental": true,
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ],
+    "paths": {
+      "@/*": [
+        "./app/*"
+      ],
+      "@assets/*": [
+        "./assets/*"
+      ]
+    },
+    "target": "ES2017"
+  },
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    ".next/types/**/*.ts"
+, "app/comments.json/route.js"  ],
+  "exclude": [
+    "node_modules",
+    "md-compiler"
+  ]
 }

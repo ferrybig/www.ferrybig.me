@@ -1,0 +1,19 @@
+
+.link {
+	display: block;
+	height: 20px;
+	text-decoration: none;
+	color: inherit;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	overflow: hidden;
+	padding-right: 4px;
+}
+.linkActive {
+	composes: link;
+	composes: linkActive from './Toc.module.css';
+	color: #990000;
+}
+.link:hover {
+	background: light-dark(rgba(14, 23, 41, 0.1), rgba(0, 0, 0, 0.1));
+}

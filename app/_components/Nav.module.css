@@ -1,0 +1,137 @@
+.nav {
+	padding: 0 64px;
+	column-gap: 16px;
+	display: grid;
+	grid-template:
+		"logo title title" 48px
+		"logo topics icons" 48px
+		/ 256px 1fr auto;
+	justify-content: center;
+}
+.pictureHolder {
+	justify-self: center;
+	grid-area: logo;
+	align-self: end;
+	height: 96px;
+	font-size: 0;
+}
+.picture {
+	border-radius: 50%;
+	border: 8px solid #EEEEEE;
+	margin-top: 10px;
+	background: #88835e;
+}
+.title {
+	margin: 0;
+	grid-area: title;
+}
+.spacer {
+	width: 8px;
+}
+.icons {
+	display: flex;
+	gap: 4px;
+	align-self: center;
+	font-size: 0;
+	grid-area: icons;
+}
+.icons::after {
+	content: '';
+	height: 36px;
+}
+.topics {
+	align-self: flex-end;
+	grid-area: topics;
+	margin-bottom: 8px;
+}
+.topics ul {
+	margin: 0;
+	padding: 0;
+	display: flex;
+	list-style: none;
+	font-size: 1.5em;
+	gap: 8px;
+}
+.topics ul::after {
+	content: '\00a0';
+	flex: 1;
+	display: inline-block;
+	color: inherit;
+	text-decoration: none;
+	border-bottom: 4px solid transparent;
+}
+.topic a {
+	display: inline-block;
+	color: inherit;
+	text-decoration: none;
+	border-bottom: 1px solid #EEEEEE;
+}
+.topic a:hover, .topic a:focus-visible {
+	background: #EEEEEE33;
+}
+.topicLast {
+	composes: topic;
+	order: 1;
+}
+.active.active {
+	border-bottom: 4px solid #EEEEEE;
+}
+@media screen and (max-width: 1280px) {
+	.nav {
+		padding: 0 8px;
+	}
+}
+@media screen and (max-width: 1024px) {
+	.nav {
+		grid-template:
+			"title title title" 48px
+			"logo _ _" 48px
+			"logo topics icons" 48px
+			/ 256px 1fr auto;
+	}
+	.title {
+		justify-self: center;
+	}
+}
+@media screen and (max-width: 768px) {
+	.nav {
+		grid-template:
+			"title title" auto
+			"topics topics" auto
+			"logo icons" 96px
+			/ 256px 1fr;
+	}
+	.topics {
+		justify-self: center;
+	}
+	.icons {
+		justify-self: flex-end;
+		align-self: flex-end;
+	}
+}
+@media screen and (max-width: 480px) {
+	.nav {
+		grid-template:
+			"title" auto
+			"topics" auto
+			"logo" 96px
+			/ 1fr;
+	}
+	.icons {
+		grid-area: logo;
+	}
+	.topics {
+		justify-self: stretch;
+	}
+	.topics ul {
+		display: block;
+	}
+	.topic a {
+		display: block;
+		height: 40px;
+		box-sizing: border-box;
+	}
+	.topics ul::after {
+		content: initial;
+	}
+}

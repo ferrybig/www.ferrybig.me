@@ -4,8 +4,10 @@
 		"browserslist",
 		"Competa",
 		"datetime",
+		"estree",
 		"ferrybig",
 		"gifsicle",
+		"goatcounter",
 		"hljs",
 		"jpegtran",
 		"jsxs",
@@ -20,7 +22,8 @@
 		"openscad",
 		"optipng",
 		"posthtml",
+		"rehype",
 		"udoc",
 		"Webp"
-	]
+	],
 }

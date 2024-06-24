@@ -1,0 +1,8 @@
+.center {
+	composes: center from '../common.module.css';
+	margin: 24px 0 8px;
+}
+.aboutMeAnimationLink {
+	text-decoration: underline;
+	cursor: pointer;
+}
