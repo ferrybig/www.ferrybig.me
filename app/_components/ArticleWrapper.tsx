@@ -41,7 +41,7 @@ export function generateMetadata({
 			images: thumbnail ? [thumbnail.image.src] : [],
 		},
 		alternates: {
-			canonical: slug,
+			canonical: slug || '/',
 			types: feeds ? {
 				'application/rss+xml': 'rss.xml',
 				'application/atom+xml': 'atom.xml',
@@ -49,7 +49,7 @@ export function generateMetadata({
 			} : {},
 		},
 		other: {
-			'giscus:backlink': slug,
+			'giscus:backlink': slug || '/',
 		},
 		authors: [
 			{
