@@ -11,7 +11,7 @@ function Share({ slug }: Share) {
 	const [jsx, setJsx] = useState<ReactNode>(undefined);
 	function sharePage(e: MouseEvent) {
 		e.preventDefault();
-		const shareUrl = new URL(slug, document.location.href);
+		const shareUrl = new URL('/' + slug, document.location.href);
 		shareUrl.searchParams.set('utm_medium', 'share');
 		setJsx(<ShareDialog
 			href={shareUrl.href}
@@ -21,7 +21,7 @@ function Share({ slug }: Share) {
 	}
 	return (
 		<>
-			<Link href={slug + '?utm_source=share-btn&utm_medium=share'} onClick={sharePage} >
+			<Link href={'/' + slug + '?utm_source=share-btn&utm_medium=share'} onClick={sharePage} >
 				Share
 			</Link>
 			{jsx && createPortal(jsx, document.body)}
