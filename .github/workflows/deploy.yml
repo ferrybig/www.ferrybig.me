@@ -34,7 +34,7 @@ jobs: # push, pull_request
           TARGET: ${{ secrets.ssh_target }}
           ARGS: -r -l -0 -v --checksum --delete-delay
       - name: Update github discussions
-        uses: ferrybig/giscus-discussions-from-json@b9aa086443cac22937bd790a4d8b49ac1d7b051d
+        uses: ferrybig/giscus-discussions-from-json@2c03c288aae8acda86ae78a4ff46f0c931c2888a
         with:
           file: tmp/comments.json
           token: ${{ secrets.GITHUB_TOKEN }}
