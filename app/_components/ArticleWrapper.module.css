@@ -57,6 +57,11 @@
 .sectionHeading {
 	composes: sectionHeading from '../common.module.css';
 }
+.commentHeading {
+	composes: sectionHeading from '../common.module.css';
+	margin-left: 16px;
+	margin-right: 16px;
+}
 .markdown {
 	display: flow-root;
 	padding: 0 16px 16px;
