@@ -68,20 +68,6 @@ export declare function getTopicChildren(): MetaData[];
 export declare function getAllPosts(): readonly MetaData[];
 `,
 			},
-			{
-				type: 'file',
-				file: 'comments.json/route.js',
-				contents: `/* eslint-disable */
-import { getAllPosts } from '../content';
-export function GET() {
-	return new Response (
-		JSON.stringify(getAllPosts().filter(({ commentStatus }) => commentStatus !== 'disabled').map(({ slug, commentStatus }) => ({ url: slug, status: commentStatus }))),
-		{headers: {'Content-Type': 'application/json'}}
-	);
-}
-export const dynamic = "force-static";
-`,
-			},
 		],
 	};
 }

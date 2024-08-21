@@ -39,6 +39,8 @@ md-compiler/main.js
 app.lock
 
 /app/*
+!/app/comments.json
+!/app/comments.json/*
 !/app/not-found.tsx
 !/app/layout.tsx
 !/app/layout.module.css
