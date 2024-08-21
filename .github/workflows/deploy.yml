@@ -38,4 +38,7 @@ jobs: # push, pull_request
         with:
           file: tmp/comments.json
           token: ${{ secrets.GITHUB_TOKEN }}
-          topicId: DIC_kwDOHBif1s4CdpTo
+          categoryId: DIC_kwDOHBif1s4CdpTo
+          repoOwner: ferrybig
+          repoName: www.ferrybig.me
+          base: https://www.ferrybig.me/
