@@ -11,13 +11,6 @@ jobs:
       - uses: actions/checkout@v4
       - name: Fix timestamps
         run: bash .github/scripts/fix-timestamps
-      - name: Cache Docker layers
-        uses: actions/cache@v4
-        with:
-          path: /tmp/.buildx-cache
-          key: ${{ runner.os }}-buildx-${{ github.sha }}
-          restore-keys: |
-            ${{ runner.os }}-buildx-
       #- uses: actions/cache@v4
       #  with:
       #    path: |
@@ -28,21 +21,16 @@ jobs:
       #    restore-keys: |
       #      ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json') }}-
       - uses: docker/setup-buildx-action@v3
-      - uses: docker/build-push-action@v5
+      - uses: docker/build-push-action@v6
         with:
           context: .
           target: export
-          cache-from: type=local,src=/tmp/.buildx-cache
-          cache-to: type=local,dest=/tmp/.buildx-cache-new
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
           outputs: type=local,dest=/tmp/files
           tags: www.ferrybig.me:latest
         env:
           SOURCE_DATE_EPOCH: 0
-      - name: Move cache
-        if: github.event_name == 'push'
-        run:
-          rm -rf /tmp/.buildx-cache
-          mv /tmp/.buildx-cache-new /tmp/.buildx-cache
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
