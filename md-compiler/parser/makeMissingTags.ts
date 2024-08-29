@@ -36,7 +36,7 @@ export default function makeMissingTags(results: Exclude<CompileResults, Compile
 						title: titleCase(tag),
 						linkTitle: titleCase(tag),
 						children: 'auto',
-						updatedAt: null,
+						updatedAt: result.metadata.updatedAt,
 						topicIndex: null,
 					},
 					file: outputPath,

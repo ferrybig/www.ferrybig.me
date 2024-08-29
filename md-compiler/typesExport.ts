@@ -11,7 +11,7 @@ export interface MetaData {
 	readonly date: string | null,
 	readonly color: string | null,
 	readonly icon: string | null,
-	readonly updatedAt: string | null,
+	readonly updatedAt: string,
 	readonly topicIndex: number | null,
 	readonly tags: string[],
 	readonly title: string,
