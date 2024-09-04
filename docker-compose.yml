@@ -1,0 +1,5 @@
+services:
+  www.ferrybig.me:
+    build: .
+    ports:
+      - "2999:2999"

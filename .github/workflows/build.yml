@@ -11,8 +11,6 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: '0'
-      - name: Fix timestamps
-        run: bash .github/scripts/fix-timestamps
       #- uses: actions/cache@v4
       #  with:
       #    path: |

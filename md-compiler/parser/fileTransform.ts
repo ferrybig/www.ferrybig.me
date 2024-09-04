@@ -60,12 +60,28 @@ function readSummary(tree: Root) {
 	return text;
 }
 
+const cacheKeyTimestamps = Symbol('cache-timestamps');
 const cacheKey = Symbol('cache');
 
 async function processFile(paths: string[], config: RunningConfig): Promise<CompileResultsArticle> {
 	const file = join(config.inputDir, ...paths);
 	try {
-		const modificationTime = (await stat(file)).mtimeMs;
+		console.log(file);
+		const timestamps = await config.cache.memo(async () => {
+			const t: Record<string, number> = {};
+			try {
+				const timestampData = await readFile('../timestamps.txt', { encoding: 'utf8' });
+				if (timestampData.length === 0) throw new Error('Timestamp file is empty');
+				for (const row of timestampData.split('\0')) {
+					const [value, key] = row.split('\t', 2);
+					t['../' + key] = parseInt(value, 10) * 1000;
+				}
+			} catch (e) {
+				if (!(e && typeof e === 'object' && 'code' in e && e.code === 'ENOENT')) throw e;
+			}
+			return t;
+		}, cacheKeyTimestamps, []);
+		const modificationTime = timestamps[file] ?? (await stat(file)).mtimeMs;
 
 		return await config.cache.memo(async () => {
 			const raw: string = await readFile(file, { encoding: 'utf8' });

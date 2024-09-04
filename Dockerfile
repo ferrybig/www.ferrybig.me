@@ -1,6 +1,12 @@
 # syntax=docker/dockerfile:1
 FROM node:22-alpine as node-base
 
+FROM node-base as timestamps
+RUN apk add --no-cache git bash
+COPY /timestamps-from-git.sh /app/timestamps-from-git.sh
+COPY /.git /app/.git
+RUN cd /app && /app/timestamps-from-git.sh '.md' > timestamps.txt
+
 FROM node-base as md-compiler-deps
 COPY /md-compiler/package.json /md-compiler/package-lock.json /app/md-compiler/
 RUN cd /app/md-compiler && npm ci --ignore-scripts
@@ -10,12 +16,11 @@ COPY /md-compiler /app/md-compiler/
 RUN cd /app/md-compiler && npm run compiler-build
 
 FROM md-compiler-deps as md-compiler
-#RUN apk add --no-cache git
 COPY --from=md-compiler-build /app/md-compiler/out /app/md-compiler/out
 COPY /content /app/content
 COPY /app /app/app
-#COPY /app/.git /app/.git
-RUN cd /app/md-compiler && npm run compiler-run
+COPY --from=timestamps /app/timestamps.txt /app/timestamps.txt
+RUN cd /app/md-compiler && ls -l /app/timestamps.txt && npm run compiler-run
 
 FROM node-base as deps
 COPY /package.json /package-lock.json /app/

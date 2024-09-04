@@ -1,7 +1,7 @@
 /node_modules
-/.git
 /md-compiler/node_modules
 /md-compiler/out
 /.next
 /out
 /app/*.js
+/docker-compose.yml
