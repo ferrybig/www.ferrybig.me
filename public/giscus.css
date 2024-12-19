@@ -16,6 +16,8 @@
 }
 .gsc-reactions-count {
 	text-align: left;
+	margin-left: 16px;
+	margin-right: 16px;
 }
 #__next .gsc-reactions-count + div {
 	justify-content: start;

@@ -22,6 +22,7 @@ function Comments() {
 				theme={baseUrl}
 				lang="en"
 				loading="lazy"
+				host="https://www.ferrybig.me/"
 			/>}
 		</div>
 	);

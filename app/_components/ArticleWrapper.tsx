@@ -150,7 +150,7 @@ export default function ArticleWrapper({
 					</section>}
 					{commentStatus !== 'disabled' && <footer className={classes.displayContent}>
 						<Column className={classes.comments} margin>
-							<Heading level={1} id="article-comments" className={classes.commentHeading}>Comments</Heading>
+							<Heading id="article-comments" level={1} padded>Comments</Heading>
 							<Comments/>
 						</Column>
 					</footer>}
