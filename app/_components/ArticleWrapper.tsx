@@ -159,10 +159,10 @@ export default function ArticleWrapper({
 			{tags.length > 0 && (
 				<aside className={classes.moreReading}>
 					<Column>
-						<h1 className={classes.sectionHeading}>More {getMetadataBySlug(tags[0]).title}</h1>
+						<Heading id="read-more" level={1} padded>More {getMetadataBySlug(tags[0]).title}</Heading>
 						<nav>
 							<ul>
-								{getChildrenBySlug(tags[0]).reverse().map(p =>
+								{getChildrenBySlug(tags[0]).map(p =>
 									<li key={p.slug}>
 										<Link href={'/' + p.slug} aria-current={slug === p.slug}>
 											{p.title}

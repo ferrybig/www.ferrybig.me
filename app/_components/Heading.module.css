@@ -46,3 +46,7 @@ h6.root {
 	transition: opacity 0.01s 0.1s;
 	mask-image: url(../../assets/link.svg);
 }
+.padded {
+	margin-left: 16px;
+	margin-right: 16px;
+}
