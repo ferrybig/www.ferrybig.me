@@ -27,7 +27,7 @@ jobs: # push, pull_request
         uses: easingthemes/ssh-deploy@01a39e33483634cbd7ac99020c55b72ca7f098fe
         with:
           SSH_PRIVATE_KEY: ${{ secrets.ssh_private_key }}
-          REMOTE_HOST: deploy.ferrybig.nl
+          REMOTE_HOST: cloud1.dev.ferrybig.nl
           REMOTE_USER: deploy
           REMOTE_PORT: 22
           SOURCE: tmp/
