@@ -27,11 +27,11 @@ jobs: # push, pull_request
         uses: easingthemes/ssh-deploy@01a39e33483634cbd7ac99020c55b72ca7f098fe
         with:
           SSH_PRIVATE_KEY: ${{ secrets.ssh_private_key }}
-          REMOTE_HOST: ${{ secrets.ssh_host }}
-          REMOTE_USER: ${{ secrets.ssh_user }}
+          REMOTE_HOST: deploy.ferrybig.nl
+          REMOTE_USER: deploy
           REMOTE_PORT: 22
           SOURCE: tmp/
-          TARGET: ${{ secrets.ssh_target }}
+          TARGET: www.ferrybig.nl
           ARGS: -r -l -0 -v --checksum --delete-delay
       - name: Update github discussions
         uses: ferrybig/giscus-discussions-from-json@9e5a5c6329b9138cec76986916100308f18d8f3d
@@ -40,5 +40,5 @@ jobs: # push, pull_request
           token: ${{ secrets.GITHUB_TOKEN }}
           categoryId: DIC_kwDOHBif1s4CdpTo
           repoOwner: ferrybig
-          repoName: www.ferrybig.me
-          base: https://www.ferrybig.me/
+          repoName: www.ferrybig.nl
+          base: https://www.ferrybig.nl/
