@@ -150,7 +150,7 @@ export default function ArticleWrapper({
 					</section>}
 					{commentStatus !== 'disabled' && <footer className={classes.displayContent}>
 						<Column className={classes.comments} margin>
-							<Heading level={1} id="article-comments" className={classes.commentHeading}>Comments</Heading>
+							<Heading id="article-comments" level={1} padded>Comments</Heading>
 							<Comments/>
 						</Column>
 					</footer>}
@@ -159,10 +159,10 @@ export default function ArticleWrapper({
 			{tags.length > 0 && (
 				<aside className={classes.moreReading}>
 					<Column>
-						<h1 className={classes.sectionHeading}>More {getMetadataBySlug(tags[0]).title}</h1>
+						<Heading id="read-more" level={1} padded>More {getMetadataBySlug(tags[0]).title}</Heading>
 						<nav>
 							<ul>
-								{getChildrenBySlug(tags[0]).reverse().map(p =>
+								{getChildrenBySlug(tags[0]).map(p =>
 									<li key={p.slug}>
 										<Link href={'/' + p.slug} aria-current={slug === p.slug}>
 											{p.title}

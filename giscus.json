@@ -1,6 +1,7 @@
 {
 	"origins": [
-	  "https://www.ferrybig.me"
+	  "https://www.ferrybig.me",
+	  "http://localhost:2999"
 	],
 	"originsRegex": [
 	],

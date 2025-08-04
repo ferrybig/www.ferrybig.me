@@ -8,13 +8,14 @@ interface Heading {
 	id: string;
 	title?: string;
 	hidden?: boolean;
+	padded?: boolean;
 	children: ReactNode;
 }
-function Heading({ level, className, id, title, hidden, children }: Heading) {
+function Heading({ level, className, id, title, hidden, children, padded }: Heading) {
 	const Tag = `h${level}` as keyof JSX.IntrinsicElements;
 	return (
 		<Tag
-			className={classNames(className, id ? classes.withLink : classes.root)}
+			className={classNames(className, id ? classes.withLink : classes.root, padded && classes.padded)}
 			id={id}
 			title={title}
 			hidden={hidden}
