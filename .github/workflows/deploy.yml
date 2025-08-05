@@ -28,7 +28,7 @@ jobs: # push, pull_request
         with:
           SSH_PRIVATE_KEY: ${{ secrets.ssh_private_key }}
           REMOTE_HOST: cloud1.dev.ferrybig.nl
-          REMOTE_USER: deploy
+          REMOTE_USER: deploybot
           REMOTE_PORT: 22
           SOURCE: tmp/
           TARGET: www.ferrybig.nl
